@@ -5,38 +5,154 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Bears of Peace Ju Jutsu Oued Eslam</title>
 <style>
-  :root { --bg:#0e1116; --card:#181d26; --text:#f3f4f6; --muted:#9aa3b2; --accent:#d62828; --line:#2a3140; }
+  :root { 
+    --bg:#080a0f; 
+    --card:rgba(24, 29, 38, 0.85); 
+    --text:#f3f4f6; 
+    --muted:#9aa3b2; 
+    --accent:#d62828; 
+    --accent-glow:rgba(214, 40, 40, 0.5);
+    --line:#2a3140; 
+  }
   * { box-sizing:border-box; }
+  
+  /* خلفية سينمائية مع إضاءة دائرية متحركة */
   body { 
     margin:0; 
     font-family:"Segoe UI",Tahoma,Arial,sans-serif; 
-    /* تم تغيير الخلفية هنا فقط */
-    background: linear-gradient(rgba(14, 17, 22, 0.85), rgba(14, 17, 22, 0.85)), url('https://images.unsplash.com/photo-1555597673-b21d5c935865?auto=format&fit=crop&q=80') center/cover fixed; 
+    background: 
+      radial-gradient(circle at 20% 20%, rgba(214, 40, 40, 0.15) 0%, transparent 40%),
+      radial-gradient(circle at 80% 80%, rgba(30, 60, 114, 0.2) 0%, transparent 40%),
+      linear-gradient(rgba(8, 10, 15, 0.85), rgba(8, 10, 15, 0.85)), 
+      url('https://images.unsplash.com/photo-1517838277536-f5f99be501cd?auto=format&fit=crop&w=1200&q=80') center/cover fixed; 
     color:var(--text); 
+    min-height: 100vh;
   }
+  
   .wrap { max-width:520px; margin:0 auto; padding:20px 16px 40px; }
   header { text-align:center; margin-bottom:20px; }
-  header img { width:110px; height:110px; object-fit:contain; border-radius:50%; background:#fff; padding:4px; }
-  h1 { font-size:1.25rem; margin:10px 0 0; letter-spacing:.5px; direction:ltr; }
-  .card { background:var(--card); border:1px solid var(--line); border-radius:14px; padding:18px; }
+  header img { 
+    width:110px; height:110px; object-fit:contain; border-radius:50%; background:#fff; padding:4px;
+    box-shadow: 0 0 20px rgba(255,255,255,0.2);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+  }
+  header img:hover {
+    transform: scale(1.03);
+    box-shadow: 0 0 25px rgba(214, 40, 40, 0.6);
+  }
+  h1 { font-size:1.25rem; margin:10px 0 0; letter-spacing:.5px; direction:ltr; text-shadow: 0 2px 4px rgba(0,0,0,0.8); }
+  
+  .card { 
+    background:var(--card); 
+    border:1px solid var(--line); 
+    border-radius:14px; 
+    padding:18px; 
+    backdrop-filter: blur(10px);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5);
+  }
+  
   label, .group-title { display:block; margin:14px 0 6px; color:var(--muted); font-size:.9rem; }
-  input { width:100%; padding:12px; border-radius:10px; border:1px solid var(--line); background:#0f131a; color:var(--text); font-size:1rem; }
-  input:focus { outline:2px solid var(--accent); }
+  
+  input { 
+    width:100%; padding:12px; border-radius:10px; border:1px solid var(--line); 
+    background:rgba(15, 19, 26, 0.8); color:var(--text); font-size:1rem; 
+    transition: all 0.3s ease;
+  }
+  input:focus { 
+    outline:none; 
+    border-color:var(--accent); 
+    box-shadow: 0 0 12px var(--accent-glow);
+    background:#0f131a;
+  }
+  
   .row { display:flex; gap:10px; }
   .row > div { flex:1; }
+  
   .choices { display:flex; flex-wrap:wrap; gap:8px; }
-  .choice { flex:1 1 30%; padding:12px 8px; border-radius:10px; border:1px solid var(--line); background:#0f131a; color:var(--text); font-size:.95rem; cursor:pointer; }
+  .choice { 
+    flex:1 1 30%; padding:12px 8px; border-radius:10px; border:1px solid var(--line); 
+    background:rgba(15, 19, 26, 0.8); color:var(--text); font-size:.95rem; cursor:pointer; 
+    transition: all 0.25s ease; position: relative; overflow: hidden;
+  }
   .choice.times { flex:1 1 100%; }
-  .choice.active { background:var(--accent); border-color:var(--accent); font-weight:700; }
-  .btn { display:block; width:100%; margin-top:12px; padding:14px; border:0; border-radius:10px; font-size:1rem; font-weight:700; cursor:pointer; text-align:center; text-decoration:none; }
-  .primary { background:var(--accent); color:#fff; margin-top:20px; }
-  .secondary { background:transparent; color:var(--text); border:1px solid var(--line); }
+  
+  /* تأثير ضوئي عند تمرير الماوس والضغط */
+  .choice:hover {
+    border-color: rgba(214, 40, 40, 0.5);
+    box-shadow: 0 0 10px rgba(214, 40, 40, 0.2);
+  }
+  .choice:active {
+    transform: scale(0.98);
+  }
+  .choice.active { 
+    background:var(--accent); border-color:var(--accent); font-weight:700; 
+    box-shadow: 0 0 15px var(--accent-glow);
+  }
+  
+  .btn { 
+    display:block; width:100%; margin-top:12px; padding:14px; border:0; border-radius:10px; 
+    font-size:1rem; font-weight:700; cursor:pointer; text-align:center; text-decoration:none; 
+    transition: all 0.3s ease; position: relative;
+  }
+  .primary { 
+    background:var(--accent); color:#fff; margin-top:20px; 
+    box-shadow: 0 4px 15px rgba(214, 40, 40, 0.4);
+  }
+  .primary:hover {
+    box-shadow: 0 0 20px rgba(214, 40, 40, 0.8);
+    transform: translateY(-1px);
+  }
+  .primary:active {
+    transform: translateY(1px);
+  }
+  
+  .secondary { 
+    background:transparent; color:var(--text); border:1px solid var(--line); 
+  }
+  .secondary:hover {
+    border-color: var(--muted);
+    background: rgba(255, 255, 255, 0.05);
+    box-shadow: 0 0 10px rgba(255, 255, 255, 0.1);
+  }
+  
   .info, .msg { display:none; margin-top:12px; padding:12px; border-radius:10px; font-size:.95rem; line-height:1.6; }
   .info { background:#22283a; border:1px dashed var(--muted); }
-  .msg.error { background:#3a1a1a; color:#ffb4b4; }
-  .msg.ok { background:#16321f; color:#b8f5c9; }
+  .msg.error { background:#3a1a1a; color:#ffb4b4; border: 1px solid #7a2222; }
+  .msg.ok { background:#16321f; color:#b8f5c9; border: 1px solid #227a3c; }
   .show { display:block; }
   pre { white-space:pre-wrap; margin:8px 0 0; direction:rtl; }
+
+  /* قسم التعريف بالتخصصات في الأسفل */
+  .about-sports {
+    margin-top: 24px;
+    padding-top: 16px;
+    border-top: 1px solid var(--line);
+  }
+  .about-title {
+    font-size: 1rem;
+    font-weight: 700;
+    color: var(--text);
+    margin-bottom: 12px;
+    text-align: center;
+  }
+  .sport-card {
+    background: rgba(15, 19, 26, 0.6);
+    border: 1px solid rgba(42, 49, 64, 0.6);
+    border-radius: 8px;
+    padding: 10px 12px;
+    margin-bottom: 8px;
+  }
+  .sport-card h3 {
+    margin: 0 0 4px 0;
+    font-size: 0.95rem;
+    color: var(--accent);
+  }
+  .sport-card p {
+    margin: 0;
+    font-size: 0.85rem;
+    color: var(--muted);
+    line-height: 1.4;
+  }
 </style>
 </head>
 <body>
@@ -54,6 +170,10 @@
       <div><label for="lname">اللقب</label><input id="lname" type="text" autocomplete="family-name" required></div>
       <div><label for="age">العمر</label><input id="age" type="number" min="3" max="99" inputmode="numeric" required></div>
     </div>
+
+    <!-- إضافة حقل رقم الهاتف -->
+    <label for="phone">رقم الهاتف</label>
+    <input id="phone" type="tel" inputmode="tel" placeholder="07XXXXXXXX" required>
 
     <span class="group-title">التخصص</span>
     <div class="choices" id="sports">
@@ -76,6 +196,23 @@
     <div class="msg" id="msg"></div>
 
     <a class="btn secondary" href="tel:0795760635">تواصل مع المسؤولين — 0795760635</a>
+
+    <!-- قسم التعريف بالتخصصات في الأسفل -->
+    <div class="about-sports">
+      <div class="about-title">تعريف بالتخصصات</div>
+      <div class="sport-card">
+        <h3>Ju Jutsu</h3>
+        <p>فن قتالي ياباني يركز على الدفاع عن النفس، الإسقاطات، التثبيت، والإخضاع الأرضي بمرونة عالية.</p>
+      </div>
+      <div class="sport-card">
+        <h3>MMA (الفنون القتالية المختلطة)</h3>
+        <p>رياضة تجمع بين تقنيات اللكم والرفس والقتال الأرضي، لتقديم تدريب شامل وممتع.</p>
+      </div>
+      <div class="sport-card">
+        <h3>Kung Fu</h3>
+        <p>فن قتالي تقليدي يعتمد على السرعة، الرشاقة، التركيز، وتطوير اللياقة والانضباط البدني.</p>
+      </div>
+    </div>
   </form>
 </div>
 
@@ -116,11 +253,11 @@
 
   $("form").addEventListener("submit", async e => {
     e.preventDefault();
-    const fname = $("fname").value.trim(), lname = $("lname").value.trim(), age = $("age").value.trim();
-    if (!fname || !lname || !age || !selected.sport || !selected.time)
+    const fname = $("fname").value.trim(), lname = $("lname").value.trim(), age = $("age").value.trim(), phone = $("phone").value.trim();
+    if (!fname || !lname || !age || !phone || !selected.sport || !selected.time)
       return showMsg("يرجى ملء جميع الخانات واختيار التخصص والوقت", "error");
 
-    const text = `طلب تسجيل جديد\nالاسم: ${fname}\nاللقب: ${lname}\nالعمر: ${age}\nالتخصص: ${selected.sport}\nالوقت: ${selected.time}`;
+    const text = `طلب تسجيل جديد\nالاسم: ${fname}\nاللقب: ${lname}\nالعمر: ${age}\nالهاتف: ${phone}\nالتخصص: ${selected.sport}\nالوقت: ${selected.time}`;
 
     // 1) Real automatic sending (to the admin's email) via Web3Forms
     if (WEB3FORMS_KEY) {
