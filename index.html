@@ -6,25 +6,24 @@
 <title>Bears of Peace Ju Jutsu Oued Eslam</title>
 <style>
   :root { 
-    --bg:#080a0f; 
-    --card:rgba(24, 29, 38, 0.85); 
-    --text:#f3f4f6; 
-    --muted:#9aa3b2; 
-    --accent:#d62828; 
-    --accent-glow:rgba(214, 40, 40, 0.5);
-    --line:#2a3140; 
+    --bg: #0b1019; 
+    --card: rgba(18, 25, 38, 0.9); 
+    --text: #f3f4f6; 
+    --muted: #8a99ad; 
+    --accent: #00d2ff; 
+    --accent-glow: rgba(0, 210, 255, 0.4);
+    --line: #1e293b; 
   }
   * { box-sizing:border-box; }
   
-  /* خلفية سينمائية مع إضاءة دائرية متحركة */
+  /* خلفية داكنة مع إضاءة دائرية سمائية متناسقة مع الصورة */
   body { 
     margin:0; 
     font-family:"Segoe UI",Tahoma,Arial,sans-serif; 
     background: 
-      radial-gradient(circle at 20% 20%, rgba(214, 40, 40, 0.15) 0%, transparent 40%),
-      radial-gradient(circle at 80% 80%, rgba(30, 60, 114, 0.2) 0%, transparent 40%),
-      linear-gradient(rgba(8, 10, 15, 0.85), rgba(8, 10, 15, 0.85)), 
-      url('https://images.unsplash.com/photo-1517838277536-f5f99be501cd?auto=format&fit=crop&w=1200&q=80') center/cover fixed; 
+      radial-gradient(circle at 50% 0%, rgba(0, 210, 255, 0.12) 0%, transparent 50%),
+      radial-gradient(circle at 80% 80%, rgba(15, 23, 42, 0.8) 0%, transparent 50%),
+      var(--bg); 
     color:var(--text); 
     min-height: 100vh;
   }
@@ -33,12 +32,12 @@
   header { text-align:center; margin-bottom:20px; }
   header img { 
     width:110px; height:110px; object-fit:contain; border-radius:50%; background:#fff; padding:4px;
-    box-shadow: 0 0 20px rgba(255,255,255,0.2);
+    box-shadow: 0 0 20px rgba(0, 210, 255, 0.2);
     transition: transform 0.3s ease, box-shadow 0.3s ease;
   }
   header img:hover {
     transform: scale(1.03);
-    box-shadow: 0 0 25px rgba(214, 40, 40, 0.6);
+    box-shadow: 0 0 25px var(--accent-glow);
   }
   h1 { font-size:1.25rem; margin:10px 0 0; letter-spacing:.5px; direction:ltr; text-shadow: 0 2px 4px rgba(0,0,0,0.8); }
   
@@ -48,21 +47,21 @@
     border-radius:14px; 
     padding:18px; 
     backdrop-filter: blur(10px);
-    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.6);
   }
   
   label, .group-title { display:block; margin:14px 0 6px; color:var(--muted); font-size:.9rem; }
   
   input { 
     width:100%; padding:12px; border-radius:10px; border:1px solid var(--line); 
-    background:rgba(15, 19, 26, 0.8); color:var(--text); font-size:1rem; 
+    background:rgba(10, 15, 26, 0.8); color:var(--text); font-size:1rem; 
     transition: all 0.3s ease;
   }
   input:focus { 
     outline:none; 
     border-color:var(--accent); 
     box-shadow: 0 0 12px var(--accent-glow);
-    background:#0f131a;
+    background:#0a0f1a;
   }
   
   .row { display:flex; gap:10px; }
@@ -71,21 +70,23 @@
   .choices { display:flex; flex-wrap:wrap; gap:8px; }
   .choice { 
     flex:1 1 30%; padding:12px 8px; border-radius:10px; border:1px solid var(--line); 
-    background:rgba(15, 19, 26, 0.8); color:var(--text); font-size:.95rem; cursor:pointer; 
+    background:rgba(10, 15, 26, 0.8); color:var(--text); font-size:.95rem; cursor:pointer; 
     transition: all 0.25s ease; position: relative; overflow: hidden;
   }
   .choice.times { flex:1 1 100%; }
   
-  /* تأثير ضوئي عند تمرير الماوس والضغط */
   .choice:hover {
-    border-color: rgba(214, 40, 40, 0.5);
-    box-shadow: 0 0 10px rgba(214, 40, 40, 0.2);
+    border-color: rgba(0, 210, 255, 0.5);
+    box-shadow: 0 0 10px rgba(0, 210, 255, 0.2);
   }
   .choice:active {
     transform: scale(0.98);
   }
   .choice.active { 
-    background:var(--accent); border-color:var(--accent); font-weight:700; 
+    background: var(--accent); 
+    border-color: var(--accent); 
+    color: #000;
+    font-weight: 700; 
     box-shadow: 0 0 15px var(--accent-glow);
   }
   
@@ -95,11 +96,13 @@
     transition: all 0.3s ease; position: relative;
   }
   .primary { 
-    background:var(--accent); color:#fff; margin-top:20px; 
-    box-shadow: 0 4px 15px rgba(214, 40, 40, 0.4);
+    background: linear-gradient(90deg, #00d2ff 0%, #0088ff 100%); 
+    color: #000; 
+    margin-top:20px; 
+    box-shadow: 0 4px 15px rgba(0, 210, 255, 0.3);
   }
   .primary:hover {
-    box-shadow: 0 0 20px rgba(214, 40, 40, 0.8);
+    box-shadow: 0 0 20px rgba(0, 210, 255, 0.6);
     transform: translateY(-1px);
   }
   .primary:active {
@@ -116,9 +119,9 @@
   }
   
   .info, .msg { display:none; margin-top:12px; padding:12px; border-radius:10px; font-size:.95rem; line-height:1.6; }
-  .info { background:#22283a; border:1px dashed var(--muted); }
+  .info { background:#131c2e; border:1px dashed var(--muted); }
   .msg.error { background:#3a1a1a; color:#ffb4b4; border: 1px solid #7a2222; }
-  .msg.ok { background:#16321f; color:#b8f5c9; border: 1px solid #227a3c; }
+  .msg.ok { background:#0f382c; color:#b8f5c9; border: 1px solid #1b6e53; }
   .show { display:block; }
   pre { white-space:pre-wrap; margin:8px 0 0; direction:rtl; }
 
@@ -136,8 +139,8 @@
     text-align: center;
   }
   .sport-card {
-    background: rgba(15, 19, 26, 0.6);
-    border: 1px solid rgba(42, 49, 64, 0.6);
+    background: rgba(10, 15, 26, 0.6);
+    border: 1px solid var(--line);
     border-radius: 8px;
     padding: 10px 12px;
     margin-bottom: 8px;
@@ -182,7 +185,7 @@
       <button type="button" class="choice" data-v="King Fu">King Fu</button>
     </div>
 
-    <span class="group-title">الأوقات</span>
+    <span class="group-title">الأوقات (يمكنك اختيار أكثر من وقت)</span>
     <div class="choices" id="times">
       <button type="button" class="choice times" data-v="الاثنين 17:00---18:30">الاثنين 17:00---18:30</button>
       <button type="button" class="choice times" data-v="الأربعاء 17:00---18:30">الأربعاء 17:00---18:30</button>
@@ -224,7 +227,7 @@
   const MESSENGER = "https://m.me/61574944910883";            // opens a chat with the page
 
   const $ = id => document.getElementById(id);
-  const selected = { sport: "", time: "" };
+  const selected = { sport: "", times: [] };
 
   // Logo with fallback if the link is not a direct image
   const logo = $("logo");
@@ -232,17 +235,25 @@
   logo.onerror = () => { logo.onerror = null; logo.src = "data:image/svg+xml," + encodeURIComponent(
     '<svg xmlns="http://www.w3.org/2000/svg" width="110" height="110"><text x="55" y="72" font-size="60" text-anchor="middle">🐻</text></svg>'); };
 
-  // Single-choice button groups (sports / times)
-  function bindGroup(groupId, key) {
-    $(groupId).addEventListener("click", e => {
-      const b = e.target.closest(".choice"); if (!b) return;
-      $(groupId).querySelectorAll(".choice").forEach(x => x.classList.remove("active"));
-      b.classList.add("active");
-      selected[key] = b.dataset.v;
-    });
-  }
-  bindGroup("sports", "sport");
-  bindGroup("times", "time");
+  // Single-choice for sports
+  $("sports").addEventListener("click", e => {
+    const b = e.target.closest(".choice"); if (!b) return;
+    $("sports").querySelectorAll(".choice").forEach(x => x.classList.remove("active"));
+    b.classList.add("active");
+    selected.sport = b.dataset.v;
+  });
+
+  // Multi-choice for times (تحديد أكثر من وقت)
+  $("times").addEventListener("click", e => {
+    const b = e.target.closest(".choice"); if (!b) return;
+    b.classList.toggle("active");
+    const val = b.dataset.v;
+    if (b.classList.contains("active")) {
+      if (!selected.times.includes(val)) selected.times.push(val);
+    } else {
+      selected.times = selected.times.filter(t => t !== val);
+    }
+  });
 
   // Toggle the "come to the gym" notice
   $("fileBtn").addEventListener("click", () => $("fileInfo").classList.toggle("show"));
@@ -254,10 +265,11 @@
   $("form").addEventListener("submit", async e => {
     e.preventDefault();
     const fname = $("fname").value.trim(), lname = $("lname").value.trim(), age = $("age").value.trim(), phone = $("phone").value.trim();
-    if (!fname || !lname || !age || !phone || !selected.sport || !selected.time)
-      return showMsg("يرجى ملء جميع الخانات واختيار التخصص والوقت", "error");
+    if (!fname || !lname || !age || !phone || !selected.sport || selected.times.length === 0)
+      return showMsg("يرجى ملء جميع الخانات واختيار التخصص ووقت واحد على الأقل", "error");
 
-    const text = `طلب تسجيل جديد\nالاسم: ${fname}\nاللقب: ${lname}\nالعمر: ${age}\nالهاتف: ${phone}\nالتخصص: ${selected.sport}\nالوقت: ${selected.time}`;
+    const timesFormatted = selected.times.join(" ، ");
+    const text = `طلب تسجيل جديد\nالاسم: ${fname}\nاللقب: ${lname}\nالعمر: ${age}\nالهاتف: ${phone}\nالتخصص: ${selected.sport}\nالأوقات: ${timesFormatted}`;
 
     // 1) Real automatic sending (to the admin's email) via Web3Forms
     if (WEB3FORMS_KEY) {
@@ -276,7 +288,8 @@
         if (data.success) {
           $("form").reset();
           document.querySelectorAll(".choice").forEach(x => x.classList.remove("active"));
-          selected.sport = selected.time = "";
+          selected.sport = "";
+          selected.times = [];
           return showMsg("تم إرسال تسجيلك بنجاح ✅ سنتواصل معك قريبًا", "ok");
         }
       } catch (_) {}
