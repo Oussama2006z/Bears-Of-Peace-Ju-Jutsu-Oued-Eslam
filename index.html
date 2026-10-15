@@ -1,307 +1,412 @@
 <!DOCTYPE html>
-<html lang="ar" dir="rtl">
+<html lang="ar" dir="rtl" id="htmlRoot">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Bears of Peace Ju Jutsu Oued Eslam</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Bears of Peace Ju-Jutsu - Fighter Portal</title>
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;800;900&display=swap" rel="stylesheet">
 <style>
-  :root { 
-    --bg: #0b1019; 
-    --card: rgba(18, 25, 38, 0.9); 
-    --text: #f3f4f6; 
-    --muted: #8a99ad; 
-    --accent: #00d2ff; 
-    --accent-glow: rgba(0, 210, 255, 0.4);
-    --line: #1e293b; 
-  }
-  * { box-sizing:border-box; }
-  
-  /* خلفية داكنة مع إضاءة دائرية سمائية متناسقة مع الصورة */
-  body { 
-    margin:0; 
-    font-family:"Segoe UI",Tahoma,Arial,sans-serif; 
-    background: 
-      radial-gradient(circle at 50% 0%, rgba(0, 210, 255, 0.12) 0%, transparent 50%),
-      radial-gradient(circle at 80% 80%, rgba(15, 23, 42, 0.8) 0%, transparent 50%),
-      var(--bg); 
-    color:var(--text); 
-    min-height: 100vh;
-  }
-  
-  .wrap { max-width:520px; margin:0 auto; padding:20px 16px 40px; }
-  header { text-align:center; margin-bottom:20px; }
-  header img { 
-    width:110px; height:110px; object-fit:contain; border-radius:50%; background:#fff; padding:4px;
-    box-shadow: 0 0 20px rgba(0, 210, 255, 0.2);
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
-  }
-  header img:hover {
-    transform: scale(1.03);
-    box-shadow: 0 0 25px var(--accent-glow);
-  }
-  h1 { font-size:1.25rem; margin:10px 0 0; letter-spacing:.5px; direction:ltr; text-shadow: 0 2px 4px rgba(0,0,0,0.8); }
-  
-  .card { 
-    background:var(--card); 
-    border:1px solid var(--line); 
-    border-radius:14px; 
-    padding:18px; 
-    backdrop-filter: blur(10px);
-    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.6);
-  }
-  
-  label, .group-title { display:block; margin:14px 0 6px; color:var(--muted); font-size:.9rem; }
-  
-  input { 
-    width:100%; padding:12px; border-radius:10px; border:1px solid var(--line); 
-    background:rgba(10, 15, 26, 0.8); color:var(--text); font-size:1rem; 
-    transition: all 0.3s ease;
-  }
-  input:focus { 
-    outline:none; 
-    border-color:var(--accent); 
-    box-shadow: 0 0 12px var(--accent-glow);
-    background:#0a0f1a;
-  }
-  
-  .row { display:flex; gap:10px; }
-  .row > div { flex:1; }
-  
-  .choices { display:flex; flex-wrap:wrap; gap:8px; }
-  .choice { 
-    flex:1 1 30%; padding:12px 8px; border-radius:10px; border:1px solid var(--line); 
-    background:rgba(10, 15, 26, 0.8); color:var(--text); font-size:.95rem; cursor:pointer; 
-    transition: all 0.25s ease; position: relative; overflow: hidden;
-  }
-  .choice.times { flex:1 1 100%; }
-  
-  .choice:hover {
-    border-color: rgba(0, 210, 255, 0.5);
-    box-shadow: 0 0 10px rgba(0, 210, 255, 0.2);
-  }
-  .choice:active {
-    transform: scale(0.98);
-  }
-  .choice.active { 
-    background: var(--accent); 
-    border-color: var(--accent); 
-    color: #000;
-    font-weight: 700; 
-    box-shadow: 0 0 15px var(--accent-glow);
-  }
-  
-  .btn { 
-    display:block; width:100%; margin-top:12px; padding:14px; border:0; border-radius:10px; 
-    font-size:1rem; font-weight:700; cursor:pointer; text-align:center; text-decoration:none; 
-    transition: all 0.3s ease; position: relative;
-  }
-  .primary { 
-    background: linear-gradient(90deg, #00d2ff 0%, #0088ff 100%); 
-    color: #000; 
-    margin-top:20px; 
-    box-shadow: 0 4px 15px rgba(0, 210, 255, 0.3);
-  }
-  .primary:hover {
-    box-shadow: 0 0 20px rgba(0, 210, 255, 0.6);
-    transform: translateY(-1px);
-  }
-  .primary:active {
-    transform: translateY(1px);
-  }
-  
-  .secondary { 
-    background:transparent; color:var(--text); border:1px solid var(--line); 
-  }
-  .secondary:hover {
-    border-color: var(--muted);
-    background: rgba(255, 255, 255, 0.05);
-    box-shadow: 0 0 10px rgba(255, 255, 255, 0.1);
-  }
-  
-  .info, .msg { display:none; margin-top:12px; padding:12px; border-radius:10px; font-size:.95rem; line-height:1.6; }
-  .info { background:#131c2e; border:1px dashed var(--muted); }
-  .msg.error { background:#3a1a1a; color:#ffb4b4; border: 1px solid #7a2222; }
-  .msg.ok { background:#0f382c; color:#b8f5c9; border: 1px solid #1b6e53; }
-  .show { display:block; }
-  pre { white-space:pre-wrap; margin:8px 0 0; direction:rtl; }
-
-  /* قسم التعريف بالتخصصات في الأسفل */
-  .about-sports {
-    margin-top: 24px;
-    padding-top: 16px;
-    border-top: 1px solid var(--line);
-  }
-  .about-title {
-    font-size: 1rem;
-    font-weight: 700;
-    color: var(--text);
-    margin-bottom: 12px;
-    text-align: center;
-  }
-  .sport-card {
-    background: rgba(10, 15, 26, 0.6);
-    border: 1px solid var(--line);
-    border-radius: 8px;
-    padding: 10px 12px;
-    margin-bottom: 8px;
-  }
-  .sport-card h3 {
-    margin: 0 0 4px 0;
-    font-size: 0.95rem;
-    color: var(--accent);
-  }
-  .sport-card p {
-    margin: 0;
-    font-size: 0.85rem;
-    color: var(--muted);
-    line-height: 1.4;
-  }
+:root{--pb:#00d2ff;--db:#004080;--glow:rgba(0,210,255,.8);--bg:#030814;--card:rgba(10,20,40,.88)}
+*{box-sizing:border-box;margin:0;padding:0;font-family:'Cairo',sans-serif}
+body{min-height:100vh;display:flex;justify-content:center;align-items:center;overflow-x:hidden;perspective:1000px;background:radial-gradient(circle at center,#0a1931 0%,#020611 100%);padding:30px 0}
+.bg{position:fixed;inset:0;pointer-events:none;z-index:0}
+.s1,.s2{position:absolute;border-radius:50%;filter:blur(55px);animation:pulse 7s infinite alternate}
+.s1{top:-10%;left:20%;width:500px;height:500px;background:radial-gradient(circle,rgba(0,210,255,.25),transparent 70%)}
+.s2{bottom:-10%;right:20%;width:600px;height:600px;background:radial-gradient(circle,rgba(0,102,255,.3),transparent 70%)}
+@keyframes pulse{0%{transform:scale(1);opacity:.6}100%{transform:scale(1.2) translate(20px,-20px);opacity:1}}
+.lang{position:fixed;top:20px;right:20px;background:rgba(0,64,128,.6);color:var(--pb);border:1px solid var(--pb);padding:8px 16px;border-radius:20px;cursor:pointer;font-weight:800;z-index:1000;backdrop-filter:blur(10px)}
+.wrap{position:relative;width:92%;max-width:500px;z-index:1}
+.auth{background:var(--card);border-radius:20px;padding:28px;backdrop-filter:blur(15px);border:1px solid rgba(0,210,255,.3);box-shadow:0 0 30px rgba(0,150,255,.2),inset 0 0 15px rgba(0,210,255,.1);text-align:center}
+.logo{font-size:1.2rem;font-weight:900;color:#fff;text-shadow:0 0 10px var(--glow);margin-bottom:5px}
+.sub{font-size:.75rem;color:var(--pb);letter-spacing:1px;margin-bottom:22px}
+.fg{margin-bottom:14px;text-align:start}
+.fg label{display:block;font-size:.78rem;color:#a0c4ff;margin-bottom:5px;font-weight:600}
+.fg input{width:100%;padding:10px 14px;background:rgba(0,0,0,.5);border:1px solid rgba(0,210,255,.4);border-radius:8px;color:#fff;font-size:.9rem;outline:none}
+.fg input:focus{border-color:var(--pb);box-shadow:0 0 10px rgba(0,210,255,.4)}
+.btn{width:100%;background:linear-gradient(135deg,#004080,#0077ff);color:#fff;border:1px solid var(--pb);padding:12px;border-radius:8px;font-weight:900;cursor:pointer;margin-top:10px}
+.btn:hover{background:linear-gradient(135deg,#0077ff,#00d2ff)}
+.link{display:inline-block;margin-top:15px;font-size:.8rem;color:var(--pb);cursor:pointer;text-decoration:underline}
+.err,.ok{font-size:.8rem;margin-top:10px;display:none;font-weight:bold}
+.err{color:#ff6a3d}.ok{color:#00ffcc}
+#cardView{display:none}
+.back{background:rgba(0,64,128,.8);color:#fff;border:1px solid var(--pb);padding:6px 14px;border-radius:6px;font-size:.75rem;font-weight:bold;cursor:pointer;margin-bottom:12px}
+.card{position:relative;background:var(--card);border-radius:20px;padding:25px;backdrop-filter:blur(15px);border:1px solid rgba(0,210,255,.3);box-shadow:0 0 30px rgba(0,150,255,.2),inset 0 0 15px rgba(0,210,255,.1);transform-style:preserve-3d;transition:transform .5s ease,box-shadow .5s ease}
+.card:hover{transform:translateY(-5px) rotateX(2deg) rotateY(-2deg);box-shadow:0 15px 40px rgba(0,210,255,.4),inset 0 0 20px rgba(0,210,255,.2)}
+.hd{text-align:center;border-bottom:2px solid rgba(0,210,255,.3);padding-bottom:12px;margin-bottom:15px}
+.cn-ar{color:#fff;font-size:1.1rem;font-weight:800;text-shadow:0 0 10px var(--glow)}
+.cn-en{color:var(--pb);font-size:.72rem;font-weight:600;letter-spacing:1px;text-transform:uppercase}
+.ctitle{display:inline-block;background:linear-gradient(90deg,transparent,var(--pb),transparent);color:#000;font-weight:900;padding:2px 20px;font-size:.8rem;margin-top:6px;border-radius:10px}
+.sup{text-align:center;background:rgba(0,64,128,.25);border:1px dashed rgba(0,210,255,.4);padding:8px;border-radius:8px;margin-bottom:15px;font-size:.78rem;color:#b0e0ff}
+.sup span{color:var(--pb);font-weight:bold}
+.susp{background:linear-gradient(135deg,#b71c1c,#d32f2f);color:#fff;text-align:center;padding:6px;border-radius:6px;font-weight:900;font-size:.85rem;margin-bottom:12px;box-shadow:0 0 10px rgba(211,47,47,.6);border:1px solid #ff5252}
+.prof{display:flex;justify-content:space-around;align-items:center;margin-bottom:15px}
+.photo{width:110px;height:130px;border-radius:12px;overflow:hidden;border:2px solid var(--pb);box-shadow:0 0 15px var(--glow)}
+.photo img{width:100%;height:100%;object-fit:cover}
+.kim{width:120px;height:130px;animation:fl 4s ease-in-out infinite alternate}
+@keyframes fl{0%{transform:rotateY(-15deg) rotateX(5deg) translateY(0)}100%{transform:rotateY(15deg) rotateX(-5deg) translateY(-8px)}}
+.kim svg{width:100%;height:100%;filter:drop-shadow(0 10px 10px rgba(0,0,0,.8)) drop-shadow(0 0 8px var(--pb))}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;background:rgba(0,0,0,.35);padding:12px;border-radius:12px;border:1px solid rgba(255,255,255,.05)}
+.it{display:flex;flex-direction:column}.full{grid-column:span 2}
+.label{font-size:.72rem;color:#a0c4ff;margin-bottom:1px}
+.value{font-size:.85rem;color:#fff;font-weight:600}
+.hl{color:var(--pb);font-weight:800}
+.latin{font-size:.78rem;color:#7dd3fc;direction:ltr;display:inline-block;text-align:right}
+.belt{grid-column:span 2;margin-top:3px;padding:6px;background:rgba(0,0,0,.5);border-radius:6px;display:flex;align-items:center;justify-content:space-between}
+.bar{width:50%;height:14px;border-radius:3px;border:1px solid #777;box-shadow:0 0 8px rgba(0,0,0,.8)}
+.acts{grid-column:span 2;margin-top:10px;display:grid;grid-template-columns:1fr 1fr;gap:6px}
+.act{background:linear-gradient(135deg,#004080,#0077ff);color:#fff;border:1px solid var(--pb);padding:8px 10px;border-radius:6px;font-weight:700;font-size:.78rem;cursor:pointer;text-align:center;text-decoration:none;display:flex;align-items:center;justify-content:center;gap:5px;transition:all .3s}
+.act:hover{background:linear-gradient(135deg,#0077ff,#00d2ff);transform:scale(1.02);box-shadow:0 0 10px var(--glow)}
+.act.wide{grid-column:span 2;background:linear-gradient(135deg,#8b0000,#ff4500)}
+.panel{grid-column:span 2;display:none;margin-top:8px;padding:10px;background:rgba(0,210,255,.12);border:1px solid var(--pb);border-radius:8px;color:#fff;font-size:.82rem;animation:fi .4s forwards}
+@keyframes fi{from{opacity:0;transform:translateY(-4px)}to{opacity:1;transform:none}}
+.issue input[type=text],.issue input[type=file]{width:100%;padding:6px;margin:5px 0 8px;background:rgba(0,0,0,.5);border:1px solid rgba(0,210,255,.4);border-radius:4px;color:#fff;font-size:.78rem}
+.issue button{background:#00e676;color:#000;border:none;padding:5px 12px;border-radius:4px;font-weight:bold;cursor:pointer;font-size:.78rem}
+.issue label{font-size:.75rem;color:#a0c4ff}
+.okmsg{color:#00ffcc;font-weight:bold;display:none;margin-top:5px}
+.ft{margin-top:15px;display:flex;justify-content:space-between;align-items:center;font-size:.72rem;color:#88a0c0;border-top:1px dashed rgba(0,210,255,.2);padding-top:10px}
+.badge{background:var(--db);color:#fff;padding:2px 6px;border-radius:4px;font-weight:bold;border:1px solid var(--pb)}
+.med{color:#00ffcc;font-weight:bold}
+.btn.alt{background:transparent;border:1px solid var(--pb);color:var(--pb)}
+.btn.alt:hover{background:rgba(0,210,255,.15)}
+.choices{display:flex;flex-wrap:wrap;gap:8px}
+.choice{flex:1 1 30%;padding:11px 8px;border-radius:10px;border:1px solid rgba(0,210,255,.3);background:rgba(10,15,26,.8);color:#fff;font-size:.9rem;cursor:pointer;transition:all .25s}
+.choice.times{flex:1 1 100%}
+.choice.active{background:var(--pb);border-color:var(--pb);color:#000;font-weight:700;box-shadow:0 0 15px rgba(0,210,255,.4)}
+.gt{display:block;margin:14px 0 6px;color:#a0c4ff;font-size:.78rem;font-weight:600;text-align:start}
+.msg{display:none;margin-top:12px;padding:10px;border-radius:10px;font-size:.85rem;line-height:1.6}
+.msg.show{display:block}.msg.error{background:#3a1a1a;color:#ffb4b4;border:1px solid #7a2222}.msg.ok{background:#0f382c;color:#b8f5c9;border:1px solid #1b6e53}
+.info{display:none;margin-top:10px;padding:10px;border-radius:10px;font-size:.85rem;background:#131c2e;border:1px dashed #8a99ad}
+.info.show{display:block}
+.about{margin-top:20px;padding-top:14px;border-top:1px solid rgba(0,210,255,.2);text-align:start}
+.about .t{text-align:center;font-weight:700;color:#fff;margin-bottom:10px;font-size:.95rem}
+.sc{background:rgba(10,15,26,.6);border:1px solid rgba(0,210,255,.2);border-radius:8px;padding:8px 12px;margin-bottom:8px}
+.sc h3{font-size:.9rem;color:var(--pb);margin-bottom:3px}.sc p{font-size:.8rem;color:#8a99ad;line-height:1.4}
+.btn:disabled{opacity:.6;cursor:wait}
+.site-logo{text-align:center;margin-bottom:16px}
+.site-logo img{width:110px;height:110px;object-fit:contain;border-radius:50%;background:#fff;padding:4px;box-shadow:0 0 20px rgba(0,210,255,.3);transition:transform .3s,box-shadow .3s}
+.site-logo img:hover{transform:scale(1.03);box-shadow:0 0 25px var(--glow)}
 </style>
 </head>
 <body>
+<div class="bg"><div class="s1"></div><div class="s2"></div></div>
+<button class="lang" id="langBtn" onclick="toggleLanguage()">English</button>
+
 <div class="wrap">
-  <header>
-    <img id="logo" alt="Bears" src="">
-    <h1>Bears of Peace Ju Jutsu Oued Eslam</h1>
-  </header>
+  <div class="site-logo"><img id="siteLogo" alt="Bears of Peace"></div>
+  <div id="loginSection" class="auth">
+    <div class="logo">Bears of Peace Ju-Jutsu</div>
+    <div class="sub" data-t="subLogin"></div>
+    <div class="fg"><label data-t="lName"></label><input type="text" id="loginName" data-p="pName"></div>
+    <div class="fg"><label data-t="lDob"></label><input type="text" id="loginDob" placeholder="DD/MM/YYYY" inputmode="numeric"></div>
+    <div class="fg"><label data-t="lAcc"></label><input type="text" id="loginAcc" placeholder="26/XX"></div>
+    <button class="btn" onclick="handleLogin()" data-t="bLogin"></button>
+    <div class="err" id="loginError" data-t="eLogin"></div>
+    <button class="btn alt" onclick="show('regSection')" data-t="newCard"></button><br>
+    <span class="link" onclick="show('forgotSection')" data-t="forgot"></span>
+  </div>
 
-  <form class="card" id="form" novalidate>
-    <label for="fname">الاسم</label>
-    <input id="fname" type="text" autocomplete="given-name" required>
+  <div id="forgotSection" class="auth" style="display:none">
+    <div class="logo" data-t="recTitle"></div>
+    <div class="sub" data-t="subForgot"></div>
+    <div class="fg"><label data-t="lName"></label><input type="text" id="fName" data-p="pName"></div>
+    <div class="fg"><label data-t="lDob"></label><input type="text" id="fDob" placeholder="DD/MM/YYYY" inputmode="numeric"></div>
+    <div class="fg"><label data-t="lPhone"></label><input type="text" id="fPhone" inputmode="tel"></div>
+    <button class="btn" id="recBtn" onclick="submitRecovery()" data-t="bSend"></button>
+    <div class="ok" id="fSuccess" data-t="okRec"></div>
+    <div class="err" id="fError" data-t="eRec"></div><br>
+    <span class="link" onclick="show('loginSection')" data-t="back"></span>
+  </div>
 
-    <div class="row">
-      <div><label for="lname">اللقب</label><input id="lname" type="text" autocomplete="family-name" required></div>
-      <div><label for="age">العمر</label><input id="age" type="number" min="3" max="99" inputmode="numeric" required></div>
-    </div>
-
-    <!-- إضافة حقل رقم الهاتف -->
-    <label for="phone">رقم الهاتف</label>
-    <input id="phone" type="tel" inputmode="tel" placeholder="07XXXXXXXX" required>
-
-    <span class="group-title">التخصص</span>
-    <div class="choices" id="sports">
-      <button type="button" class="choice" data-v="Ju Jutsu">Ju Jutsu</button>
-      <button type="button" class="choice" data-v="MMA">MMA</button>
-      <button type="button" class="choice" data-v="King Fu">King Fu</button>
-    </div>
-
-    <span class="group-title">الأوقات (يمكنك اختيار أكثر من وقت)</span>
-    <div class="choices" id="times">
-      <button type="button" class="choice times" data-v="الاثنين 17:00---18:30">الاثنين 17:00---18:30</button>
-      <button type="button" class="choice times" data-v="الأربعاء 17:00---18:30">الأربعاء 17:00---18:30</button>
-      <button type="button" class="choice times" data-v="الجمعة 17:00---18:30">الجمعة 17:00---18:30</button>
-    </div>
-
-    <button type="button" class="btn secondary" id="fileBtn">الملف</button>
-    <div class="info" id="fileInfo">يرجى التقرب من القاعة الرياضية لأخذ استمارة التسجيل</div>
-
-    <button type="submit" class="btn primary">إرسال</button>
-    <div class="msg" id="msg"></div>
-
-    <a class="btn secondary" href="tel:0795760635">تواصل مع المسؤولين — 0795760635</a>
-
-    <!-- قسم التعريف بالتخصصات في الأسفل -->
-    <div class="about-sports">
-      <div class="about-title">تعريف بالتخصصات</div>
-      <div class="sport-card">
-        <h3>Ju Jutsu</h3>
-        <p>فن قتالي ياباني يركز على الدفاع عن النفس، الإسقاطات، التثبيت، والإخضاع الأرضي بمرونة عالية.</p>
+  <div id="regSection" class="auth" style="display:none">
+    <div class="logo" data-t="regTitle"></div>
+    <div class="sub">Bears of Peace Ju Jutsu Oued Eslam</div>
+    <form id="regForm" novalidate>
+      <div class="fg"><label>الاسم</label><input id="rFname" type="text" autocomplete="given-name"></div>
+      <div class="fg"><label>اللقب</label><input id="rLname" type="text" autocomplete="family-name"></div>
+      <div class="fg"><label>العمر</label><input id="rAge" type="number" min="3" max="99" inputmode="numeric"></div>
+      <div class="fg"><label>رقم الهاتف</label><input id="rPhone" type="tel" inputmode="tel" placeholder="07XXXXXXXX"></div>
+      <span class="gt">التخصص</span>
+      <div class="choices" id="rSports">
+        <button type="button" class="choice" data-v="Ju Jutsu">Ju Jutsu</button>
+        <button type="button" class="choice" data-v="MMA">MMA</button>
+        <button type="button" class="choice" data-v="Kung Fu">Kung Fu</button>
       </div>
-      <div class="sport-card">
-        <h3>MMA (الفنون القتالية المختلطة)</h3>
-        <p>رياضة تجمع بين تقنيات اللكم والرفس والقتال الأرضي، لتقديم تدريب شامل وممتع.</p>
+      <span class="gt">الأوقات (يمكنك اختيار أكثر من وقت)</span>
+      <div class="choices" id="rTimes">
+        <button type="button" class="choice times" data-v="الاثنين 17:00 – 18:30">الاثنين 17:00 – 18:30</button>
+        <button type="button" class="choice times" data-v="الأربعاء 17:00 – 18:30">الأربعاء 17:00 – 18:30</button>
+        <button type="button" class="choice times" data-v="الجمعة 17:00 – 18:30">الجمعة 17:00 – 18:30</button>
       </div>
-      <div class="sport-card">
-        <h3>Kung Fu</h3>
-        <p>فن قتالي تقليدي يعتمد على السرعة، الرشاقة، التركيز، وتطوير اللياقة والانضباط البدني.</p>
-      </div>
+      <button type="button" class="btn alt" id="rFileBtn">استمارة التسجيل</button>
+      <div class="info" id="rFileInfo">يرجى التقرب من القاعة الرياضية لأخذ استمارة التسجيل</div>
+      <button type="submit" class="btn" id="rSubmit">إرسال</button>
+      <div class="msg" id="regMsg"></div>
+    </form>
+    <div class="about">
+      <div class="t">تعريف بالتخصصات</div>
+      <div class="sc"><h3>Ju Jutsu</h3><p>فن قتالي ياباني يركز على الدفاع عن النفس، الإسقاطات، التثبيت، والإخضاع الأرضي بمرونة عالية.</p></div>
+      <div class="sc"><h3>MMA (الفنون القتالية المختلطة)</h3><p>رياضة تجمع بين تقنيات اللكم والرفس والقتال الأرضي، لتقديم تدريب شامل وممتع.</p></div>
+      <div class="sc"><h3>Kung Fu</h3><p>فن قتالي تقليدي يعتمد على السرعة، الرشاقة، التركيز، وتطوير اللياقة والانضباط البدني.</p></div>
     </div>
-  </form>
+    <span class="link" onclick="show('loginSection')" data-t="back"></span>
+  </div>
+
+  <div id="cardView">
+    <button class="back" onclick="logoutFighter()" data-t="logout"></button>
+    <div id="activeCardContainer"></div>
+  </div>
 </div>
 
 <script>
-  // ===== Settings =====
-  const LOGO_URL = "https://i.ibb.co/vvB5ZmFH/1790268608620.jpg";
-  const FB_PAGE  = "https://www.facebook.com/profile.php?id=61574944910883";
-  const WEB3FORMS_KEY = "d3202d37-61c2-4ff2-84a9-1a78fe5dea52";  // free key from https://web3forms.com
-  const MESSENGER = "https://m.me/61574944910883";            // opens a chat with the page
+// رقم المسؤول لزر "تواصل المسؤول" (إن تُرك فارغاً يتصل برقم المقاتل كما في القالب)
+const MANAGER_PHONE = "0557905083";
+const LOGO_URL = "https://i.ibb.co/vvB5ZmFH/1790268608620.jpg";
+{const lg=document.getElementById("siteLogo");lg.src=LOGO_URL;
+ lg.onerror=()=>{lg.onerror=null;lg.src="data:image/svg+xml,"+encodeURIComponent('<svg xmlns="http://www.w3.org/2000/svg" width="110" height="110"><text x="55" y="72" font-size="60" text-anchor="middle">🐻</text></svg>');};}
+// مفتاح Web3Forms: يرسل الرسائل إلى بريد Gmail المسجَّل في الخدمة
+const WEB3FORMS_KEY = "d3202d37-61c2-4ff2-84a9-1a78fe5dea52";
+let currentFighter = null;
+async function sendMail(subject, message){
+  try{
+    const r = await fetch("https://api.web3forms.com/submit",{method:"POST",
+      headers:{"Content-Type":"application/json","Accept":"application/json"},
+      body:JSON.stringify({access_key:WEB3FORMS_KEY,subject,from_name:"Bears of Peace Ju Jutsu",message})});
+    const d = await r.json();
+    return !!d.success;
+  }catch(e){return false;}
+}
+const NO_PHOTO = "data:image/svg+xml;utf8,"+encodeURIComponent('<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 110 130"><rect width="110" height="130" fill="#0a1931"/><circle cx="55" cy="48" r="22" fill="#1c3a66"/><rect x="20" y="78" width="70" height="60" rx="30" fill="#1c3a66"/></svg>');
 
-  const $ = id => document.getElementById(id);
-  const selected = { sport: "", times: [] };
+const BELTS={
+ white:{ar:"الأبيض",c:"#f5f5f5",s:"#e0e0e0",g:"#ccc"},
+ gray:{ar:"الرمادي",c:"#9e9e9e",s:"#757575",g:"#bdbdbd"},
+ yellow:{ar:"الأصفر",c:"#fdd835",s:"#f9a825",g:"#ffee58"},
+ orange:{ar:"البرتقالي",c:"#ef6c00",s:"#e65100",g:"#ffa726"},
+ green:{ar:"الأخضر",c:"#2e7d32",s:"#1b5e20",g:"#4caf50"},
+ greenblack:{ar:"الأخضر والأسود",c:"#2e7d32",s:"#111",g:"#4caf50",bar:"linear-gradient(90deg,#2e7d32 0 40%,#111 40% 60%,#2e7d32 60%)"},
+ blue:{ar:"الأزرق",c:"#0077ff",s:"#0052d4",g:"#00d2ff"}
+};
+// id, الاسم، اللقب، الاسم باللاتينية، الميلاد، مكانه، العنوان، الهاتف، الأب، المجموعة، الحزام، كود الصورة، مشطوب
+const mk=(id,first,last,en,dob,pob,address,phone,father,group,belt,photo,suspended=false)=>({id,nameAr:first+" "+last,nameEn:en,dob,pob,address,phone,father,group,belt,photo,suspended});
 
-  // Logo with fallback if the link is not a direct image
-  const logo = $("logo");
-  logo.src = LOGO_URL;
-  logo.onerror = () => { logo.onerror = null; logo.src = "data:image/svg+xml," + encodeURIComponent(
-    '<svg xmlns="http://www.w3.org/2000/svg" width="110" height="110"><text x="55" y="72" font-size="60" text-anchor="middle">🐻</text></svg>'); };
+const fightersData=[
+ mk("26/01","عبد الله","بن جمعة","Abdellah Ben Djouma","06/07/2015","منداس","حي بلحاج احمد محمد","0672733232","بن جمعة امحمد","A","white","zV2Qd4t3"), // TODO: الحزام لم يُذكر
+ mk("26/02","حمزة عبد الرحمن","بشيري","Hamza Abderrahmane Bachiri","20/02/2018","تيارت","حي بلحاج احمد محمد","0675890999","بشيري محمد","B","blue","b5fKytdF"),
+ mk("26/03","محمد عبد الحكيم","بيوض","Mohamed Abdelhakim Bioud","24/04/2019","منداس","وادي السلام","0775083804","بيوض عبد القادر","B","blue","4Zvs9jJT"),
+ mk("26/04","عبد الوهاب","بن جمعة","Abdelouahab Ben Djouma","03/02/2020","تيارت","حي بلحاج احمد محمد","0672733232","بن جمعة امحمد","B","orange","dwbRqVyZ"),
+ mk("26/05","اصيل عبد الرحمن","بن جمعة","Asil Abderrahmane Ben Djouma","07/01/2020","تيارت","حي بلحاج احمد محمد","0560591258","بن جمعة ابراهيم","B","orange","q3qxK30Z"),
+ mk("26/06","ايوب","ڨردوبة","Ayoub Guerdouba","24/02/2017","منداس","حي ڨردوبة احمد","0773233873","ڨردوبة طاهر","B","blue","xSrqNCVk"),
+ mk("26/07","ادم وليد","مهداوي","Adam Walid Mahdaoui","11/02/2017","غليزان","حي بوسحابة احمد","0797171358","مهداوي لزرڨ","B","blue","MXR114Y"),
+ mk("26/08","يونس","بن عبد القادر","Younes Ben Abdelkader","11/03/2016","تيارت","حي بلحاج احمد محمد","0773346008","بن عبد القادر عبد الحميد","B","greenblack","zTn3bQn4"),
+ mk("26/09","عبد الجليل","مباركي","Abdeljalil Mebarki","19/05/2018","زمورة","حي بن بدرة بن عودة","0772389060","مباركي عبد القادر","B","greenblack","4RJdK1fR"),
+ mk("26/10","يوسف","ڨردوبة","Youssef Guerdouba","19/05/2013","منداس","حي ڨردوبة امحمد","0773233873","ڨردوبة طاهر","A","green","TDSSzM6r"),
+ mk("26/11","محمد صهيب","مداح","Mohamed Souhaib Maddah","07/04/2017","رحوية","حي احمد بلعالية","0773515911","مداح محمد","C","white","SkXSVHK",true),
+ mk("26/12","عبد الله","زريڨي","Abdellah Zergui","31/07/2019","زمورة","حي صفيح قويدر","0774853393","زريڨي ميلود","C","yellow","FLHswZH1"),
+ mk("26/13","معاذ عبد السميع","لحمر","Mouadh Abdessamie Lahmar","24/06/2019","فرندة","حي مجاهد قويدر","0798351726","لحمر بن عودة","B","orange","1JT6SrBt"),
+ mk("26/14","عبد الرحمن","بلڨرع","Abderrahmane Belgraa","22/07/2014","منداس","حي القرية الفلاحية","0698241200","بلڨرع محمد","C","white","NPdWwJ3",true),
+ mk("26/15","حاج","اسماعيل","Hadj Ismail","30/04/2015","تيارت","حي بلحاج احمد محمد","0794383002","حاج علي","B","white","N69tsJph"),
+ mk("26/16","صهيب","مجاهد","Souhaib Medjahed","09/10/2017","تيارت","حي صفيح قويدر","0674526282","مجاهد جمال","C","white","G3Bp841Y"),
+ mk("26/17","جواد ابراهيم","بيوض","Djawad Brahim Bioud","16/06/2018","رحوية","حي بشيري العيد","0773871749","بيوض محمد","C","white","5gt94sY9"),
+ mk("26/18","براء شاهين","عويلي","Baraa Chahine Aouili","05/09/2020","منداس","حي مجاهد قويدر","0674576286","مجاهد جمال","C","yellow","wrrKdyCt"),
+ mk("26/19","محمد ضياء الدين","ڨروج","Mohamed Diaeddine Guerroudj","08/05/2017","تيارت","حي بوسحابة احمد","0670270928","ڨروج راشد","C","gray","23gMjg67"),
+ mk("26/20","تاج الدين","لعبش","Tadjeddine Laabach","23/07/2012","زمورة","حي احمد بلعالية","0662978763","لعبش طيب","A","blue","hF3LT4zj"),
+ mk("26/21","يوسف","لعبش","Youssef Laabach","08/12/2013","رحوية","حي احمد بلعالية","0662978763","لعبش طيب","A","blue","rfFTvm06"),
+ mk("26/22","ياسين","عكرمي","Yacine Akrami","16/05/2010","زمورة","حي بشيري العيد","0659653374","عكرمي لخضر","C","blue","BHFYBpHH"),
+ mk("26/23","مولاي عبد المحسن","بلخادم","Moulay Abdelmohsen Belkhadem","21/10/2009","غليزان","حي بلحاج احمد محمد","0561621595","بلخادم عمر","A","blue","0pVcpZ8T"),
+ mk("26/24","يوسف الصديق","مفلاح","Youssef Seddik Meflah","04/04/2010","منداس","حي بلحاج احمد محمد","066515314317","مفلاح بن عودة","A","blue","Y4Bftq3t"), // TODO: الهاتف 12 رقماً
+ mk("26/25","الياس","عكرمي","Ilyas Akrami","20/12/2012","زمورة","حي بشيري العيد","0697854360","عكرمي امحمد","A","blue","qM6Cw4vk"),
+ mk("26/26","عبد الجليل","نذار","Abdeljalil Nethar","09/04/2010","زمورة","حي مجاهد قويدر","0775810774","نذار علي","A","blue","xt0mhwwS"),
+ mk("26/27","سمير","بن سعيد","Samir Bensaïd","07/11/2010","وادي السلام","حي بلحاج احمد محمد","0659715778","بن سعيد عدة","A","green","27XGkjxM"),
+ mk("26/28","محمد رضا الرحمن","بلحاج","Mohamed Reda Errahmane Belhadj","18/10/2015","وادي الجمعة","حي مجاهد قويدر","0773763059","سعدي حبيبة","B","orange","gZyMkGj3"),
+ mk("26/29","هيثم عبد الرحمن","برقية","Haitham Abderrahmane Bourguia","19/08/2013","رحوية","حي ڨردوبة امحمد","0697279112","برقية احمد","A","white","DgVgXKMz",true),
+ mk("26/30","بوعلام ايوب","برقية","Boualam Ayoub Bourguia","04/05/2018","رحوية","حي ڨردوبة امحمد","0697179112","برقية احمد","C","white","FbTjFbRY",true),
+ mk("26/31","ايوب","مداح","Ayoub Maddah","21/09/2020","تيارت","حي بوسحابة احمد","0556821813","مداح احمد","C","white","1Y2khrG7"),
+ mk("26/32","محمد عدة","سعدي","Mohammed Aadda Saadi","19/11/2013","تيارت","حي مجاهد قويدر","0772757913","سعدي محمد","A","white","GhdwZ2c",true)
+];
 
-  // Single-choice for sports
-  $("sports").addEventListener("click", e => {
-    const b = e.target.closest(".choice"); if (!b) return;
-    $("sports").querySelectorAll(".choice").forEach(x => x.classList.remove("active"));
-    b.classList.add("active");
-    selected.sport = b.dataset.v;
-  });
+function cleanWords(str){
+  if(!str) return [];
+  return str.normalize('NFD').trim().toLowerCase()
+    .replace(/[\u0300-\u036f\u064B-\u065F\u0640]/g,'')
+    .replace(/[أإآٱ]/g,'ا').replace(/ى/g,'ي').replace(/ة/g,'ه').replace(/[ؤئ]/g,'ء').replace(/ڨ/g,'ق')
+    .replace(/[\u0660-\u0669]/g,d=>d.charCodeAt(0)-0x660)
+    .replace(/[^\u0600-\u06FFa-z0-9\s]/g,' ')
+    .split(/\s+/).filter(Boolean);
+}
+const nums=s=>(String(s||'').replace(/[\u0660-\u0669]/g,d=>d.charCodeAt(0)-0x660).match(/\d+/g))||[];
+// تواريخ وأرقام اعتماد متسامحة: 6/7/2015 = 06/07/2015 ، 26/1 = 26/01
+const normDob=s=>{const n=nums(s);return n.length===3?n[0].padStart(2,'0')+n[1].padStart(2,'0')+n[2]:n.join('');};
+const normAcc=s=>{const n=nums(s);return n.length===2?n[0].padStart(2,'0')+n[1].padStart(2,'0'):n.join('');};
+const normPhone=s=>nums(s).join('').replace(/^0+/,'');
+function nameMatches(input,f){
+  const w=cleanWords(input);
+  if(!w.length) return false;
+  const db=[...cleanWords(f.nameAr),...cleanWords(f.nameEn)];
+  return w.every(x=>db.includes(x));
+}
 
-  // Multi-choice for times (تحديد أكثر من وقت)
-  $("times").addEventListener("click", e => {
-    const b = e.target.closest(".choice"); if (!b) return;
-    b.classList.toggle("active");
-    const val = b.dataset.v;
-    if (b.classList.contains("active")) {
-      if (!selected.times.includes(val)) selected.times.push(val);
-    } else {
-      selected.times = selected.times.filter(t => t !== val);
-    }
-  });
+const T={
+ ar:{subLogin:"بوابة المقاتلين الآمنة",subForgot:"التحقق من الهوية",lName:"الاسم واللقب (لا يشترط الترتيب):",lDob:"تاريخ الميلاد (DD/MM/YYYY):",lAcc:"رقم الاعتماد:",lPhone:"رقم الهاتف:",bLogin:"دخول البطاقة",bSend:"إرسال الطلب",forgot:"نسيت كلمة السر؟",recTitle:"استعادة الحساب",back:"العودة لتسجيل الدخول",logout:"⬅ خروج",pName:"أدخل اسمك ولقبك هنا",eLogin:"خطأ في البيانات! تأكد من اسمك وتاريخ ميلادك ورقم اعتمادك.",okRec:"تم التحقق من بياناتك. تواصل مع المسؤول لإعادة تعيين الدخول.",eRec:"البيانات غير مطابقة. تحقق من الاسم وتاريخ الميلاد ورقم الهاتف.",newCard:"إنشاء بطاقة جديدة",regTitle:"تسجيل جديد",eSend:"تعذر الإرسال، حاول مرة أخرى أو تواصل مع المسؤول.",sending:"جارٍ الإرسال...",btn:"English"},
+ en:{subLogin:"Fighter Secure Portal",subForgot:"Verify Ownership",lName:"Full Name (order doesn't matter):",lDob:"Date of Birth (DD/MM/YYYY):",lAcc:"Accreditation Number:",lPhone:"Phone Number:",bLogin:"Access Card",bSend:"Send Request",forgot:"Forgot Password?",recTitle:"Account Recovery",back:"Back to Login",logout:"⬅ Logout",pName:"Enter your name and surname",eLogin:"Wrong details! Check your name, date of birth and accreditation number.",okRec:"Details verified. Contact the manager to reset your access.",eRec:"Details don't match. Check name, date of birth and phone.",newCard:"Create a new card",regTitle:"New Registration",eSend:"Could not send. Try again or contact the manager.",sending:"Sending...",btn:"عربي"}
+};
+let currentLang='ar';
+function applyLang(){
+  const t=T[currentLang],h=document.getElementById('htmlRoot');
+  h.lang=currentLang;h.dir=currentLang==='ar'?'rtl':'ltr';
+  document.querySelectorAll('[data-t]').forEach(e=>e.textContent=t[e.dataset.t]);
+  document.querySelectorAll('[data-p]').forEach(e=>e.placeholder=t[e.dataset.p]);
+  langBtn.textContent=t.btn;
+}
+function toggleLanguage(){currentLang=currentLang==='ar'?'en':'ar';applyLang();}
+function show(id){
+  ['loginSection','forgotSection','regSection','cardView'].forEach(s=>document.getElementById(s).style.display=s===id?'block':'none');
+  ['loginError','fError','fSuccess'].forEach(e=>document.getElementById(e).style.display='none');
+  regMsg.className='msg';
+}
+async function submitRecovery(){
+  const dob=normDob(fDob.value),phone=normPhone(fPhone.value);
+  const m=fightersData.find(f=>nameMatches(fName.value,f)&&normDob(f.dob)===dob&&normPhone(f.phone)===phone);
+  fSuccess.style.display='none';fError.style.display='none';
+  if(!m){fError.textContent=T[currentLang].eRec;fError.style.display='block';return;}
+  recBtn.disabled=true;
+  const ok=await sendMail("طلب استعادة حساب - "+m.nameAr,
+    `طلب استعادة حساب\nالاسم: ${m.nameAr}\nرقم الاعتماد: ${m.id}\nتاريخ الميلاد: ${m.dob}\nالهاتف: ${m.phone}`);
+  recBtn.disabled=false;
+  if(ok){fSuccess.textContent=T[currentLang].okRec;fSuccess.style.display='block';}
+  else{fError.textContent=T[currentLang].eSend;fError.style.display='block';}
+}
+function handleLogin(){
+  const dob=normDob(loginDob.value),acc=normAcc(loginAcc.value);
+  const f=fightersData.find(f=>nameMatches(loginName.value,f)&&normDob(f.dob)===dob&&normAcc(f.id)===acc);
+  if(f){loginError.style.display='none';renderFighterCard(f);}else loginError.style.display='block';
+}
+const esc=s=>String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 
-  // Toggle the "come to the gym" notice
-  $("fileBtn").addEventListener("click", () => $("fileInfo").classList.toggle("show"));
+// الصورة: يجرّب الرابط المباشر بعدة امتدادات ثم صورة افتراضية
+const EXTS=['jpg','png','jpeg','webp'];
+function imgFail(img){
+  const i=+img.dataset.st||0;
+  img.dataset.st=i+1;
+  if(i<EXTS.length) img.src=`https://i.ibb.co/${img.dataset.code}/image.${EXTS[i]}`;
+  else{img.onerror=null;img.src=NO_PHOTO;}
+}
 
-  function showMsg(text, type) {
-    const m = $("msg"); m.className = "msg show " + type; m.textContent = text;
-  }
-
-  $("form").addEventListener("submit", async e => {
-    e.preventDefault();
-    const fname = $("fname").value.trim(), lname = $("lname").value.trim(), age = $("age").value.trim(), phone = $("phone").value.trim();
-    if (!fname || !lname || !age || !phone || !selected.sport || selected.times.length === 0)
-      return showMsg("يرجى ملء جميع الخانات واختيار التخصص ووقت واحد على الأقل", "error");
-
-    const timesFormatted = selected.times.join(" ، ");
-    const text = `طلب تسجيل جديد\nالاسم: ${fname}\nاللقب: ${lname}\nالعمر: ${age}\nالهاتف: ${phone}\nالتخصص: ${selected.sport}\nالأوقات: ${timesFormatted}`;
-
-    // 1) Real automatic sending (to the admin's email) via Web3Forms
-    if (WEB3FORMS_KEY) {
-      try {
-        const res = await fetch("https://api.web3forms.com/submit", {
-          method: "POST",
-          headers: { "Content-Type": "application/json", "Accept": "application/json" },
-          body: JSON.stringify({
-            access_key: WEB3FORMS_KEY,
-            subject: "تسجيل جديد - " + fname + " " + lname,
-            from_name: "Bears of Peace Ju Jutsu",
-            message: text
-          })
-        });
-        const data = await res.json();
-        if (data.success) {
-          $("form").reset();
-          document.querySelectorAll(".choice").forEach(x => x.classList.remove("active"));
-          selected.sport = "";
-          selected.times = [];
-          return showMsg("تم إرسال تسجيلك بنجاح ✅ سنتواصل معك قريبًا", "ok");
-        }
-      } catch (_) {}
-      return showMsg("تعذر الإرسال، حاول مرة أخرى أو تواصل معنا على 0795760635", "error");
-    }
-
-    // 2) Fallback (no key set): copy the text and open the page's Messenger chat
-    try { await navigator.clipboard.writeText(text); } catch (_) {}
-    showMsg("تم نسخ المعلومات. الصقها في المحادثة التي ستفتح مع صفحتنا ثم أرسلها.", "ok");
-    const pre = document.createElement("pre"); pre.textContent = text; $("msg").appendChild(pre);
-    window.open(MESSENGER, "_blank");
-  });
+function renderFighterCard(f){
+  currentFighter=f;
+  const b=BELTS[f.belt];
+  const target=f.suspended
+    ?'🎯 <strong>الهدف القادم:</strong> مراجعة وضعية الانتساب والترقي نحو الأحزمة المتقدمة فور زوال التعليق.'
+    :'🎯 <strong>الهدف القادم:</strong> التقدم المستمر نحو الأحزمة المتقدمة والانضباط التدريبي.';
+  activeCardContainer.innerHTML=`
+  <div class="card">
+    <div class="hd">
+      <div class="cn-ar">دببة السلم للجي جيتسو وادي السلام</div>
+      <div class="cn-en">Bears of Peace Ju-Jutsu Oued Eslam</div>
+      <div class="ctitle">بطاقة مقاتل / FIGHTER CARD</div>
+    </div>
+    <div class="sup">تحت إشراف <span>فرع الجي جيتسو</span></div>
+    ${f.suspended?'<div class="susp">❌ مشطوب حتى إشعار آخر</div>':''}
+    <div class="prof">
+      <div class="photo"><img src="https://i.ibb.co/${esc(f.photo)}/image.jpg" data-st="1" data-code="${esc(f.photo)}" alt="صورة ${esc(f.nameAr)}" onerror="imgFail(this)"></div>
+      <div class="kim"><svg viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M20 20 L35 10 L65 10 L80 20 L95 35 L80 45 L80 90 L20 90 L20 45 L5 35 Z" fill="#f0f0f0" stroke="#ccc" stroke-width="1.5"/>
+        <path d="M35 10 L50 50 L20 90" stroke="#004080" stroke-width="4" fill="none"/>
+        <path d="M65 10 L50 50 L80 90" stroke="#004080" stroke-width="4" fill="none"/>
+        <path d="M20 45 L30 40 L30 85 L20 90 Z" fill="#e0e0e0"/><path d="M80 45 L70 40 L70 85 L80 90 Z" fill="#d0d0d0"/>
+        <rect x="22" y="55" width="56" height="8" fill="${b.c}"/>
+        ${f.belt==='greenblack'?'<rect x="46" y="55" width="8" height="8" fill="#111"/>':''}
+        <path d="M46 53 L54 53 L56 70 L44 70 Z" fill="${b.s}" stroke="${b.g}" stroke-width="1"/></svg></div>
+    </div>
+    <div class="grid">
+      <div class="it"><span class="label">الاسم واللقب بالعربية:</span><span class="value hl">${esc(f.nameAr)}</span></div>
+      <div class="it"><span class="label">الاسم باللاتينية:</span><span class="value latin">${esc(f.nameEn)}</span></div>
+      <div class="it"><span class="label">اسم الأب:</span><span class="value hl">${esc(f.father)}</span></div>
+      <div class="it"><span class="label">تاريخ الميلاد:</span><span class="value">${esc(f.dob)}</span></div>
+      <div class="it"><span class="label">مكان الميلاد:</span><span class="value">${esc(f.pob)}</span></div>
+      <div class="it"><span class="label">الجنس:</span><span class="value">ذكر</span></div>
+      <div class="it full"><span class="label">العنوان:</span><span class="value">${esc(f.address)}</span></div>
+      <div class="it"><span class="label">رقم الهاتف:</span><span class="value hl">${esc(f.phone)}</span></div>
+      <div class="it"><span class="label">رقم الاعتماد:</span><span class="value hl">${esc(f.id)}</span></div>
+      <div class="it full"><span class="label">الاختصاصات:</span><span class="value hl" style="font-size:.75rem">Kung fu / MMA / Grappling / Ju-Jutsu</span></div>
+      <div class="belt"><div><span class="label" style="display:block">الحزام الحالي:</span><span class="value" style="font-size:.75rem">${b.ar}</span></div>
+        <div class="bar" style="background:${b.bar||b.c}"></div></div>
+      <div class="it full" style="margin-top:3px"><span class="label">الملاحظات الطبية:</span><span class="value med">"مؤهل لممارسة الرياضة"</span></div>
+      <div class="acts">
+        <button class="act" onclick="togglePanel('p1')">⚡ التطور بالقاعة</button>
+        <button class="act" onclick="togglePanel('p2')">👨‍🏫 المشرفون</button>
+        <button class="act" onclick="togglePanel('p3')">💡 نصائح</button>
+        <button class="act" onclick="togglePanel('p4')">✈️ موعد الاجازة</button>
+        <a href="https://www.facebook.com/profile.php?id=61574944910883" target="_blank" rel="noopener" class="act">📘 صفحتنا</a>
+        <a href="tel:${esc(MANAGER_PHONE||f.phone)}" class="act">📞 تواصل المسؤول</a>
+        <button class="act wide" onclick="togglePanel('p5')">⚠️ يرجى إخبارنا بالمشكلة</button>
+      </div>
+      <div id="p1" class="panel">${target}</div>
+      <div id="p2" class="panel">👨‍🏫 <strong>طاقم التدريب والإشراف:</strong><br>- المدرب: بن جمعة عبد القادر<br>- المدرب: علو أسامة</div>
+      <div id="p3" class="panel">💡 <strong>نصائح للمقاتل:</strong> الاستمرارية، الانضباط، الاحترام، والتركيز المستمر أثناء التدريبات.</div>
+      <div id="p4" class="panel">✈️ <strong>موعد الوصول للإجازة:</strong> مبرمج في سنة <strong>2027</strong> بإذن الله.</div>
+      <div id="p5" class="panel"><div class="issue">
+        <label>اكتب المشكلة أو الخطأ:</label>
+        <input type="text" id="issueText" placeholder="اكتب تفاصيل المشكلة هنا...">
+        <button id="issueBtn" onclick="submitIssue()">إرسال</button>
+        <div id="successMsg" class="okmsg">تم إرسال المشكلة بنجاح، شكراً لتواصلك!</div>
+      </div></div>
+    </div>
+    <div class="ft"><div>المجموعة: <span class="badge">${esc(f.group)}</span></div><div>نهاية الشهر: <span class="hl">يوم 25</span></div></div>
+  </div>`;
+  show('cardView');
+}
+function togglePanel(id){
+  document.querySelectorAll('.panel').forEach(p=>{if(p.id!==id)p.style.display='none';});
+  const t=document.getElementById(id);t.style.display=t.style.display==='block'?'none':'block';
+}
+async function submitIssue(){
+  const txt=issueText.value.trim();
+  if(!txt){alert("يرجى كتابة وصف المشكلة أولاً.");return;}
+  issueBtn.disabled=true;
+  const f=currentFighter;
+  const ok=await sendMail("مشكلة من مقاتل - "+f.nameAr,
+    `مشكلة مُبلَّغ عنها\nالمقاتل: ${f.nameAr}\nرقم الاعتماد: ${f.id}\nالهاتف: ${f.phone}\n\nالمشكلة:\n${txt}`);
+  issueBtn.disabled=false;
+  if(!ok){alert(T[currentLang].eSend);return;}
+  successMsg.style.display='block';
+  setTimeout(()=>{issueText.value='';successMsg.style.display='none';p5.style.display='none';},2500);
+}
+// ===== التسجيل الجديد =====
+const regSel={sport:"",times:[]};
+rSports.addEventListener("click",e=>{
+  const b=e.target.closest(".choice");if(!b)return;
+  rSports.querySelectorAll(".choice").forEach(x=>x.classList.remove("active"));
+  b.classList.add("active");regSel.sport=b.dataset.v;
+});
+rTimes.addEventListener("click",e=>{
+  const b=e.target.closest(".choice");if(!b)return;
+  b.classList.toggle("active");
+  regSel.times=[...rTimes.querySelectorAll(".choice.active")].map(x=>x.dataset.v);
+});
+rFileBtn.addEventListener("click",()=>rFileInfo.classList.toggle("show"));
+function regShow(t,type){regMsg.className="msg show "+type;regMsg.textContent=t;}
+regForm.addEventListener("submit",async e=>{
+  e.preventDefault();
+  const fn=rFname.value.trim(),ln=rLname.value.trim(),age=+rAge.value,ph=rPhone.value.replace(/[\s-]/g,'');
+  if(!fn||!ln||!ph||!regSel.sport||!regSel.times.length) return regShow("يرجى ملء جميع الخانات واختيار التخصص ووقت واحد على الأقل","error");
+  if(!(age>=3&&age<=99)) return regShow("العمر يجب أن يكون بين 3 و99","error");
+  if(!/^0[5-7]\d{8}$/.test(ph)) return regShow("رقم الهاتف غير صحيح (مثال: 0770000000)","error");
+  rSubmit.disabled=true;
+  const ok=await sendMail("تسجيل جديد - "+fn+" "+ln,
+    `طلب تسجيل جديد\nالاسم: ${fn}\nاللقب: ${ln}\nالعمر: ${age}\nالهاتف: ${ph}\nالتخصص: ${regSel.sport}\nالأوقات: ${regSel.times.join(" ، ")}`);
+  rSubmit.disabled=false;
+  if(!ok) return regShow("تعذر الإرسال، حاول مرة أخرى أو تواصل معنا على "+MANAGER_PHONE,"error");
+  regForm.reset();
+  document.querySelectorAll("#regForm .choice").forEach(x=>x.classList.remove("active"));
+  regSel.sport="";regSel.times=[];
+  regShow("تم إرسال تسجيلك بنجاح ✅ سنتواصل معك قريبًا","ok");
+});
+function logoutFighter(){
+  show('loginSection');
+  loginName.value=loginDob.value=loginAcc.value='';
+  activeCardContainer.innerHTML='';
+}
+applyLang();
 </script>
 </body>
 </html>
