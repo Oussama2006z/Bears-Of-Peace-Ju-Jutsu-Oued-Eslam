@@ -3,6 +3,10 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="manifest" href="manifest.json">
+<meta name="theme-color" content="#030814">
+<link rel="apple-touch-icon" href="icon-192.png">
+<link rel="preconnect" href="https://i.ibb.co">
 <title>Bears of Peace Ju-Jutsu - Fighter Portal</title>
 <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;800;900&display=swap" rel="stylesheet">
 <style>
@@ -28,7 +32,7 @@ body{min-height:100vh;display:flex;justify-content:center;align-items:center;ove
 .btn:hover{background:linear-gradient(135deg,#0077ff,#00d2ff)}
 .link{display:inline-block;margin-top:15px;font-size:.8rem;color:var(--pb);cursor:pointer;text-decoration:underline}
 .err,.ok{font-size:.8rem;margin-top:10px;display:none;font-weight:bold}
-.err{color:#ff6a3d}.ok{color:#00ffcc}
+.err{color:#ff6a3d}.ok{color:#00ffcc;line-height:1.6}
 #cardView{display:none}
 .back{background:rgba(0,64,128,.8);color:#fff;border:1px solid var(--pb);padding:6px 14px;border-radius:6px;font-size:.75rem;font-weight:bold;cursor:pointer;margin-bottom:12px}
 .card{position:relative;background:var(--card);border-radius:20px;padding:25px;backdrop-filter:blur(15px);border:1px solid rgba(0,210,255,.3);box-shadow:0 0 30px rgba(0,150,255,.2),inset 0 0 15px rgba(0,210,255,.1);transform-style:preserve-3d;transition:transform .5s ease,box-shadow .5s ease}
@@ -86,11 +90,62 @@ body{min-height:100vh;display:flex;justify-content:center;align-items:center;ove
 .site-logo{text-align:center;margin-bottom:16px}
 .site-logo img{width:110px;height:110px;object-fit:contain;border-radius:50%;background:#fff;padding:4px;box-shadow:0 0 20px rgba(0,210,255,.3);transition:transform .3s,box-shadow .3s}
 .site-logo img:hover{transform:scale(1.03);box-shadow:0 0 25px var(--glow)}
+.greet{text-align:center;color:#fff;font-weight:800;font-size:1rem;margin-bottom:10px}
+.sub{padding:8px 10px;border-radius:8px;font-size:.8rem;font-weight:700;line-height:1.7;background:rgba(0,0,0,.45);border:1px solid #556}
+.sub.ok{border-color:#1b6e53;color:#b8f5c9;background:#0f382c}.sub.bad{border-color:#ff5252;color:#ffb4b4;background:#3a1a1a}.sub.neu{color:#b0e0ff}
+.pbar{height:10px;border-radius:6px;background:rgba(255,255,255,.12);overflow:hidden;margin:4px 0 8px}
+.pbar i{display:block;height:100%;background:linear-gradient(90deg,#00d2ff,#00e676)}
+.panel a{color:#7dd3fc}.panel ul{margin:4px 18px}
+.chk{display:flex;gap:8px;align-items:flex-start;text-align:start;font-size:.75rem;color:#a0c4ff;margin-top:12px;line-height:1.5}
+#splash{position:fixed;inset:0;z-index:5000;background:#020611;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:14px;color:#fff;font-weight:900;letter-spacing:1px;transition:opacity .6s}
+#splash img{width:130px;height:130px;border-radius:50%;background:#fff;padding:4px;object-fit:contain;animation:sp 1s infinite alternate}
+@keyframes sp{from{box-shadow:0 0 10px rgba(0,210,255,.3)}to{box-shadow:0 0 35px rgba(0,210,255,.9)}}
+.auth,#cardView{animation:fi .4s}
+.tools{position:fixed;top:20px;left:20px;display:flex;gap:8px;z-index:1000}
+.tools button{background:rgba(0,64,128,.6);color:var(--pb);border:1px solid var(--pb);width:38px;height:38px;border-radius:50%;cursor:pointer;font-size:1rem;backdrop-filter:blur(10px)}
+select{flex:1;padding:8px;border-radius:8px;background:rgba(0,0,0,.5);color:#fff;border:1px solid rgba(0,210,255,.4);font-size:.8rem}
+select option{color:#000}
+table{width:100%;border-collapse:collapse;font-size:.75rem;color:#fff}
+th,td{padding:5px 6px;border-bottom:1px solid rgba(0,210,255,.15);white-space:nowrap;text-align:start}
+th{color:#a0c4ff}td a{color:#7dd3fc}
+.wrap.adm{max-width:900px}
+.sep{color:#88a0c0;margin:0 6px}
+#lightbox{position:fixed;inset:0;z-index:6000;background:rgba(0,0,0,.92);display:none;align-items:center;justify-content:center;cursor:zoom-out}
+#lightbox img{max-width:92vw;max-height:92vh;border-radius:12px}
+.cf{position:fixed;top:-14px;width:8px;height:14px;z-index:4000;animation:cf 2.2s linear forwards;pointer-events:none}
+@keyframes cf{to{transform:translateY(105vh) rotate(720deg)}}
+/* الوضع الفاتح */
+html.light{background:radial-gradient(ellipse at center,#eaf4ff,#cfe3f7) fixed #eaf4ff}
+html.light .auth,html.light .card{background:rgba(255,255,255,.93);border-color:rgba(0,120,200,.35)}
+html.light .logo,html.light .value,html.light .cn-ar,html.light .greet,html.light .about .t,html.light table{color:#0b1b33;text-shadow:none}
+html.light .label,html.light .fg label,html.light .gt,html.light .chk,html.light .issue label,html.light th,html.light .ft{color:#35506f}
+html.light .fg input,html.light .issue input,html.light select{background:#fff;color:#0b1b33}
+html.light .grid{background:rgba(0,40,90,.06)}
+html.light .panel{color:#0b1b33;background:rgba(0,150,220,.1)}
+html.light .sup{color:#35506f;background:rgba(0,64,128,.08)}
+html.light .belt{background:rgba(0,40,90,.08)}
+html.light .choice{background:#fff;color:#0b1b33}
+html.light .choice.active{color:#000}
+html.light .sc{background:#fff}html.light .sc p{color:#35506f}
+html.light .latin{color:#0b6aa8}html.light .hl,html.light .link,html.light td a,html.light .panel a{color:#006a99}
+html.light .med{color:#00875a}
+html.light .info{background:#eef5fb;color:#0b1b33}
+html.light #splash{background:#eaf4ff;color:#0b1b33}
+html.light .lang,html.light .tools button{background:rgba(255,255,255,.85)}
+html.light .sub.neu{color:#35506f}
+@media print{
+ *{-webkit-print-color-adjust:exact;print-color-adjust:exact}
+ .bg,.lang,.tools,#splash,.site-logo,.back,.acts,.panel,#lightbox{display:none!important}
+ body{padding:0;display:block}.wrap{max-width:100%}.card{box-shadow:none;transform:none!important;backdrop-filter:none}
+}
 </style>
 </head>
 <body>
 <div class="bg"><div class="s1"></div><div class="s2"></div></div>
+<div id="splash"><img id="splashLogo" alt=""><div>Bears of Peace Ju-Jutsu</div></div>
 <button class="lang" id="langBtn" onclick="toggleLanguage()">English</button>
+<div class="tools"><button id="themeBtn" onclick="toggleTheme()" title="الوضع">🌙</button><button id="soundBtn" onclick="toggleSound()" title="الصوت">🔇</button></div>
+<div id="lightbox" onclick="this.style.display='none'"><img id="lbImg" alt=""></div>
 
 <div class="wrap">
   <div class="site-logo"><img id="siteLogo" alt="Bears of Peace"></div>
@@ -103,7 +158,8 @@ body{min-height:100vh;display:flex;justify-content:center;align-items:center;ove
     <button class="btn" onclick="handleLogin()" data-t="bLogin"></button>
     <div class="err" id="loginError" data-t="eLogin"></div>
     <button class="btn alt" onclick="show('regSection')" data-t="newCard"></button><br>
-    <span class="link" onclick="show('forgotSection')" data-t="forgot"></span>
+    <span class="link" onclick="show('forgotSection')" data-t="forgot"></span><br>
+    <span class="link" onclick="show('aboutSection')">ℹ️ عن النادي</span><span class="sep">|</span><span class="link" onclick="show('adminAuthSection')">🔐 المسؤول</span>
   </div>
 
   <div id="forgotSection" class="auth" style="display:none">
@@ -113,7 +169,7 @@ body{min-height:100vh;display:flex;justify-content:center;align-items:center;ove
     <div class="fg"><label data-t="lDob"></label><input type="text" id="fDob" placeholder="DD/MM/YYYY" inputmode="numeric"></div>
     <div class="fg"><label data-t="lPhone"></label><input type="text" id="fPhone" inputmode="tel"></div>
     <button class="btn" id="recBtn" onclick="submitRecovery()" data-t="bSend"></button>
-    <div class="ok" id="fSuccess" data-t="okRec"></div>
+    <div class="ok" id="fSuccess"></div>
     <div class="err" id="fError" data-t="eRec"></div><br>
     <span class="link" onclick="show('loginSection')" data-t="back"></span>
   </div>
@@ -140,6 +196,7 @@ body{min-height:100vh;display:flex;justify-content:center;align-items:center;ove
       </div>
       <button type="button" class="btn alt" id="rFileBtn">استمارة التسجيل</button>
       <div class="info" id="rFileInfo">يرجى التقرب من القاعة الرياضية لأخذ استمارة التسجيل</div>
+      <label class="chk"><input type="checkbox" id="rConsent"><span>أوافق على حفظ بيانات المتدرب لدى النادي لأغراض التسجيل والتواصل (وبالنسبة للقاصرين: بموافقة ولي الأمر).</span></label>
       <button type="submit" class="btn" id="rSubmit">إرسال</button>
       <div class="msg" id="regMsg"></div>
     </form>
@@ -152,6 +209,41 @@ body{min-height:100vh;display:flex;justify-content:center;align-items:center;ove
     <span class="link" onclick="show('loginSection')" data-t="back"></span>
   </div>
 
+  <div id="aboutSection" class="auth" style="display:none;text-align:start">
+    <div class="logo" style="text-align:center">عن النادي</div>
+    <div class="sub" style="text-align:center">Bears of Peace Ju Jutsu Oued Eslam</div>
+    <div class="sc"><h3>من نحن</h3><p>نادي دببة السلم للجي جيتسو بوادي السلام: تدريب في الجي جيتسو وMMA والكونغ فو للأطفال والشباب، مع التركيز على الانضباط والاحترام.</p></div>
+    <div class="sc"><h3>المدربون</h3><p>بن جمعة عبد القادر • علو أسامة</p></div>
+    <div class="sc"><h3>الحصص</h3><p>الاثنين والأربعاء والجمعة، من 17:00 إلى 18:30.</p></div>
+    <div class="sc"><h3>التخصصات</h3><p>Ju Jutsu • MMA • Kung Fu • Grappling</p></div>
+    <a class="btn alt" href="https://www.facebook.com/profile.php?id=61574944910883" target="_blank" rel="noopener">📘 صفحتنا على فيسبوك</a>
+    <a class="btn alt" href="tel:0557905083">📞 تواصل مع المسؤول</a>
+    <div style="text-align:center"><span class="link" onclick="show('loginSection')" data-t="back"></span></div>
+  </div>
+
+  <div id="adminAuthSection" class="auth" style="display:none">
+    <div class="logo">🔐 دخول المسؤول</div>
+    <div class="sub">أدخل كلمة سر المسؤول للدخول اللوحة</div>
+    <div class="fg"><label>كلمة السر:</label><input type="password" id="adminPassInput" placeholder="••••••••"></div>
+    <button class="btn" onclick="checkAdminAuth()">دخول</button>
+    <div class="err" id="adminAuthErr">كلمة السر خاطئة!</div><br>
+    <span class="link" onclick="show('loginSection')" data-t="back"></span>
+  </div>
+
+  <div id="adminSection" class="auth" style="display:none;text-align:start">
+    <div class="logo" style="text-align:center">🔐 لوحة المسؤول</div>
+    <div class="sc" id="aStats" style="font-size:.8rem;color:#b0e0ff;line-height:1.8"></div>
+    <div class="fg"><input type="text" id="aSearch" placeholder="بحث بالاسم أو الاعتماد أو الهاتف" oninput="adminRender()"></div>
+    <div class="choices" style="margin-bottom:10px">
+      <select id="aGroup" onchange="adminRender()"><option value="">كل المجموعات</option><option>A</option><option>B</option><option>C</option></select>
+      <select id="aBelt" onchange="adminRender()"></select>
+      <select id="aStat" onchange="adminRender()"><option value="">كل الحالات</option><option value="act">نشط</option><option value="susp">مشطوب</option></select>
+    </div>
+    <div style="overflow-x:auto"><table id="aTable"></table></div>
+    <button class="btn" onclick="exportCSV()">⬇️ تصدير القائمة (Excel/CSV)</button>
+    <div style="text-align:center"><span class="link" onclick="show('loginSection')" data-t="back"></span></div>
+  </div>
+
   <div id="cardView">
     <button class="back" onclick="logoutFighter()" data-t="logout"></button>
     <div id="activeCardContainer"></div>
@@ -159,14 +251,80 @@ body{min-height:100vh;display:flex;justify-content:center;align-items:center;ove
 </div>
 
 <script>
-// رقم المسؤول لزر "تواصل المسؤول" (إن تُرك فارغاً يتصل برقم المقاتل كما في القالب)
 const MANAGER_PHONE = "0557905083";
+const ADMIN_PASS = "bears2026";
 const LOGO_URL = "https://i.ibb.co/vvB5ZmFH/1790268608620.jpg";
 {const lg=document.getElementById("siteLogo");lg.src=LOGO_URL;
  lg.onerror=()=>{lg.onerror=null;lg.src="data:image/svg+xml,"+encodeURIComponent('<svg xmlns="http://www.w3.org/2000/svg" width="110" height="110"><text x="55" y="72" font-size="60" text-anchor="middle">🐻</text></svg>');};}
-// مفتاح Web3Forms: يرسل الرسائل إلى بريد Gmail المسجَّل في الخدمة
 const WEB3FORMS_KEY = "d3202d37-61c2-4ff2-84a9-1a78fe5dea52";
 let currentFighter = null;
+
+const SHEET_CSV_URL = "";
+let SHEET = {};
+const EVENTS = [];
+const VIDEOS = [];
+const SCHEDULE = [["MO","الاثنين"],["WE","الأربعاء"],["FR","الجمعة"]];
+const TIPS = ["الانضباط يصنع البطل قبل الموهبة.","أحسن الإحماء قبل كل حصة لتتجنب الإصابات.","احترم مدربك وزملاءك داخل القاعة وخارجها.","اشرب الماء بكثرة وقت التدريب.","النوم الجيد نصف التدريب.","التكرار هو سر إتقان أي تقنية.","لا تقارن نفسك بغيرك، قارن نفسك بالأمس.","الحزام يُكتسب بالمثابرة لا بالعجلة.","التواضع أول صفات المقاتل.","ركّز على التقنية قبل القوة."];
+
+function parseCSV(t){const rows=[];let r=[],c='',q=false;
+  for(let i=0;i<t.length;i++){const ch=t[i];
+    if(q){if(ch=='"'){if(t[i+1]=='"'){c+='"';i++}else q=false}else c+=ch}
+    else if(ch=='"')q=true;else if(ch==','){r.push(c);c=''}
+    else if(ch=='\n'){r.push(c);rows.push(r);r=[];c=''}else if(ch!='\r')c+=ch}
+  if(c||r.length){r.push(c);rows.push(r)}return rows}
+
+async function loadSheet(){
+  if(!SHEET_CSV_URL) return;
+  try{
+    const res=await fetch(SHEET_CSV_URL);const rows=parseCSV(await res.text());
+    const h=rows[0].map(x=>x.trim().toLowerCase());const out={};
+    rows.slice(1).forEach(r=>{const o={};h.forEach((k,i)=>o[k]=(r[i]||'').trim());
+      const id=(o.id||'').toUpperCase()==='ALL'?'ALL':normAcc(o.id);if(id) out[id]=o;});
+    SHEET=out;
+  }catch(e){}
+}
+const sheetReady = loadSheet();
+const parseD=s=>{const n=nums(s);return n.length===3?new Date(+n[2],+n[1]-1,+n[0]):null};
+const fmtD=d=>String(d.getDate()).padStart(2,'0')+'/'+String(d.getMonth()+1).padStart(2,'0')+'/'+d.getFullYear();
+
+function cardExtras(f){
+  const row=SHEET[normAcc(f.id)]||{};
+  const first=f.nameAr.split(' ')[0];
+  const t0=new Date();t0.setHours(0,0,0,0);
+  let due=new Date(t0.getFullYear(),t0.getMonth(),25);if(t0>due)due=new Date(t0.getFullYear(),t0.getMonth()+1,25);
+  const left=Math.round((due-t0)/864e5),pu=parseD(row.paid_until);
+  let cls='neu',txt='حالة الاشتراك: تُحدَّد من الإدارة';
+  if(pu){if(pu>=t0){cls='ok';txt='✅ مدفوع حتى '+fmtD(pu);}else{cls='bad';txt='⚠️ غير مدفوع (آخر دفعة '+fmtD(pu)+')';}}
+  const cd=left===0?'⏰ اليوم موعد الاشتراك':'⏳ '+left+' يوم حتى يوم 25';
+  const warn=(cls!=='ok'&&left<=3)?'<div>🔔 تذكير: اقترب موعد دفع الاشتراك</div>':'';
+  const subHtml=`<div class="it full sub ${cls}"><div>💳 ${txt}</div><div>${cd}</div>${warn}</div>`;
+
+  const present=+row.present||0,total=+row.total||0,pct=total?Math.round(present/total*100):null;
+  const badges=[...(pct!==null&&pct>=90?['🔥 حضور ممتاز']:[]),...(row.badges?row.badges.split('|').map(x=>x.trim()).filter(Boolean):[])];
+  const prog=`📊 <strong>تقدّمي:</strong><br>`+
+    (pct!==null?`الحضور: ${present} من ${total} حصة (${pct}%)<div class="pbar"><i style="width:${pct}%"></i></div>`:'الحضور: لم تُسجَّل بيانات بعد<br>')+
+    (row.points?`⭐ النقاط: ${esc(row.points)}<br>`:'')+
+    `🏆 الشارات: ${badges.length?badges.map(esc).join(' • '):'لا توجد بعد'}`+
+    (row.note?`<br>📝 ملاحظة المدرب: ${esc(row.note)}`:'');
+  const evs=EVENTS.length?'<br>🗓️ <strong>الفعاليات القادمة:</strong><ul>'+EVENTS.map(e=>`<li>${esc(e.d)} — ${esc(e.t)}</li>`).join('')+'</ul>':'';
+  const sched=`📅 <strong>جدول الحصص:</strong><br>${SCHEDULE.map(x=>x[1]).join(' • ')} — 17:00 – 18:30${evs}<br><button class="act" style="margin-top:8px;width:100%" onclick="addToCalendar()">➕ أضف الحصص إلى التقويم</button>`;
+  const ann=SHEET.ALL&&SHEET.ALL.note;
+  const news=`📢 <strong>إعلانات النادي:</strong><br>${ann?esc(ann):'لا توجد إعلانات حالياً.'}`;
+  const vids=`🎬 <strong>فيديوهات تعليمية:</strong><br>`+(VIDEOS.length?'<ul>'+VIDEOS.filter(v=>/^https?:\/\//.test(v.u)).map(v=>`<li><a href="${esc(v.u)}" target="_blank" rel="noopener">▶ ${esc(v.t)}</a></li>`).join('')+'</ul>':'ستتوفر قريباً.');
+  const back=`🪪 <strong>الوجه الخلفي للبطاقة</strong><br>رقم الاعتماد: ${esc(f.id)}<br>ولي الأمر: ${esc(f.father)}<br>📞 للطوارئ: <a href="tel:${esc(f.phone)}">${esc(f.phone)}</a><br>العنوان: ${esc(f.address)}<br>الحالة الصحية: مؤهل لممارسة الرياضة<br>مسؤول النادي: <a href="tel:${esc(MANAGER_PHONE)}">${esc(MANAGER_PHONE)}</a>`;
+  const tip=TIPS[Math.floor(Date.now()/864e5)%TIPS.length];
+  return {first,subHtml,prog,sched,news,vids,back,tip};
+}
+
+function addToCalendar(){
+  const pad=n=>String(n).padStart(2,'0'),idx={SU:0,MO:1,TU:2,WE:3,TH:4,FR:5,SA:6};
+  const ev=SCHEDULE.map(([c,n])=>{const d=new Date();d.setDate(d.getDate()+((idx[c]-d.getDay()+7)%7||7));
+    const day=d.getFullYear()+pad(d.getMonth()+1)+pad(d.getDate());
+    return ['BEGIN:VEVENT','UID:bears-'+c+'@peace','DTSTAMP:'+day+'T000000','DTSTART:'+day+'T170000','DTEND:'+day+'T183000','RRULE:FREQ=WEEKLY;BYDAY='+c,'SUMMARY:تدريب Bears of Peace Ju-Jutsu','END:VEVENT'].join("\r\n");});
+  const iics=['BEGIN:VCALENDAR','VERSION:2.0','PRODID:-//Bears of Peace//AR',...ev,'END:VCALENDAR'].join("\r\n");
+  const a=document.createElement('a');a.href=URL.createObjectURL(new Blob([ics],{type:'text/calendar'}));a.download='bears-training.ics';document.body.appendChild(a);a.click();a.remove();
+}
+
 async function sendMail(subject, message){
   try{
     const r = await fetch("https://api.web3forms.com/submit",{method:"POST",
@@ -176,6 +334,7 @@ async function sendMail(subject, message){
     return !!d.success;
   }catch(e){return false;}
 }
+
 const NO_PHOTO = "data:image/svg+xml;utf8,"+encodeURIComponent('<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 110 130"><rect width="110" height="130" fill="#0a1931"/><circle cx="55" cy="48" r="22" fill="#1c3a66"/><rect x="20" y="78" width="70" height="60" rx="30" fill="#1c3a66"/></svg>');
 
 const BELTS={
@@ -187,11 +346,11 @@ const BELTS={
  greenblack:{ar:"الأخضر والأسود",c:"#2e7d32",s:"#111",g:"#4caf50",bar:"linear-gradient(90deg,#2e7d32 0 40%,#111 40% 60%,#2e7d32 60%)"},
  blue:{ar:"الأزرق",c:"#0077ff",s:"#0052d4",g:"#00d2ff"}
 };
-// id, الاسم، اللقب، الاسم باللاتينية، الميلاد، مكانه، العنوان، الهاتف، الأب، المجموعة، الحزام، كود الصورة، مشطوب
+
 const mk=(id,first,last,en,dob,pob,address,phone,father,group,belt,photo,suspended=false)=>({id,nameAr:first+" "+last,nameEn:en,dob,pob,address,phone,father,group,belt,photo,suspended});
 
 const fightersData=[
- mk("26/01","عبد الله","بن جمعة","Abdellah Ben Djouma","06/07/2015","منداس","حي بلحاج احمد محمد","0672733232","بن جمعة امحمد","A","white","zV2Qd4t3"), // TODO: الحزام لم يُذكر
+ mk("26/01","عبد الله","بن جمعة","Abdellah Ben Djouma","06/07/2015","منداس","حي بلحاج احمد محمد","0672733232","بن جمعة امحمد","A","white","zV2Qd4t3"),
  mk("26/02","حمزة عبد الرحمان","بشيري","Hamza Abderrahmane Bachiri","19/06/2018","الرحوية - تيارت","حي بلحاج احمد محمد","0675890999","بشيري محمد","B","blue","b5fKytdF"),
  mk("26/03","محمد عبد الحكيم","بيوض","Mohamed Abdelhakim Bioud","24/04/2019","منداس","وادي السلام","0775083804","بيوض عبد القادر","B","blue","4Zvs9jJT"),
  mk("26/04","عبد الوهاب","بن جمعة","Abdelouahab Ben Djouma","03/02/2020","تيارت","حي بلحاج احمد محمد","0672733232","بن جمعة امحمد","B","orange","dwbRqVyZ"),
@@ -214,7 +373,7 @@ const fightersData=[
  mk("26/21","يوسف","لعبش","Youssef Laabach","08/12/2013","رحوية","حي احمد بلعالية","0662978763","لعبش طيب","A","blue","rfFTvm06"),
  mk("26/22","ياسين","عكرمي","Yacine Akrami","16/05/2010","زمورة","حي بشيري العيد","0659653374","عكرمي لخضر","C","blue","BHFYBpHH"),
  mk("26/23","مولاي عبد المحسن","بلخادم","Moulay Abdelmohsen Belkhadem","21/10/2009","غليزان","حي بلحاج احمد محمد","0561621595","بلخادم عمر","A","blue","0pVcpZ8T"),
- mk("26/24","يوسف الصديق","مفلاح","Youssef Seddik Meflah","04/04/2010","منداس","حي بلحاج احمد محمد","066515314317","مفلاح بن عودة","A","blue","Y4Bftq3t"), // TODO: الهاتف 12 رقماً
+ mk("26/24","يوسف الصديق","مفلاح","Youssef Seddik Meflah","04/04/2010","منداس","حي بلحاج احمد محمد","066515314317","مفلاح بن عودة","A","blue","Y4Bftq3t"),
  mk("26/25","الياس","عكرمي","Ilyas Akrami","20/12/2012","زمورة","حي بشيري العيد","0697854360","عكرمي امحمد","A","blue","qM6Cw4vk"),
  mk("26/26","عبد الجليل","نذار","Abdeljalil Nethar","09/04/2010","زمورة","حي مجاهد قويدر","0775810774","نذار علي","A","blue","xt0mhwwS"),
  mk("26/27","سمير","بن سعيد","Samir Bensaïd","07/11/2010","وادي السلام","حي بلحاج احمد محمد","0659715778","بن سعيد عدة","A","green","27XGkjxM"),
@@ -235,7 +394,6 @@ function cleanWords(str){
     .split(/\s+/).filter(Boolean);
 }
 const nums=s=>(String(s||'').replace(/[\u0660-\u0669]/g,d=>d.charCodeAt(0)-0x660).match(/\d+/g))||[];
-// تواريخ وأرقام اعتماد متسامحة: 6/7/2015 = 06/07/2015 ، 26/1 = 26/01
 const normDob=s=>{const n=nums(s);return n.length===3?n[0].padStart(2,'0')+n[1].padStart(2,'0')+n[2]:n.join('');};
 const normAcc=s=>{const n=nums(s);return n.length===2?n[0].padStart(2,'0')+n[1].padStart(2,'0'):n.join('');};
 const normPhone=s=>nums(s).join('').replace(/^0+/,'');
@@ -247,8 +405,8 @@ function nameMatches(input,f){
 }
 
 const T={
- ar:{subLogin:"بوابة المقاتلين الآمنة",subForgot:"التحقق من الهوية",lName:"الاسم واللقب (لا يشترط الترتيب):",lDob:"تاريخ الميلاد (DD/MM/YYYY):",lAcc:"رقم الاعتماد:",lPhone:"رقم الهاتف:",bLogin:"دخول البطاقة",bSend:"إرسال الطلب",forgot:"نسيت كلمة السر؟",recTitle:"استعادة الحساب",back:"العودة لتسجيل الدخول",logout:"⬅ خروج",pName:"أدخل اسمك ولقبك هنا",eLogin:"خطأ في البيانات! تأكد من اسمك وتاريخ ميلادك ورقم اعتمادك.",okRec:"تم التحقق من بياناتك. تواصل مع المسؤول لإعادة تعيين الدخول.",eRec:"البيانات غير مطابقة. تحقق من الاسم وتاريخ الميلاد ورقم الهاتف.",newCard:"إنشاء بطاقة جديدة",regTitle:"تسجيل جديد",eSend:"تعذر الإرسال، حاول مرة أخرى أو تواصل مع المسؤول.",sending:"جارٍ الإرسال...",btn:"English"},
- en:{subLogin:"Fighter Secure Portal",subForgot:"Verify Ownership",lName:"Full Name (order doesn't matter):",lDob:"Date of Birth (DD/MM/YYYY):",lAcc:"Accreditation Number:",lPhone:"Phone Number:",bLogin:"Access Card",bSend:"Send Request",forgot:"Forgot Password?",recTitle:"Account Recovery",back:"Back to Login",logout:"⬅ Logout",pName:"Enter your name and surname",eLogin:"Wrong details! Check your name, date of birth and accreditation number.",okRec:"Details verified. Contact the manager to reset your access.",eRec:"Details don't match. Check name, date of birth and phone.",newCard:"Create a new card",regTitle:"New Registration",eSend:"Could not send. Try again or contact the manager.",sending:"Sending...",btn:"عربي"}
+ ar:{subLogin:"بوابة المقاتلين الآمنة",subForgot:"التحقق من الهوية",lName:"الاسم واللقب (لا يشترط الترتيب):",lDob:"تاريخ الميلاد (DD/MM/YYYY):",lAcc:"رقم الاعتماد:",lPhone:"رقم الهاتف:",bLogin:"دخول البطاقة",bSend:"إظهار معلومات الدخول",forgot:"نسيت كلمة السر؟",recTitle:"استعادة الحساب",back:"العودة لتسجيل الدخول",logout:"⬅ خروج",pName:"أدخل اسمك ولقبك هنا",eLogin:"خطأ في البيانات! تأكد من اسمك وتاريخ ميلادك ورقم اعتمادك.",eRec:"البيانات غير مطابقة. تحقق من الاسم وتاريخ الميلاد ورقم الهاتف.",newCard:"إنشاء بطاقة جديدة",regTitle:"تسجيل جديد",eSend:"تعذر الإرسال، حاول مرة أخرى أو تواصل مع المسؤول.",sending:"جارٍ الإرسال...",btn:"English"},
+ en:{subLogin:"Fighter Secure Portal",subForgot:"Verify Ownership",lName:"Full Name (order doesn't matter):",lDob:"Date of Birth (DD/MM/YYYY):",lAcc:"Accreditation Number:",lPhone:"Phone Number:",bLogin:"Access Card",bSend:"Show Login Details",forgot:"Forgot Password?",recTitle:"Account Recovery",back:"Back to Login",logout:"⬅ Logout",pName:"Enter your name and surname",eLogin:"Wrong details! Check your name, date of birth and accreditation number.",eRec:"Details don't match. Check name, date of birth and phone.",newCard:"Create a new card",regTitle:"New Registration",eSend:"Could not send. Try again or contact the manager.",sending:"Sending...",btn:"عربي"}
 };
 let currentLang='ar';
 function applyLang(){
@@ -258,32 +416,41 @@ function applyLang(){
   document.querySelectorAll('[data-p]').forEach(e=>e.placeholder=t[e.dataset.p]);
   langBtn.textContent=t.btn;
 }
-function toggleLanguage(){currentLang=currentLang==='ar'?'en':'ar';applyLang();}
+function toggleLanguage(){currentLang=currentLang==='ar'?'en':'ar';applyLang();beep(540,.07);}
 function show(id){
-  ['loginSection','forgotSection','regSection','cardView'].forEach(s=>document.getElementById(s).style.display=s===id?'block':'none');
-  ['loginError','fError','fSuccess'].forEach(e=>document.getElementById(e).style.display='none');
+  document.querySelector('.wrap').classList.toggle('adm',id==='adminSection');
+  ['loginSection','forgotSection','regSection','aboutSection','adminAuthSection','adminSection','cardView'].forEach(s=>document.getElementById(s).style.display=s===id?'block':'none');
+  ['loginError','fError','fSuccess','adminAuthErr'].forEach(e=>{
+    const el = document.getElementById(e);
+    if(el) el.style.display='none';
+  });
   regMsg.className='msg';
+  beep(480,.06);
 }
-async function submitRecovery(){
+
+function submitRecovery(){
   const dob=normDob(fDob.value),phone=normPhone(fPhone.value);
   const m=fightersData.find(f=>nameMatches(fName.value,f)&&normDob(f.dob)===dob&&normPhone(f.phone)===phone);
   fSuccess.style.display='none';fError.style.display='none';
-  if(!m){fError.textContent=T[currentLang].eRec;fError.style.display='block';return;}
-  recBtn.disabled=true;
-  const ok=await sendMail("طلب استعادة حساب - "+m.nameAr,
-    `طلب استعادة حساب\nالاسم: ${m.nameAr}\nرقم الاعتماد: ${m.id}\nتاريخ الميلاد: ${m.dob}\nالهاتف: ${m.phone}`);
-  recBtn.disabled=false;
-  if(ok){fSuccess.textContent=T[currentLang].okRec;fSuccess.style.display='block';}
-  else{fError.textContent=T[currentLang].eSend;fError.style.display='block';}
+  if(!m){fError.textContent=T[currentLang].eRec;fError.style.display='block';beep(300,.15);return;}
+  
+  fSuccess.innerHTML = `✅ <strong>تم إيجاد حسابك بنجاح!</strong><br><br>
+  📝 <strong>الاسم:</strong> ${esc(m.nameAr)}<br>
+  📅 <strong>الميلاد:</strong> ${esc(m.dob)}<br>
+  🪪 <strong>رقم الاعتماد:</strong> <span style="color:#00d2ff;font-size:1.1rem;font-weight:900;">${esc(m.id)}</span>`;
+  fSuccess.style.display='block';
+  beep(750,.18);
 }
-function handleLogin(){
+
+async function handleLogin(){
   const dob=normDob(loginDob.value),acc=normAcc(loginAcc.value);
   const f=fightersData.find(f=>nameMatches(loginName.value,f)&&normDob(f.dob)===dob&&normAcc(f.id)===acc);
-  if(f){loginError.style.display='none';renderFighterCard(f);}else loginError.style.display='block';
+  if(f){loginError.style.display='none';
+    await Promise.race([sheetReady,new Promise(r=>setTimeout(r,3500))]);
+    renderFighterCard(f);confetti();beep(660,.1);setTimeout(()=>beep(880,.12),130);}else{loginError.style.display='block';beep(320,.18);}
 }
 const esc=s=>String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 
-// الصورة: يجرّب الرابط المباشر بعدة امتدادات ثم صورة افتراضية
 const EXTS=['jpg','png','jpeg','webp'];
 function imgFail(img){
   const i=+img.dataset.st||0;
@@ -294,21 +461,22 @@ function imgFail(img){
 
 function renderFighterCard(f){
   currentFighter=f;
-  const b=BELTS[f.belt];
+  const b=BELTS[f.belt],x=cardExtras(f);
   const target=f.suspended
     ?'🎯 <strong>الهدف القادم:</strong> مراجعة وضعية الانتساب والترقي نحو الأحزمة المتقدمة فور زوال التعليق.'
     :'🎯 <strong>الهدف القادم:</strong> التقدم المستمر نحو الأحزمة المتقدمة والانضباط التدريبي.';
   activeCardContainer.innerHTML=`
-  <div class="card">
+  <div class="card" style="border-color:${b.g}">
     <div class="hd">
       <div class="cn-ar">دببة السلم للجي جيتسو وادي السلام</div>
       <div class="cn-en">Bears of Peace Ju-Jutsu Oued Eslam</div>
       <div class="ctitle">بطاقة مقاتل / FIGHTER CARD</div>
     </div>
     <div class="sup">تحت إشراف <span>فرع الجي جيتسو</span></div>
+    <div class="greet">👋 مرحباً ${esc(x.first)}</div>
     ${f.suspended?'<div class="susp">❌ مشطوب حتى إشعار آخر</div>':''}
     <div class="prof">
-      <div class="photo"><img src="https://i.ibb.co/${esc(f.photo)}/image.jpg" data-st="1" data-code="${esc(f.photo)}" alt="صورة ${esc(f.nameAr)}" onerror="imgFail(this)"></div>
+      <div class="photo"><img id="fighterImg" src="https://i.ibb.co/${esc(f.photo)}/image.jpg" data-st="1" onclick="zoomPhoto(this)" style="cursor:zoom-in" data-code="${esc(f.photo)}" alt="صورة ${esc(f.nameAr)}" onerror="imgFail(this)"></div>
       <div class="kim"><svg viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
         <path d="M20 20 L35 10 L65 10 L80 20 L95 35 L80 45 L80 90 L20 90 L20 45 L5 35 Z" fill="#f0f0f0" stroke="#ccc" stroke-width="1.5"/>
         <path d="M35 10 L50 50 L20 90" stroke="#004080" stroke-width="4" fill="none"/>
@@ -332,6 +500,7 @@ function renderFighterCard(f){
       <div class="belt"><div><span class="label" style="display:block">الحزام الحالي:</span><span class="value" style="font-size:.75rem">${b.ar}</span></div>
         <div class="bar" style="background:${b.bar||b.c}"></div></div>
       <div class="it full" style="margin-top:3px"><span class="label">الملاحظات الطبية:</span><span class="value med">"مؤهل لممارسة الرياضة"</span></div>
+      ${x.subHtml}
       <div class="acts">
         <button class="act" onclick="togglePanel('p1')">⚡ التطور بالقاعة</button>
         <button class="act" onclick="togglePanel('p2')">👨‍🏫 المشرفون</button>
@@ -339,12 +508,24 @@ function renderFighterCard(f){
         <button class="act" onclick="togglePanel('p4')">✈️ موعد الاجازة</button>
         <a href="https://www.facebook.com/profile.php?id=61574944910883" target="_blank" rel="noopener" class="act">📘 صفحتنا</a>
         <a href="tel:${esc(MANAGER_PHONE||f.phone)}" class="act">📞 تواصل المسؤول</a>
+        <button class="act" onclick="togglePanel('p6')">📅 الجدول</button>
+        <button class="act" onclick="togglePanel('p7')">📊 تقدّمي</button>
+        <button class="act" onclick="togglePanel('p8')">📢 إعلانات</button>
+        <button class="act" onclick="togglePanel('p9')">🎬 فيديوهات</button>
+        <button class="act" onclick="saveCard()">📸 حفظ كصورة</button>
+        <button class="act" onclick="window.print()">🖨️ طباعة</button>
+        <button class="act wide" style="background:linear-gradient(135deg,#004080,#0077ff)" onclick="togglePanel('p10')">🪪 الوجه الخلفي للبطاقة</button>
         <button class="act wide" onclick="togglePanel('p5')">⚠️ يرجى إخبارنا بالمشكلة</button>
       </div>
       <div id="p1" class="panel">${target}</div>
       <div id="p2" class="panel">👨‍🏫 <strong>طاقم التدريب والإشراف:</strong><br>- المدرب: بن جمعة عبد القادر<br>- المدرب: علو أسامة</div>
-      <div id="p3" class="panel">💡 <strong>نصائح للمقاتل:</strong> الاستمرارية، الانضباط، الاحترام، والتركيز المستمر أثناء التدريبات.</div>
+      <div id="p3" class="panel">💡 <strong>نصيحة اليوم:</strong> ${x.tip}<br>💡 <strong>دائماً:</strong> الاستمرارية، الانضباط، الاحترام، والتركيز أثناء التدريبات.</div>
       <div id="p4" class="panel">✈️ <strong>موعد الوصول للإجازة:</strong> مبرمج في سنة <strong>2027</strong> بإذن الله.</div>
+      <div id="p6" class="panel">${x.sched}</div>
+      <div id="p7" class="panel">${x.prog}</div>
+      <div id="p8" class="panel">${x.news}</div>
+      <div id="p9" class="panel">${x.vids}</div>
+      <div id="p10" class="panel">${x.back}</div>
       <div id="p5" class="panel"><div class="issue">
         <label>اكتب المشكلة أو الخطأ:</label>
         <input type="text" id="issueText" placeholder="اكتب تفاصيل المشكلة هنا...">
@@ -357,57 +538,240 @@ function renderFighterCard(f){
   show('cardView');
 }
 function togglePanel(id){
+  const freqs = { p1: 520, p2: 580, p3: 640, p4: 700, p5: 350, p6: 440, p7: 760, p8: 820, p9: 880, p10: 400 };
+  beep(freqs[id] || 600, .07);
   document.querySelectorAll('.panel').forEach(p=>{if(p.id!==id)p.style.display='none';});
   const t=document.getElementById(id);t.style.display=t.style.display==='block'?'none':'block';
 }
 async function submitIssue(){
   const txt=issueText.value.trim();
-  if(!txt){alert("يرجى كتابة وصف المشكلة أولاً.");return;}
+  if(!txt){alert("يرجى كتابة وصف المشكلة أولاً.");beep(280,.12);return;}
   issueBtn.disabled=true;
   const f=currentFighter;
   const ok=await sendMail("مشكلة من مقاتل - "+f.nameAr,
     `مشكلة مُبلَّغ عنها\nالمقاتل: ${f.nameAr}\nرقم الاعتماد: ${f.id}\nالهاتف: ${f.phone}\n\nالمشكلة:\n${txt}`);
   issueBtn.disabled=false;
-  if(!ok){alert(T[currentLang].eSend);return;}
+  if(!ok){alert(T[currentLang].eSend);beep(250,.15);return;}
   successMsg.style.display='block';
+  beep(880,.2);
   setTimeout(()=>{issueText.value='';successMsg.style.display='none';p5.style.display='none';},2500);
 }
-// ===== التسجيل الجديد =====
 const regSel={sport:"",times:[]};
 rSports.addEventListener("click",e=>{
   const b=e.target.closest(".choice");if(!b)return;
   rSports.querySelectorAll(".choice").forEach(x=>x.classList.remove("active"));
   b.classList.add("active");regSel.sport=b.dataset.v;
+  beep(600,.06);
 });
 rTimes.addEventListener("click",e=>{
   const b=e.target.closest(".choice");if(!b)return;
   b.classList.toggle("active");
   regSel.times=[...rTimes.querySelectorAll(".choice.active")].map(x=>x.dataset.v);
+  beep(680,.06);
 });
-rFileBtn.addEventListener("click",()=>rFileInfo.classList.toggle("show"));
+rFileBtn.addEventListener("click",()=>{rFileInfo.classList.toggle("show");beep(450,.07);});
 function regShow(t,type){regMsg.className="msg show "+type;regMsg.textContent=t;}
 regForm.addEventListener("submit",async e=>{
   e.preventDefault();
   const fn=rFname.value.trim(),ln=rLname.value.trim(),age=+rAge.value,ph=rPhone.value.replace(/[\s-]/g,'');
-  if(!fn||!ln||!ph||!regSel.sport||!regSel.times.length) return regShow("يرجى ملء جميع الخانات واختيار التخصص ووقت واحد على الأقل","error");
-  if(!(age>=3&&age<=99)) return regShow("العمر يجب أن يكون بين 3 و99","error");
-  if(!/^0[5-7]\d{8}$/.test(ph)) return regShow("رقم الهاتف غير صحيح (مثال: 0770000000)","error");
+  if(!fn||!ln||!ph||!regSel.sport||!regSel.times.length){beep(300,.15);return regShow("يرجى ملء جميع الخانات واختيار التخصص ووقت واحد على الأقل","error");}
+  if(!rConsent.checked){beep(300,.15);return regShow("يرجى الموافقة على حفظ البيانات (بموافقة ولي الأمر للقاصرين)","error");}
+  if(!(age>=3&&age<=99)){beep(300,.15);return regShow("العمر يجب أن يكون بين 3 و99","error");}
+  if(!/^0[5-7]\d{8}$/.test(ph)){beep(300,.15);return regShow("رقم الهاتف غير صحيح (مثال: 0770000000)","error");}
   rSubmit.disabled=true;
   const ok=await sendMail("تسجيل جديد - "+fn+" "+ln,
-    `طلب تسجيل جديد\nالاسم: ${fn}\nاللقب: ${ln}\nالعمر: ${age}\nالهاتف: ${ph}\nالتخصص: ${regSel.sport}\nالأوقات: ${regSel.times.join(" ، ")}`);
+    `طلب تسجيل جديد\nالاسم: ${fn}\nاللقب: ${ln}\nالعمر: ${age}\nالهاتف: ${ph}\nالتخصص: ${regSel.sport}\nالأوقات: ${regSel.times.join(" ، ")}\nالموافقة على حفظ البيانات: نعم`);
   rSubmit.disabled=false;
-  if(!ok) return regShow("تعذر الإرسال، حاول مرة أخرى أو تواصل معنا على "+MANAGER_PHONE,"error");
+  if(!ok){beep(250,.15);return regShow("تعذر الإرسال، حاول مرة أخرى أو تواصل معنا على "+MANAGER_PHONE,"error");}
   regForm.reset();
   document.querySelectorAll("#regForm .choice").forEach(x=>x.classList.remove("active"));
   regSel.sport="";regSel.times=[];
   regShow("تم إرسال تسجيلك بنجاح ✅ سنتواصل معك قريبًا","ok");
+  beep(920,.22);
 });
 function logoutFighter(){
   show('loginSection');
   loginName.value=loginDob.value=loginAcc.value='';
   activeCardContainer.innerHTML='';
+  beep(380,.09);
 }
+let soundOn=false;
+const store={get:k=>{try{return localStorage.getItem(k)}catch(e){return null}},set:(k,v)=>{try{localStorage.setItem(k,v)}catch(e){}}};
+function applyTheme(l){document.documentElement.classList.toggle('light',l);themeBtn.textContent=l?'☀️':'🌙';
+  const m=document.querySelector('meta[name=theme-color]');if(m)m.content=l?'#eaf4ff':'#030814';}
+function toggleTheme(){const l=!document.documentElement.classList.contains('light');applyTheme(l);store.set('theme',l?'light':'dark');beep(l?780:480,.08);}
+function toggleSound(){soundOn=!soundOn;soundBtn.textContent=soundOn?'🔊':'🔇';store.set('sound',soundOn?'1':'0');beep(soundOn?850:320,.12);}
+function beep(f=660,d=.12){
+  if(!soundOn)return;
+  try{
+    const c=new (window.AudioContext||window.webkitAudioContext)(),o=c.createOscillator(),g=c.createGain();
+    o.type='sine';
+    o.frequency.setValueAtTime(f, c.currentTime);
+    o.frequency.exponentialRampToValueAtTime(f * 0.8, c.currentTime + d);
+    g.gain.setValueAtTime(0.08, c.currentTime);
+    g.gain.exponentialRampToValueAtTime(0.0001, c.currentTime + d);
+    o.connect(g);g.connect(c.destination);o.start();o.stop(c.currentTime+d);
+  }catch(e){}
+}
+function confetti(){const cols=['#00d2ff','#0077ff','#00e676','#ffd600','#ff5252','#fff'];
+  for(let i=0;i<40;i++){const d=document.createElement('div');d.className='cf';
+    d.style.left=Math.random()*100+'vw';d.style.background=cols[i%cols.length];d.style.animationDelay=Math.random()*.6+'s';d.style.animationDuration=(1.8+Math.random()*1.2)+'s';
+    document.body.appendChild(d);setTimeout(()=>d.remove(),3500);}}
+function zoomPhoto(img){lbImg.src=img.src;lightbox.style.display='flex';beep(720,.07);}
+applyTheme(store.get('theme')==='light');soundOn=store.get('sound')==='1';soundBtn.textContent=soundOn?'🔊':'🔇';
+let _wasLight=false;
+window.addEventListener('beforeprint',()=>{_wasLight=document.documentElement.classList.contains('light');document.documentElement.classList.add('light');});
+window.addEventListener('afterprint',()=>{document.documentElement.classList.toggle('light',_wasLight);});
+
+function generateCanvasCard(f) {
+  return new Promise((resolve) => {
+    const canvas = document.createElement('canvas');
+    canvas.width = 600;
+    canvas.height = 700;
+    const ctx = canvas.getContext('2d');
+    const isLight = document.documentElement.classList.contains('light');
+    const b = BELTS[f.belt] || BELTS.white;
+
+    ctx.fillStyle = isLight ? '#ffffff' : '#0a1931';
+    ctx.fillRect(0, 0, 600, 700);
+
+    ctx.strokeStyle = '#00d2ff';
+    ctx.lineWidth = 6;
+    ctx.strokeRect(10, 10, 580, 680);
+
+    ctx.textAlign = 'center';
+    ctx.fillStyle = isLight ? '#0b1b33' : '#ffffff';
+    ctx.font = 'bold 24px Cairo, sans-serif';
+    ctx.fillText('دببة السلم للجي جيتسو وادي السلام', 300, 50);
+
+    ctx.fillStyle = '#00d2ff';
+    ctx.font = '16px Cairo, sans-serif';
+    ctx.fillText('BEARS OF PEACE JU-JUTSU OUED ESLAM', 300, 75);
+
+    ctx.fillStyle = '#00d2ff';
+    ctx.fillRect(180, 90, 240, 30);
+    ctx.fillStyle = '#000000';
+    ctx.font = 'bold 16px Cairo, sans-serif';
+    ctx.fillText('بطاقة مقاتل / FIGHTER CARD', 300, 111);
+
+    ctx.textAlign = 'right';
+    ctx.fillStyle = isLight ? '#35506f' : '#a0c4ff';
+    ctx.font = '16px Cairo, sans-serif';
+
+    const labels = [
+      ['الاسم واللقب:', f.nameAr],
+      ['الاسم باللاتينية:', f.nameEn],
+      ['تاريخ الميلاد:', f.dob],
+      ['اسم الأب:', f.father],
+      ['رقم الاعتماد:', f.id],
+      ['رقم الهاتف:', f.phone],
+      ['العنوان:', f.address],
+      ['المجموعة:', f.group],
+      ['الحزام الحالي:', b.ar]
+    ];
+
+    let startY = 170;
+    labels.forEach(([lbl, val]) => {
+      ctx.fillStyle = isLight ? '#35506f' : '#a0c4ff';
+      ctx.fillText(lbl, 550, startY);
+      ctx.fillStyle = isLight ? '#0b1b33' : '#ffffff';
+      ctx.fillText(val || '-', 380, startY);
+      startY += 42;
+    });
+
+    ctx.fillStyle = b.c || '#ffffff';
+    ctx.fillRect(50, 508, 150, 20);
+    ctx.strokeStyle = '#777';
+    ctx.strokeRect(50, 508, 150, 20);
+
+    const img = new Image();
+    img.crossOrigin = 'anonymous';
+    img.onload = () => {
+      ctx.drawImage(img, 50, 170, 140, 170);
+      ctx.strokeStyle = '#00d2ff';
+      ctx.lineWidth = 3;
+      ctx.strokeRect(50, 170, 140, 170);
+      resolve(canvas.toDataURL('image/png'));
+    };
+    img.onerror = () => {
+      ctx.fillStyle = '#1c3a66';
+      ctx.fillRect(50, 170, 140, 170);
+      ctx.fillStyle = '#ffffff';
+      ctx.font = '14px Cairo, sans-serif';
+      ctx.textAlign = 'center';
+      ctx.fillText('صورة المقاتل', 120, 260);
+      resolve(canvas.toDataURL('image/png'));
+    };
+    img.src = `https://i.ibb.co/${f.photo}/image.jpg`;
+  });
+}
+
+async function saveCard(){
+  if(!currentFighter) return;
+  try {
+    const dataUrl = await generateCanvasCard(currentFighter);
+    const fileName = `card-${currentFighter.id.replace('/', '-')}.png`;
+    
+    const a = document.createElement('a');
+    a.href = dataUrl;
+    a.download = fileName;
+    document.body.appendChild(a);
+    a.click();
+    a.remove();
+    beep(820, .12);
+  } catch(e) {
+    alert('حدث خطأ أثناء تحميل الصورة، جرب مرة أخرى.');
+    beep(300, .12);
+  }
+}
+
+function checkAdminAuth(){
+  const p = adminPassInput.value;
+  if(p === ADMIN_PASS){
+    adminAuthErr.style.display = 'none';
+    adminPassInput.value = '';
+    aBelt.innerHTML='<option value="">كل الأحزمة</option>'+Object.keys(BELTS).map(k=>`<option value="${k}">${BELTS[k].ar}</option>`).join('');
+    show('adminSection');
+    sheetReady.then(adminRender);
+    adminRender();
+    beep(900,.15);
+  } else {
+    adminAuthErr.style.display = 'block';
+    beep(280,.15);
+  }
+}
+
+function payStatus(f){const r=SHEET[normAcc(f.id)],pu=r&&parseD(r.paid_until),t=new Date();t.setHours(0,0,0,0);return !pu?'—':(pu>=t?'✅':'⚠️');}
+function adminFiltered(){
+  const q=cleanWords(aSearch.value),g=aGroup.value,b=aBelt.value,st=aStat.value;
+  return fightersData.filter(f=>{
+    const hay=cleanWords(f.nameAr+' '+f.nameEn+' '+f.id+' '+f.phone).join(' ');
+    return q.every(w=>hay.includes(w))&&(!g||f.group===g)&&(!b||f.belt===b)&&(!st||(st==='susp')===f.suspended);});
+}
+function adminRender(){
+  const all=fightersData,cnt=(fn)=>all.filter(fn).length;
+  aStats.innerHTML=`👥 الإجمالي: <b>${all.length}</b> • ✔ نشط: <b>${cnt(f=>!f.suspended)}</b> • 🚫 مشطوب: <b>${cnt(f=>f.suspended)}</b><br>`+
+    ['A','B','C'].map(g=>`المجموعة ${g}: <b>${cnt(f=>f.group===g)}</b>`).join(' • ')+'<br>'+
+    Object.keys(BELTS).map(k=>`${BELTS[k].ar}: <b>${cnt(f=>f.belt===k)}</b>`).join(' • ');
+  const list=adminFiltered();
+  aTable.innerHTML='<tr><th>الاعتماد</th><th>الاسم</th><th>الهاتف</th><th>المجموعة</th><th>الحزام</th><th>الحالة</th><th>الاشتراك</th></tr>'+
+    list.map(f=>`<tr><td>${esc(f.id)}</td><td>${esc(f.nameAr)}</td><td><a href="tel:${esc(f.phone)}">${esc(f.phone)}</a></td><td>${f.group}</td><td>${BELTS[f.belt].ar}</td><td>${f.suspended?'🚫 مشطوب':'✔ نشط'}</td><td>${payStatus(f)}</td></tr>`).join('')||'<tr><td colspan="7">لا نتائج</td></tr>';
+}
+function exportCSV(){
+  const q=v=>'"'+String(v).replace(/"/g,'""')+'"';
+  const rows=[['الاعتماد','الاسم','Name','الميلاد','مكان الميلاد','العنوان','الهاتف','الأب','المجموعة','الحزام','الحالة'],
+    ...adminFiltered().map(f=>[f.id,f.nameAr,f.nameEn,f.dob,f.pob,f.address,f.phone,f.father,f.group,BELTS[f.belt].ar,f.suspended?'مشطوب':'نشط'])];
+  const blob=new Blob(['\ufeff'+rows.map(r=>r.map(q).join(',')).join('\r\n')],{type:'text/csv;charset=utf-8'});
+  const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='fighters.csv';document.body.appendChild(a);a.click();a.remove();
+  beep(850,.12);
+}
+if('serviceWorker' in navigator&&location.protocol.startsWith('http'))navigator.serviceWorker.register('sw.js').catch(()=>{});
+
 applyLang();
+{const sl=document.getElementById('splashLogo'),sp=document.getElementById('splash');
+ sl.src=LOGO_URL;sl.onerror=()=>sl.style.display='none';
+ setTimeout(()=>{sp.style.opacity=0;setTimeout(()=>sp.style.display='none',650);},1300);}
 </script>
 </body>
 </html>
+
