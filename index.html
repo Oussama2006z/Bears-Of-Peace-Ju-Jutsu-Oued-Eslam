@@ -36,18 +36,16 @@ body{min-height:100vh;display:flex;justify-content:center;align-items:center;ove
 #cardView{display:none}
 .back{background:rgba(0,64,128,.8);color:#fff;border:1px solid var(--pb);padding:6px 14px;border-radius:6px;font-size:.75rem;font-weight:bold;cursor:pointer;margin-bottom:12px}
 
+/* تقليب البطاقة وصورة الوجه الخلفي */
 .card-perspective{perspective:1200px}
-.card{position:relative;width:100%;min-height:600px;background:var(--card);border-radius:20px;padding:25px;backdrop-filter:blur(15px);border:1px solid rgba(0,210,255,.3);box-shadow:0 0 30px rgba(0,150,255,.2),inset 0 0 15px rgba(0,210,255,.1);transform-style:preserve-3d;transition:transform .8s cubic-bezier(.4,.2,.2,1)}
+.card{position:relative;background:var(--card);border-radius:20px;padding:25px;backdrop-filter:blur(15px);border:1px solid rgba(0,210,255,.3);box-shadow:0 0 30px rgba(0,150,255,.2),inset 0 0 15px rgba(0,210,255,.1);transform-style:preserve-3d;transition:transform .8s cubic-bezier(.4,.2,.2,1),box-shadow .5s ease}
 .card.flipped{transform:rotateY(180deg)}
-
-.card-front, .card-back{width:100%;backface-visibility:hidden;-webkit-backface-visibility:hidden}
-.card-front{position:relative;z-index:2}
-.card-back{position:absolute;inset:0;z-index:1;transform:rotateY(180deg);border-radius:20px;overflow:hidden;display:flex;flex-direction:column;justify-content:flex-end;padding:20px;background:#030814}
-.card.flipped .card-front{visibility:hidden}
-.card.flipped .card-back{visibility:visible}
-
+.card.flipped .card-front{display:none!important}
+.card.flipped .card-back{display:flex!important;transform:rotateY(180deg)}
+.card-front, .card-back{backface-visibility:hidden;-webkit-backface-visibility:hidden}
+.card-back{display:none;position:relative;width:100%;min-height:550px;border-radius:20px;overflow:hidden;flex-direction:column;justify-content:flex-end;align-items:center;padding:20px;box-shadow:0 0 30px rgba(0,150,255,.2);border:1px solid rgba(0,210,255,.3)}
 .card-back-img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:1;border-radius:20px}
-.card-back-btn{position:relative;z-index:10;width:100%;box-shadow:0 5px 25px rgba(0,0,0,.9);border:1px solid var(--pb)}
+.card-back-btn{position:relative;z-index:2;width:100%;box-shadow:0 5px 20px rgba(0,0,0,.8)}
 
 .hd{text-align:center;border-bottom:2px solid rgba(0,210,255,.3);padding-bottom:12px;margin-bottom:15px}
 .cn-ar{color:#fff;font-size:1.1rem;font-weight:800;text-shadow:0 0 10px var(--glow)}
@@ -137,6 +135,7 @@ th{color:#a0c4ff}td a{color:#7dd3fc}
 .stars-rating span{font-size:1.8rem;cursor:pointer;color:#555;transition:color .2s,transform .2s}
 .stars-rating span.active,.stars-rating span:hover{color:#ffd700;transform:scale(1.15)}
 
+/* الوضع الفاتح */
 html.light{background:radial-gradient(ellipse at center,#eaf4ff,#cfe3f7) fixed #eaf4ff}
 html.light .auth,html.light .card{background:rgba(255,255,255,.93);border-color:rgba(0,120,200,.35)}
 html.light .logo,html.light .value,html.light .cn-ar,html.light .greet,html.light .about .t,html.light table{color:#0b1b33;text-shadow:none}
@@ -294,29 +293,6 @@ html.light .sub.neu{color:#35506f}
 const MANAGER_PHONE = "0557905083";
 const ADMIN_PASS = "bears2026";
 const LOGO_URL = "https://i.ibb.co/vvB5ZmFH/1790268608620.jpg";
-
-const BACKEND_SVG_FALLBACK = "data:image/svg+xml;utf8,"+encodeURIComponent(`
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 800" width="100%" height="100%">
-  <defs>
-    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
-      <stop offset="0%" stop-color="#020818"/>
-      <stop offset="50%" stop-color="#071b38"/>
-      <stop offset="100%" stop-color="#01040a"/>
-    </linearGradient>
-    <radialGradient id="glow" cx="50%" cy="40%" r="50%">
-      <stop offset="0%" stop-color="#00d2ff" stop-opacity="0.35"/>
-      <stop offset="100%" stop-color="#000" stop-opacity="0"/>
-    </radialGradient>
-  </defs>
-  <rect width="600" height="800" fill="url(#bg)"/>
-  <circle cx="300" cy="350" r="280" fill="url(#glow)"/>
-  <circle cx="300" cy="350" r="180" fill="none" stroke="#00d2ff" stroke-width="3" stroke-dasharray="10 15" opacity="0.6"/>
-  <text x="300" y="320" font-family="'Cairo', sans-serif" font-weight="900" font-size="70" fill="#ffffff" text-anchor="middle" filter="drop-shadow(0 0 15px #00d2ff)">🐻</text>
-  <text x="300" y="410" font-family="'Cairo', sans-serif" font-weight="900" font-size="32" fill="#ffffff" text-anchor="middle" letter-spacing="1">دببة السلم للجي جيتسو</text>
-  <text x="300" y="460" font-family="'Cairo', sans-serif" font-weight="800" font-size="20" fill="#00d2ff" text-anchor="middle" letter-spacing="2">BEARS OF PEACE JU-JUTSU</text>
-  <text x="300" y="500" font-family="'Cairo', sans-serif" font-weight="600" font-size="16" fill="#8a99ad" text-anchor="middle">OUED ESLAM - VAILLANT FIGHTERS</text>
-</svg>`);
-
 {const lg=document.getElementById("siteLogo");lg.src=LOGO_URL;
  lg.onerror=()=>{lg.onerror=null;lg.src="data:image/svg+xml,"+encodeURIComponent('<svg xmlns="http://www.w3.org/2000/svg" width="110" height="110"><text x="55" y="72" font-size="60" text-anchor="middle">🐻</text></svg>');};}
 const WEB3FORMS_KEY = "d3202d37-61c2-4ff2-84a9-1a78fe5dea52";
@@ -460,21 +436,21 @@ const fightersData=[
  mk("26/14","عبد الرحمن","بلڨرع","Abderrahmane Belgraa","22/07/2014","منداس","حي القرية الفلاحية","0698241200","بلڨرع محمد","C","white","NPdWwJ3",true),
  mk("26/15","حاج","اسماعيل","Hadj Ismail","30/04/2015","تيارت","حي بلحاج احمد محمد","0794383002","حاج علي","B","white","N69tsJph"),
  mk("26/16","صهيب","مجاهد","Souhaib Medjahed","09/10/2017","تيارت","حي صفيح قويدر","0674526282","مجاهد جمال","C","white","G3Bp841Y"),
- mk("26/17","جواد ابراهيم","بيوض","Djawad Brahim Bioud","16/06/2018","رحوية","حي بشيري العيد","0773871749","بيوض محمد","C","gray","5gt94sY9"),
+ mk("26/17","جواد ابراهيم","بيوض","Djawad Brahim Bioud","16/06/2018","رحوية","حي بشيري العيد","0773871749","بيوض محمد","C","white","5gt94sY9"),
  mk("26/18","براء شاهين","عويلي","Baraa Chahine Aouili","05/09/2020","منداس","حي مجاهد قويدر","0674576286","مجاهد جمال","C","yellow","wrrKdyCt"),
  mk("26/19","محمد ضياء الدين","ڨروج","Mohamed Diaeddine Guerroudj","08/05/2017","تيارت","حي بوسحابة احمد","0670270928","ڨروج راشد","C","gray","23gMjg67"),
  mk("26/20","تاج الدين","لعبش","Tadjeddine Laabach","23/07/2012","زمورة","حي احمد بلعالية","0662978763","لعبش طيب","A","blue","hF3LT4zj"),
- mk("26/21","يوسف","لعبش","Youssef Laabach","08/12/2013","رحوية","حي احمد بلعالية","0662978763","لعبش طيب","A","greenblack","rfFTvm06"),
+ mk("26/21","يوسف","لعبش","Youssef Laabach","08/12/2013","رحوية","حي احمد بلعالية","0662978763","لعبش طيب","A","blue","rfFTvm06"),
  mk("26/22","ياسين","عكرمي","Yacine Akrami","16/05/2010","زمورة","حي بشيري العيد","0659653374","عكرمي لخضر","C","blue","BHFYBpHH"),
- mk("26/23","مولاي عبد المحسن","بلخادم","Moulay Abdelmohsen Belkhadem","21/10/2009","غليزان","حي بلحاج احمد محمد","0561621595","بلخادم عمر","A","greenblack","0pVcpZ8T"),
- mk("26/24","يوسف الصديق","مفلاح","Youssef Seddik Meflah","04/04/2010","منداس","حي بلحاج احمد محمد","066515314317","مفلاح بن عودة","A","greenblack","Y4Bftq3t"),
- mk("26/25","الياس","عكرمي","Ilyas Akrami","20/12/2012","زمورة","حي بشيري العيد","0697854360","عكرمي امحمد","A","greenblack","qM6Cw4vk"),
+ mk("26/23","مولاي عبد المحسن","بلخادم","Moulay Abdelmohsen Belkhadem","21/10/2009","غليزان","حي بلحاج احمد محمد","0561621595","بلخادم عمر","A","blue","0pVcpZ8T"),
+ mk("26/24","يوسف الصديق","مفلاح","Youssef Seddik Meflah","04/04/2010","منداس","حي بلحاج احمد محمد","066515314317","مفلاح بن عودة","A","blue","Y4Bftq3t"),
+ mk("26/25","الياس","عكرمي","Ilyas Akrami","20/12/2012","زمورة","حي بشيري العيد","0697854360","عكرمي امحمد","A","blue","qM6Cw4vk"),
  mk("26/26","عبد الجليل","نذار","Abdeljalil Nethar","09/04/2010","زمورة","حي مجاهد قويدر","0775810774","نذار علي","A","blue","xt0mhwwS"),
- mk("26/27","سمير","بن سعيد","Samir Bensaïd","07/11/2010","وادي السلام","حي بلحاج احمد محمد","0659715778","بن سعيد عدة","A","orange","27XGkjxM"),
+ mk("26/27","سمير","بن سعيد","Samir Bensaïd","07/11/2010","وادي السلام","حي بلحاج احمد محمد","0659715778","بن سعيد عدة","A","green","27XGkjxM"),
  mk("26/28","محمد رضا الرحمن","بلحاج","Mohamed Reda Errahmane Belhadj","18/10/2015","وادي الجمعة","حي مجاهد قويدر","0773763059","سعدي حبيبة","B","orange","gZyMkGj3"),
  mk("26/29","هيثم عبد الرحمن","برقية","Haitham Abderrahmane Bourguia","19/08/2013","رحوية","حي ڨردوبة امحمد","0697279112","برقية احمد","A","white","DgVgXKMz",true),
  mk("26/30","بوعلام ايوب","برقية","Boualam Ayoub Bourguia","04/05/2018","رحوية","حي ڨردوبة امحمد","0697179112","برقية احمد","C","white","FbTjFbRY",true),
- mk("26/31","ايوب","مداح","Ayoub Maddah","21/09/2020","تيارت","حي بوسحابة احمد","0556821813","مداح احمد","C","gray","1Y2khrG7"),
+ mk("26/31","ايوب","مداح","Ayoub Maddah","21/09/2020","تيارت","حي بوسحابة احمد","0556821813","مداح احمد","C","white","1Y2khrG7"),
  mk("26/32","محمد عدة","سعدي","Mohammed Aadda Saadi","19/11/2013","تيارت","حي مجاهد قويدر","0772757913","سعدي محمد","A","white","GhdwZ2c",true)
 ];
 
@@ -586,6 +562,7 @@ function renderFighterCard(f){
   
   activeCardContainer.innerHTML=`
   <div class="card" id="mainFighterCard" style="border-color:${b.g}">
+    <!-- الوجه الأمامي للبطاقة -->
     <div class="card-front">
       <div class="hd">
         <div class="cn-ar">دببة السلم للجي جيتسو وادي السلام</div>
@@ -662,8 +639,9 @@ function renderFighterCard(f){
       <div class="ft"><div>المجموعة: <span class="badge">${esc(f.group)}</span></div><div>نهاية الشهر: <span class="hl">يوم 25</span></div></div>
     </div>
 
+    <!-- الوجه الخلفي للبطاقة: يحتوي على الصورة ممتلئة وزر العودة للوجه الأمامي -->
     <div class="card-back">
-      <img src="https://i.ibb.co/vvB5ZmFH/1790268608620.jpg" class="card-back-img" alt="الوجه الخلفي للبطاقة" onerror="this.onerror=null;this.src=BACKEND_SVG_FALLBACK;">
+      <img src="https://i.ibb.co/wZw8trvj/image.jpg" class="card-back-img" alt="الوجه الخلفي للبطاقة">
       <button class="act card-back-btn" style="background:linear-gradient(135deg,#004080,#0077ff); padding:12px;" onclick="flipCard()">🔄 العودة للوجه الأمامي</button>
     </div>
   </div>`;
@@ -924,4 +902,3 @@ generateCaptcha();
 </script>
 </body>
 </html>
-
