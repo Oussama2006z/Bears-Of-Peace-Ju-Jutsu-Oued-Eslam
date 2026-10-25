@@ -94,8 +94,10 @@ body{min-height:100vh;display:flex;justify-content:center;align-items:center;ove
 .gt{display:block;margin:14px 0 6px;color:#a0c4ff;font-size:.78rem;font-weight:600;text-align:start}
 .msg{display:none;margin-top:12px;padding:10px;border-radius:10px;font-size:.85rem;line-height:1.6}
 .msg.show{display:block}.msg.error{background:#3a1a1a;color:#ffb4b4;border:1px solid #7a2222}.msg.ok{background:#0f382c;color:#b8f5c9;border:1px solid #1b6e53}
-.info{display:none;margin-top:10px;padding:10px;border-radius:10px;font-size:.85rem;background:#131c2e;border:1px dashed #8a99ad}
+.info{display:none;margin-top:10px;padding:12px;border-radius:10px;font-size:.85rem;background:#131c2e;border:1px dashed var(--pb);text-align:center}
 .info.show{display:block}
+.reg-form-img{width:100%;max-height:400px;object-fit:contain;border-radius:8px;border:1px solid var(--pb);margin:10px 0;background:#000;cursor:zoom-in}
+.reg-actions{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:10px}
 .about{margin-top:20px;padding-top:14px;border-top:1px solid rgba(0,210,255,.2);text-align:start}
 .about .t{text-align:center;font-weight:700;color:#fff;margin-bottom:10px;font-size:.95rem}
 .sc{background:rgba(10,15,26,.6);border:1px solid rgba(0,210,255,.2);border-radius:8px;padding:8px 12px;margin-bottom:8px}
@@ -238,7 +240,15 @@ html.light .sub.neu{color:#35506f}
         <button type="button" class="choice times" data-v="الجمعة 17:00 – 18:30">الجمعة 17:00 – 18:30</button>
       </div>
       <button type="button" class="btn alt" id="rFileBtn">استمارة التسجيل</button>
-      <div class="info" id="rFileInfo">يرجى التقرب من القاعة الرياضية لأخذ استمارة التسجيل</div>
+      <div class="info" id="rFileInfo">
+        <div style="font-weight:bold;margin-bottom:6px;color:var(--pb)">📄 استمارة التسجيل الرسمية للنادي:</div>
+        <img src="https://i.ibb.co/qMCx3rTH/image.png" class="reg-form-img" onclick="zoomPhoto(this)" alt="استمارة التسجيل">
+        <div class="reg-actions">
+          <button type="button" class="act" onclick="downloadRegForm()">📥 تنزيل الاستمارة</button>
+          <button type="button" class="act" onclick="printRegForm()">🖨️ طباعة الاستمارة</button>
+        </div>
+        <div style="margin-top:10px;font-size:0.78rem;color:#b0e0ff;">أو توجه إلى القاعة الرياضية للحصول على واحدة</div>
+      </div>
       <label class="chk"><input type="checkbox" id="rConsent"><span>أوافق على حفظ بيانات المتدرب لدى النادي لأغراض التسجيل والتواصل (وبالنسبة للقاصرين: بموافقة ولي الأمر).</span></label>
       <button type="submit" class="btn" id="rSubmit">إرسال</button>
       <div class="msg" id="regMsg"></div>
@@ -762,7 +772,45 @@ rTimes.addEventListener("click",e=>{
   regSel.times=[...rTimes.querySelectorAll(".choice.active")].map(x=>x.dataset.v);
   beep(680,.1);
 });
-rFileBtn.addEventListener("click",()=>{rFileInfo.classList.toggle("show");beep(450,.1);});
+
+rFileBtn.addEventListener("click",()=>{
+  rFileInfo.classList.toggle("show");
+  beep(450,.1);
+});
+
+async function downloadRegForm(){
+  try {
+    const imgUrl = "https://i.ibb.co/qMCx3rTH/image.png";
+    const response = await fetch(imgUrl);
+    const blob = await response.blob();
+    const url = window.URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = 'استمارة_التسجيل_دببة_السلم.png';
+    document.body.appendChild(a);
+    a.click();
+    a.remove();
+    window.URL.revokeObjectURL(url);
+    beep(820, .15);
+  } catch (e) {
+    const a = document.createElement('a');
+    a.href = "https://i.ibb.co/qMCx3rTH/image.png";
+    a.target = "_blank";
+    a.download = 'استمارة_التسجيل_دببة_السلم.png';
+    document.body.appendChild(a);
+    a.click();
+    a.remove();
+  }
+}
+
+function printRegForm(){
+  const w = window.open('', '_blank');
+  w.document.write(`<html><head><title>طباعة استمارة التسجيل</title></head><body style="text-align:center;background:#000;margin:0;display:flex;justify-content:center;align-items:center;height:100vh;"><img src="https://i.ibb.co/qMCx3rTH/image.png" style="max-width:100%;max-height:100%;object-fit:contain;"></body></html>`);
+  w.document.close();
+  w.focus();
+  setTimeout(() => { w.print(); }, 500);
+}
+
 function regShow(t,type){regMsg.className="msg show "+type;regMsg.textContent=t;}
 regForm.addEventListener("submit",async e=>{
   e.preventDefault();
