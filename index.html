@@ -74,7 +74,6 @@ body{min-height:100vh;display:flex;justify-content:center;align-items:center;ove
 .act{background:linear-gradient(135deg,#004080,#0077ff);color:#fff;border:1px solid var(--pb);padding:8px 10px;border-radius:6px;font-weight:700;font-size:.78rem;cursor:pointer;text-align:center;text-decoration:none;display:flex;align-items:center;justify-content:center;gap:5px;transition:all .3s}
 .act:hover{background:linear-gradient(135deg,#0077ff,#00d2ff);transform:scale(1.02);box-shadow:0 0 10px var(--glow)}
 .act.wide{grid-column:span 2;background:linear-gradient(135deg,#8b0000,#ff4500)}
-.act.nasheed{grid-column:span 2;background:linear-gradient(135deg,#4a148c,#8e24aa);border-color:#e1bee7}
 .act.parent{grid-column:span 2;background:linear-gradient(135deg,#2e7d32,#4caf50);border-color:#00ffcc}
 .panel{grid-column:span 2;display:none;margin-top:8px;padding:10px;background:rgba(0,210,255,.12);border:1px solid var(--pb);border-radius:8px;color:#fff;font-size:.82rem;animation:fi .4s forwards}
 @keyframes fi{from{opacity:0;transform:translateY(-4px)}to{opacity:1;transform:none}}
@@ -97,7 +96,6 @@ body{min-height:100vh;display:flex;justify-content:center;align-items:center;ove
 .info{display:none;margin-top:10px;padding:12px;border-radius:10px;font-size:.85rem;background:#131c2e;border:1px dashed var(--pb);text-align:center}
 .info.show{display:block}
 .reg-form-img{width:100%;max-height:400px;object-fit:contain;border-radius:8px;border:1px solid var(--pb);margin:10px 0;background:#000;cursor:zoom-in}
-.reg-actions{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:10px}
 .about{margin-top:20px;padding-top:14px;border-top:1px solid rgba(0,210,255,.2);text-align:start}
 .about .t{text-align:center;font-weight:700;color:#fff;margin-bottom:10px;font-size:.95rem}
 .sc{background:rgba(10,15,26,.6);border:1px solid rgba(0,210,255,.2);border-radius:8px;padding:8px 12px;margin-bottom:8px}
@@ -172,8 +170,6 @@ html.light .sub.neu{color:#35506f}
 <div class="tools"><button id="themeBtn" onclick="toggleTheme()" title="الوضع">🌙</button><button id="soundBtn" onclick="toggleSound()" title="الصوت">🔊</button></div>
 <div id="lightbox" onclick="this.style.display='none'"><img id="lbImg" alt=""></div>
 
-<audio id="nasheedAudio" preload="auto" loop crossorigin="anonymous" src="https://archive.org/download/AbadanLaLanNahid/AbadanLaLanNahid.mp3"></audio>
-
 <div class="wrap">
   <div class="site-logo"><img id="siteLogo" alt="Bears of Peace"></div>
   <div id="loginSection" class="auth">
@@ -243,10 +239,6 @@ html.light .sub.neu{color:#35506f}
       <div class="info" id="rFileInfo">
         <div style="font-weight:bold;margin-bottom:6px;color:var(--pb)">📄 استمارة التسجيل الرسمية للنادي:</div>
         <img src="https://i.ibb.co/qMCx3rTH/image.png" class="reg-form-img" onclick="zoomPhoto(this)" alt="استمارة التسجيل">
-        <div class="reg-actions">
-          <button type="button" class="act" onclick="downloadRegForm()">📥 تنزيل الاستمارة</button>
-          <button type="button" class="act" onclick="printRegForm()">🖨️ طباعة الاستمارة</button>
-        </div>
         <div style="margin-top:10px;font-size:0.78rem;color:#b0e0ff;">أو توجه إلى القاعة الرياضية للحصول على واحدة</div>
       </div>
       <label class="chk"><input type="checkbox" id="rConsent"><span>أوافق على حفظ بيانات المتدرب لدى النادي لأغراض التسجيل والتواصل (وبالنسبة للقاصرين: بموافقة ولي الأمر).</span></label>
@@ -478,7 +470,7 @@ const fightersData=[
  mk("26/19","محمد ضياء الدين","ڨروج","Mohamed Diaeddine Guerroudj","08/05/2017","تيارت","حي بوسحابة احمد","0670270928","ڨروج راشد","C","gray","23gMjg67"),
  mk("26/20","تاج الدين","لعبش","Tadjeddine Laabach","23/07/2012","زمورة","حي احمد بلعالية","0662978763","لعبش طيب","A","blue","hF3LT4zj"),
  mk("26/21","يوسف","لعبش","Youssef Laabach","08/12/2013","رحوية","حي احمد بلعالية","0662978763","لعبش طيب","A","greenblack","rfFTvm06"),
- mk("26/22","ياسين","عكرمي","Akrami yassine","16/05/2010","زمورة","حي بشيري العيد","0659653374","عكرمي لخضر","A","blue","BHFYBpHH"),
+ mk("26/22","ياسين","عكرمي","Akermi yassine","16/05/2010","زمورة","حي بشيري العيد","0659653374","عكرمي لخضر","A","blue","BHFYBpHH"),
  mk("26/23","مولاي عبد المحسن","بلخادم","Moulay Abdelmohsen Belkhadem","21/10/2009","غليزان","حي بلحاج احمد محمد","0561621595","بلخادم عمر","A","greenblack","0pVcpZ8T"),
  mk("26/24","يوسف الصديق","مفلاح","Youssef Seddik Meflah","04/04/2010","منداس","حي بلحاج احمد محمد","066515314317","مفلاح بن عودة","A","greenblack","Y4Bftq3t"),
  mk("26/25","الياس","عكرمي","Ilyas Akrami","20/12/2012","زمورة","حي بشيري العيد","0697854360","عكرمي امحمد","A","greenblack","qM6Cw4vk"),
@@ -490,7 +482,9 @@ const fightersData=[
  mk("26/31","ايوب","مداح","Ayoub Maddah","21/09/2020","تيارت","حي بوسحابة احمد","0556821813","مداح احمد","C","gray","1Y2khrG7"),
  mk("26/32","محمد عدة","سعدي","Mohammed Aadda Saadi","19/11/2013","تيارت","حي مجاهد قويدر","0772757913","سعدي محمد","A","white","GhdwZ2c",true),
  mk("26/33","محمد براء","بن مداح","Mohamed Baraa Ben Maddah","12/02/2019","عين بوسيف","حي بن بدرة بن عودة","0796992436","بن مداح عبد القادر","C","white","jvcM0Vry"),
- mk("26/34","سيف الاسلام","عبد اللطيف","Seif El Islam Abdelatif","28/08/2016","منداس","بشيري العيد","0771926392","عبد اللطيف عدة","C","white","gLRpxGSB")
+ mk("26/34","سيف الاسلام","عبد اللطيف","Seif El Islam Abdelatif","28/08/2016","منداس","بشيري العيد","0771926392","عبد اللطيف عدة","C","white","gLRpxGSB"),
+ mk("26/35","صهيب","بلجيلالي","Suhaib Beldjilali","13/07/2019","منداس","حي بوسحابة احمد","0773544293","بلجيلالي","C","yellow","XZqxsDjh"),
+ mk("26/36","خالد","بوعامر","Khaled Bouamer","26/11/2015","تيارت","حي بوسحابة احمد","0776868143","بوعامر","B","white","YFfVhYXc")
 ];
 
 function cleanWords(str){
@@ -538,39 +532,6 @@ function show(id){
   beep(500,.1);
 }
 
-function playNasheed(){
-  const audio = document.getElementById('nasheedAudio');
-  if(audio){
-    audio.volume = 1.0;
-    audio.play().then(() => {
-      console.log("تم تشغيل الأنشودة بنجاح");
-    }).catch(e => {
-      console.log("تطلب المتصفح إذن تشغيل يدوياً:", e);
-    });
-  }
-}
-
-function toggleNasheedManual(){
-  const audio = document.getElementById('nasheedAudio');
-  if(audio){
-    if(audio.paused){
-      audio.play();
-      beep(880, .1);
-    } else {
-      audio.pause();
-      beep(400, .1);
-    }
-  }
-}
-
-function stopNasheed(){
-  const audio = document.getElementById('nasheedAudio');
-  if(audio){
-    audio.pause();
-    audio.currentTime = 0;
-  }
-}
-
 function submitRecovery(){
   const dob=normDob(fDob.value),phone=normPhone(fPhone.value);
   const m=fightersData.find(f=>nameMatches(fName.value,f)&&normDob(f.dob)===dob&&normPhone(f.phone)===phone);
@@ -600,7 +561,6 @@ async function handleLogin(){
   const f=fightersData.find(f=>nameMatches(loginName.value,f)&&normDob(f.dob)===dob&&normAcc(f.id)===acc);
   if(f){
     loginError.style.display='none';
-    playNasheed();
     await Promise.race([sheetReady,new Promise(r=>setTimeout(r,3500))]);
     renderFighterCard(f);
     confetti();
@@ -675,7 +635,6 @@ function renderFighterCard(f){
         <div class="it full" style="margin-top:3px"><span class="label">الملاحظات الطبية:</span><span class="value med">"مؤهل لممارسة الرياضة"</span></div>
         ${x.subHtml}
         <div class="acts">
-          <button class="act wide nasheed" onclick="toggleNasheedManual()">🎵 تشغيل / إيقاف الأنشودة</button>
           <button class="act" onclick="togglePanel('p1')">⚡ التطور بالقاعة</button>
           <button class="act" onclick="togglePanel('p2')">👨‍🏫 المشرفون</button>
           <button class="act" onclick="togglePanel('p3')">💡 نصائح</button>
@@ -778,39 +737,6 @@ rFileBtn.addEventListener("click",()=>{
   beep(450,.1);
 });
 
-async function downloadRegForm(){
-  try {
-    const imgUrl = "https://i.ibb.co/qMCx3rTH/image.png";
-    const response = await fetch(imgUrl);
-    const blob = await response.blob();
-    const url = window.URL.createObjectURL(blob);
-    const a = document.createElement('a');
-    a.href = url;
-    a.download = 'استمارة_التسجيل_دببة_السلم.png';
-    document.body.appendChild(a);
-    a.click();
-    a.remove();
-    window.URL.revokeObjectURL(url);
-    beep(820, .15);
-  } catch (e) {
-    const a = document.createElement('a');
-    a.href = "https://i.ibb.co/qMCx3rTH/image.png";
-    a.target = "_blank";
-    a.download = 'استمارة_التسجيل_دببة_السلم.png';
-    document.body.appendChild(a);
-    a.click();
-    a.remove();
-  }
-}
-
-function printRegForm(){
-  const w = window.open('', '_blank');
-  w.document.write(`<html><head><title>طباعة استمارة التسجيل</title></head><body style="text-align:center;background:#000;margin:0;display:flex;justify-content:center;align-items:center;height:100vh;"><img src="https://i.ibb.co/qMCx3rTH/image.png" style="max-width:100%;max-height:100%;object-fit:contain;"></body></html>`);
-  w.document.close();
-  w.focus();
-  setTimeout(() => { w.print(); }, 500);
-}
-
 function regShow(t,type){regMsg.className="msg show "+type;regMsg.textContent=t;}
 regForm.addEventListener("submit",async e=>{
   e.preventDefault();
@@ -831,7 +757,6 @@ regForm.addEventListener("submit",async e=>{
   beep(920,.25);
 });
 function logoutFighter(){
-  stopNasheed();
   show('loginSection');
   loginName.value=loginDob.value=loginAcc.value='';
   activeCardContainer.innerHTML='';
@@ -848,13 +773,7 @@ function toggleSound(){
   soundOn=!soundOn;
   soundBtn.textContent=soundOn?'🔊':'🔇';
   store.set('sound',soundOn?'1':'0');
-  const audio = document.getElementById('nasheedAudio');
-  if(!soundOn){
-    if(audio) audio.pause();
-  } else {
-    beep(850,.15);
-    if(audio && currentFighter) audio.play().catch(e=>{});
-  }
+  if(soundOn) beep(850,.15);
 }
 
 function beep(f=600,d=.15){
