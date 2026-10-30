@@ -10,50 +10,50 @@
 <title>Bears of Peace Ju-Jutsu - Fighter Portal</title>
 <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;800;900&display=swap" rel="stylesheet">
 <style>
-:root{--pb:#00d2ff;--db:#004080;--glow:rgba(0,210,255,.8);--bg:#030814;--card:rgba(10,20,40,.88)}
+:root{--pb:#00f2fe;--db:#0476ff;--glow:rgba(0,242,254,.9);--bg:#010409;--card:rgba(10,22,45,.88)}
 *{box-sizing:border-box;margin:0;padding:0;font-family:'Cairo',sans-serif}
-html{min-height:100%;background:radial-gradient(ellipse at center,#0a1931 0%,#020611 100%) fixed #020611}
+html{min-height:100%;background:radial-gradient(ellipse at center,#0d1b38 0%,#010409 100%) fixed #010409}
 body{min-height:100vh;display:flex;justify-content:center;align-items:center;overflow-x:hidden;padding:30px 0}
-.bg{position:fixed;top:0;left:0;width:100vw;height:100vh;pointer-events:none;z-index:0;overflow:hidden;background:radial-gradient(circle at 50% 50%,rgba(0,102,255,.14),transparent 75%)}
-.s1,.s2{position:absolute;border-radius:50%;filter:blur(55px);animation:pulse 7s infinite alternate}
-.s1{top:-20%;left:-10%;width:75vw;height:75vh;background:radial-gradient(circle,rgba(0,210,255,.25),transparent 70%)}
-.s2{bottom:-20%;right:-10%;width:85vw;height:85vh;background:radial-gradient(circle,rgba(0,102,255,.3),transparent 70%)}
-@keyframes pulse{0%{transform:scale(1);opacity:.6}100%{transform:scale(1.2) translate(20px,-20px);opacity:1}}
-.lang{position:fixed;top:20px;right:20px;background:rgba(0,64,128,.6);color:var(--pb);border:1px solid var(--pb);padding:8px 16px;border-radius:20px;cursor:pointer;font-weight:800;z-index:1000;backdrop-filter:blur(10px)}
+.bg{position:fixed;top:0;left:0;width:100vw;height:100vh;pointer-events:none;z-index:0;overflow:hidden;background:radial-gradient(circle at 50% 50%,rgba(0,242,254,.18),transparent 75%)}
+.s1,.s2{position:absolute;border-radius:50%;filter:blur(65px);animation:pulse 6s infinite alternate}
+.s1{top:-25%;left:-15%;width:80vw;height:80vh;background:radial-gradient(circle,rgba(0,242,254,.35),transparent 70%)}
+.s2{bottom:-25%;right:-15%;width:90vw;height:90vh;background:radial-gradient(circle,rgba(4,118,255,.4),transparent 70%)}
+@keyframes pulse{0%{transform:scale(1);opacity:.7}100%{transform:scale(1.25) translate(25px,-25px);opacity:1}}
+.lang{position:fixed;top:20px;right:20px;background:rgba(4,118,255,.6);color:var(--pb);border:1px solid var(--pb);padding:8px 16px;border-radius:20px;cursor:pointer;font-weight:800;z-index:1000;backdrop-filter:blur(10px)}
 .wrap{position:relative;width:92%;max-width:500px;z-index:1}
-.auth{background:var(--card);border-radius:20px;padding:28px;backdrop-filter:blur(15px);border:1px solid rgba(0,210,255,.3);box-shadow:0 0 30px rgba(0,150,255,.2),inset 0 0 15px rgba(0,210,255,.1);text-align:center}
-.logo{font-size:1.2rem;font-weight:900;color:#fff;text-shadow:0 0 10px var(--glow);margin-bottom:5px}
+.auth{background:var(--card);border-radius:20px;padding:28px;backdrop-filter:blur(15px);border:1px solid rgba(0,242,254,.4);box-shadow:0 0 35px rgba(0,242,254,.25),inset 0 0 20px rgba(0,242,254,.15);text-align:center}
+.logo{font-size:1.2rem;font-weight:900;color:#fff;text-shadow:0 0 12px var(--glow);margin-bottom:5px}
 .sub{font-size:.75rem;color:var(--pb);letter-spacing:1px;margin-bottom:22px}
 .fg{margin-bottom:14px;text-align:start}
-.fg label{display:block;font-size:.78rem;color:#a0c4ff;margin-bottom:5px;font-weight:600}
-.fg input,.fg textarea{width:100%;padding:10px 14px;background:rgba(0,0,0,.5);border:1px solid rgba(0,210,255,.4);border-radius:8px;color:#fff;font-size:.9rem;outline:none}
-.fg input:focus,.fg textarea:focus{border-color:var(--pb);box-shadow:0 0 10px rgba(0,210,255,.4)}
-.btn{width:100%;background:linear-gradient(135deg,#004080,#0077ff);color:#fff;border:1px solid var(--pb);padding:12px;border-radius:8px;font-weight:900;cursor:pointer;margin-top:10px}
-.btn:hover{background:linear-gradient(135deg,#0077ff,#00d2ff)}
+.fg label{display:block;font-size:.78rem;color:#b0e0ff;margin-bottom:5px;font-weight:600}
+.fg input,.fg textarea{width:100%;padding:10px 14px;background:rgba(0,0,0,.55);border:1px solid rgba(0,242,254,.45);border-radius:8px;color:#fff;font-size:.9rem;outline:none}
+.fg input:focus,.fg textarea:focus{border-color:var(--pb);box-shadow:0 0 12px rgba(0,242,254,.5)}
+.btn{width:100%;background:linear-gradient(135deg,#0476ff,#00f2fe);color:#000;border:1px solid var(--pb);padding:12px;border-radius:8px;font-weight:900;cursor:pointer;margin-top:10px}
+.btn:hover{background:linear-gradient(135deg,#00f2fe,#0476ff);color:#fff}
 .link{display:inline-block;margin-top:15px;font-size:.8rem;color:var(--pb);cursor:pointer;text-decoration:underline}
 .err,.ok{font-size:.8rem;margin-top:10px;display:none;font-weight:bold}
 .err{color:#ff6a3d}.ok{color:#00ffcc;line-height:1.6}
 #cardView{display:none}
-.back{background:rgba(0,64,128,.8);color:#fff;border:1px solid var(--pb);padding:6px 14px;border-radius:6px;font-size:.75rem;font-weight:bold;cursor:pointer;margin-bottom:12px}
+.back{background:rgba(4,118,255,.8);color:#fff;border:1px solid var(--pb);padding:6px 14px;border-radius:6px;font-size:.75rem;font-weight:bold;cursor:pointer;margin-bottom:12px}
 
 .card-perspective{perspective:1200px}
-.card{position:relative;width:100%;min-height:600px;background:var(--card);border-radius:20px;padding:25px;backdrop-filter:blur(15px);border:1px solid rgba(0,210,255,.3);box-shadow:0 0 30px rgba(0,150,255,.2),inset 0 0 15px rgba(0,210,255,.1);transform-style:preserve-3d;transition:transform .8s cubic-bezier(.4,.2,.2,1)}
+.card{position:relative;width:100%;min-height:600px;background:var(--card);border-radius:20px;padding:25px;backdrop-filter:blur(15px);border:1px solid rgba(0,242,254,.3);box-shadow:0 0 30px rgba(0,242,254,.2),inset 0 0 15px rgba(0,242,254,.1);transform-style:preserve-3d;transition:transform .8s cubic-bezier(.4,.2,.2,1)}
 .card.flipped{transform:rotateY(180deg)}
 
 .card-front, .card-back{width:100%;backface-visibility:hidden;-webkit-backface-visibility:hidden}
 .card-front{position:relative;z-index:2}
-.card-back{position:absolute;inset:0;z-index:1;transform:rotateY(180deg);border-radius:20px;overflow:hidden;display:flex;flex-direction:column;justify-content:flex-end;padding:20px;background:#030814}
+.card-back{position:absolute;inset:0;z-index:1;transform:rotateY(180deg);border-radius:20px;overflow:hidden;display:flex;flex-direction:column;justify-content:flex-end;padding:20px;background:#010409}
 .card.flipped .card-front{visibility:hidden}
 .card.flipped .card-back{visibility:visible}
 
 .card-back-img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:1;border-radius:20px}
 .card-back-btn{position:relative;z-index:10;width:100%;box-shadow:0 5px 25px rgba(0,0,0,.9);border:1px solid var(--pb)}
 
-.hd{text-align:center;border-bottom:2px solid rgba(0,210,255,.3);padding-bottom:12px;margin-bottom:15px}
+.hd{text-align:center;border-bottom:2px solid rgba(0,242,254,.3);padding-bottom:12px;margin-bottom:15px}
 .cn-ar{color:#fff;font-size:1.1rem;font-weight:800;text-shadow:0 0 10px var(--glow)}
 .cn-en{color:var(--pb);font-size:.72rem;font-weight:600;letter-spacing:1px;text-transform:uppercase}
 .ctitle{display:inline-block;background:linear-gradient(90deg,transparent,var(--pb),transparent);color:#000;font-weight:900;padding:2px 20px;font-size:.8rem;margin-top:6px;border-radius:10px}
-.sup{text-align:center;background:rgba(0,64,128,.25);border:1px dashed rgba(0,210,255,.4);padding:8px;border-radius:8px;margin-bottom:15px;font-size:.78rem;color:#b0e0ff}
+.sup{text-align:center;background:rgba(4,118,255,.25);border:1px dashed rgba(0,242,254,.4);padding:8px;border-radius:8px;margin-bottom:15px;font-size:.78rem;color:#b0e0ff}
 .sup span{color:var(--pb);font-weight:bold}
 .susp{background:linear-gradient(135deg,#b71c1c,#d32f2f);color:#fff;text-align:center;padding:6px;border-radius:6px;font-weight:900;font-size:.85rem;margin-bottom:12px;box-shadow:0 0 10px rgba(211,47,47,.6);border:1px solid #ff5252}
 .prof{display:flex;justify-content:space-around;align-items:center;margin-bottom:15px}
@@ -64,64 +64,68 @@ body{min-height:100vh;display:flex;justify-content:center;align-items:center;ove
 .kim svg{width:100%;height:100%;filter:drop-shadow(0 10px 10px rgba(0,0,0,.8)) drop-shadow(0 0 8px var(--pb))}
 .grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;background:rgba(0,0,0,.35);padding:12px;border-radius:12px;border:1px solid rgba(255,255,255,.05)}
 .it{display:flex;flex-direction:column}.full{grid-column:span 2}
-.label{font-size:.72rem;color:#a0c4ff;margin-bottom:1px}
+.label{font-size:.72rem;color:#b0e0ff;margin-bottom:1px}
 .value{font-size:.85rem;color:#fff;font-weight:600}
 .hl{color:var(--pb);font-weight:800}
 .latin{font-size:.78rem;color:#7dd3fc;direction:ltr;display:inline-block;text-align:right}
 .belt{grid-column:span 2;margin-top:3px;padding:6px;background:rgba(0,0,0,.5);border-radius:6px;display:flex;align-items:center;justify-content:space-between}
 .bar{width:50%;height:14px;border-radius:3px;border:1px solid #777;box-shadow:0 0 8px rgba(0,0,0,.8)}
 .acts{grid-column:span 2;margin-top:10px;display:grid;grid-template-columns:1fr 1fr;gap:6px}
-.act{background:linear-gradient(135deg,#004080,#0077ff);color:#fff;border:1px solid var(--pb);padding:8px 10px;border-radius:6px;font-weight:700;font-size:.78rem;cursor:pointer;text-align:center;text-decoration:none;display:flex;align-items:center;justify-content:center;gap:5px;transition:all .3s}
-.act:hover{background:linear-gradient(135deg,#0077ff,#00d2ff);transform:scale(1.02);box-shadow:0 0 10px var(--glow)}
-.act.wide{grid-column:span 2;background:linear-gradient(135deg,#8b0000,#ff4500)}
-.act.parent{grid-column:span 2;background:linear-gradient(135deg,#2e7d32,#4caf50);border-color:#00ffcc}
-.panel{grid-column:span 2;display:none;margin-top:8px;padding:10px;background:rgba(0,210,255,.12);border:1px solid var(--pb);border-radius:8px;color:#fff;font-size:.82rem;animation:fi .4s forwards}
+.act{background:linear-gradient(135deg,#0476ff,#00f2fe);color:#000;border:1px solid var(--pb);padding:8px 10px;border-radius:6px;font-weight:800;font-size:.78rem;cursor:pointer;text-align:center;text-decoration:none;display:flex;align-items:center;justify-content:center;gap:5px;transition:all .3s}
+.act:hover{background:linear-gradient(135deg,#00f2fe,#0476ff);transform:scale(1.02);box-shadow:0 0 10px var(--glow);color:#fff}
+.act.wide{grid-column:span 2;background:linear-gradient(135deg,#8b0000,#ff4500);color:#fff}
+.act.parent{grid-column:span 2;background:linear-gradient(135deg,#2e7d32,#4caf50);border-color:#00ffcc;color:#fff}
+.panel{grid-column:span 2;display:none;margin-top:8px;padding:10px;background:rgba(0,242,254,.12);border:1px solid var(--pb);border-radius:8px;color:#fff;font-size:.82rem;animation:fi .4s forwards}
 @keyframes fi{from{opacity:0;transform:translateY(-4px)}to{opacity:1;transform:none}}
-.issue input[type=text],.issue textarea{width:100%;padding:6px;margin:5px 0 8px;background:rgba(0,0,0,.5);border:1px solid rgba(0,210,255,.4);border-radius:4px;color:#fff;font-size:.78rem}
+.issue input[type=text],.issue textarea{width:100%;padding:6px;margin:5px 0 8px;background:rgba(0,0,0,.5);border:1px solid rgba(0,242,254,.4);border-radius:4px;color:#fff;font-size:.78rem}
 .issue button{background:#00e676;color:#000;border:none;padding:5px 12px;border-radius:4px;font-weight:bold;cursor:pointer;font-size:.78rem}
-.issue label{font-size:.75rem;color:#a0c4ff}
+.issue label{font-size:.75rem;color:#b0e0ff}
 .okmsg{color:#00ffcc;font-weight:bold;display:none;margin-top:5px}
-.ft{margin-top:15px;display:flex;justify-content:space-between;align-items:center;font-size:.72rem;color:#88a0c0;border-top:1px dashed rgba(0,210,255,.2);padding-top:10px}
+.ft{margin-top:15px;display:flex;justify-content:space-between;align-items:center;font-size:.72rem;color:#88a0c0;border-top:1px dashed rgba(0,242,254,.2);padding-top:10px}
 .badge{background:var(--db);color:#fff;padding:2px 6px;border-radius:4px;font-weight:bold;border:1px solid var(--pb)}
 .med{color:#00ffcc;font-weight:bold}
 .btn.alt{background:transparent;border:1px solid var(--pb);color:var(--pb)}
-.btn.alt:hover{background:rgba(0,210,255,.15)}
+.btn.alt:hover{background:rgba(0,242,254,.15);color:#fff}
 .choices{display:flex;flex-wrap:wrap;gap:8px}
-.choice{flex:1 1 30%;padding:11px 8px;border-radius:10px;border:1px solid rgba(0,210,255,.3);background:rgba(10,15,26,.8);color:#fff;font-size:.9rem;cursor:pointer;transition:all .25s}
+.choice{flex:1 1 30%;padding:11px 8px;border-radius:10px;border:1px solid rgba(0,242,254,.3);background:rgba(10,15,26,.8);color:#fff;font-size:.9rem;cursor:pointer;transition:all .25s}
 .choice.times{flex:1 1 100%}
-.choice.active{background:var(--pb);border-color:var(--pb);color:#000;font-weight:700;box-shadow:0 0 15px rgba(0,210,255,.4)}
-.gt{display:block;margin:14px 0 6px;color:#a0c4ff;font-size:.78rem;font-weight:600;text-align:start}
+.choice.active{background:var(--pb);border-color:var(--pb);color:#000;font-weight:700;box-shadow:0 0 15px rgba(0,242,254,.4)}
+.gt{display:block;margin:14px 0 6px;color:#b0e0ff;font-size:.78rem;font-weight:600;text-align:start}
 .msg{display:none;margin-top:12px;padding:10px;border-radius:10px;font-size:.85rem;line-height:1.6}
 .msg.show{display:block}.msg.error{background:#3a1a1a;color:#ffb4b4;border:1px solid #7a2222}.msg.ok{background:#0f382c;color:#b8f5c9;border:1px solid #1b6e53}
 .info{display:none;margin-top:10px;padding:12px;border-radius:10px;font-size:.85rem;background:#131c2e;border:1px dashed var(--pb);text-align:center}
 .info.show{display:block}
 .reg-form-img{width:100%;max-height:400px;object-fit:contain;border-radius:8px;border:1px solid var(--pb);margin:10px 0;background:#000;cursor:zoom-in}
-.about{margin-top:20px;padding-top:14px;border-top:1px solid rgba(0,210,255,.2);text-align:start}
+.about{margin-top:20px;padding-top:14px;border-top:1px solid rgba(0,242,254,.2);text-align:start}
 .about .t{text-align:center;font-weight:700;color:#fff;margin-bottom:10px;font-size:.95rem}
-.sc{background:rgba(10,15,26,.6);border:1px solid rgba(0,210,255,.2);border-radius:8px;padding:8px 12px;margin-bottom:8px}
+.sc{background:rgba(10,15,26,.6);border:1px solid rgba(0,242,254,.2);border-radius:8px;padding:8px 12px;margin-bottom:8px}
 .sc h3{font-size:.9rem;color:var(--pb);margin-bottom:3px}.sc p{font-size:.8rem;color:#8a99ad;line-height:1.4}
 .btn:disabled{opacity:.6;cursor:wait}
 .site-logo{text-align:center;margin-bottom:16px}
-.site-logo img{width:110px;height:110px;object-fit:contain;border-radius:50%;background:#fff;padding:4px;box-shadow:0 0 20px rgba(0,210,255,.3);transition:transform .3s,box-shadow .3s}
+.site-logo img{width:110px;height:110px;object-fit:contain;border-radius:50%;background:#fff;padding:4px;box-shadow:0 0 20px rgba(0,242,254,.3);transition:transform .3s,box-shadow .3s}
 .site-logo img:hover{transform:scale(1.03);box-shadow:0 0 25px var(--glow)}
 .greet{text-align:center;color:#fff;font-weight:800;font-size:1rem;margin-bottom:10px}
 .sub{padding:8px 10px;border-radius:8px;font-size:.8rem;font-weight:700;line-height:1.7;background:rgba(0,0,0,.45);border:1px solid #556}
 .sub.ok{border-color:#1b6e53;color:#b8f5c9;background:#0f382c}.sub.bad{border-color:#ff5252;color:#ffb4b4;background:#3a1a1a}.sub.neu{color:#b0e0ff}
 .pbar{height:10px;border-radius:6px;background:rgba(255,255,255,.12);overflow:hidden;margin:4px 0 8px}
-.pbar i{display:block;height:100%;background:linear-gradient(90deg,#00d2ff,#00e676)}
+.pbar i{display:block;height:100%;background:linear-gradient(90deg,#00f2fe,#00e676)}
 .panel a{color:#7dd3fc}.panel ul{margin:4px 18px}
-.chk{display:flex;gap:8px;align-items:flex-start;text-align:start;font-size:.75rem;color:#a0c4ff;margin-top:12px;line-height:1.5}
-#splash{position:fixed;inset:0;z-index:5000;background:#020611;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:14px;color:#fff;font-weight:900;letter-spacing:1px;transition:opacity .6s}
-#splash img{width:130px;height:130px;border-radius:50%;background:#fff;padding:4px;object-fit:contain;animation:sp 1s infinite alternate}
-@keyframes sp{from{box-shadow:0 0 10px rgba(0,210,255,.3)}to{box-shadow:0 0 35px rgba(0,210,255,.9)}}
+.chk{display:flex;gap:8px;align-items:flex-start;text-align:start;font-size:.75rem;color:#b0e0ff;margin-top:12px;line-height:1.5}
+
+/* Splash Screen Initial Background */
+#splash{position:fixed;inset:0;z-index:5000;background:url('https://i.ibb.co/ZzhtgMx8/image.png') no-repeat center center;background-size:cover;display:flex;flex-direction:column;align-items:center;justify-content:flex-end;padding-bottom:50px;transition:opacity .8s ease-in-out}
+.spinner-box{display:flex;align-items:center;gap:10px;background:rgba(0,0,0,0.75);padding:10px 20px;border-radius:30px;border:1px solid rgba(0,242,254,0.5);color:#fff;font-weight:800;font-size:0.9rem;backdrop-filter:blur(5px)}
+.spinner{width:20px;height:20px;border:3px solid rgba(255,255,255,0.3);border-top-color:#00f2fe;border-radius:50%;animation:spin 1s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+
 .auth,#cardView{animation:fi .4s}
 .tools{position:fixed;top:20px;left:20px;display:flex;gap:8px;z-index:1000}
-.tools button{background:rgba(0,64,128,.6);color:var(--pb);border:1px solid var(--pb);width:38px;height:38px;border-radius:50%;cursor:pointer;font-size:1rem;backdrop-filter:blur(10px)}
-select{flex:1;padding:8px;border-radius:8px;background:rgba(0,0,0,.5);color:#fff;border:1px solid rgba(0,210,255,.4);font-size:.8rem}
+.tools button{background:rgba(4,118,255,.6);color:var(--pb);border:1px solid var(--pb);width:38px;height:38px;border-radius:50%;cursor:pointer;font-size:1rem;backdrop-filter:blur(10px)}
+select{flex:1;padding:8px;border-radius:8px;background:rgba(0,0,0,.5);color:#fff;border:1px solid rgba(0,242,254,.4);font-size:.8rem}
 select option{color:#000}
 table{width:100%;border-collapse:collapse;font-size:.75rem;color:#fff}
-th,td{padding:5px 6px;border-bottom:1px solid rgba(0,210,255,.15);white-space:nowrap;text-align:start}
-th{color:#a0c4ff}td a{color:#7dd3fc}
+th,td{padding:5px 6px;border-bottom:1px solid rgba(0,242,254,.15);white-space:nowrap;text-align:start}
+th{color:#b0e0ff}td a{color:#7dd3fc}
 .wrap.adm{max-width:900px}
 .sep{color:#88a0c0;margin:0 6px}
 #lightbox{position:fixed;inset:0;z-index:6000;background:rgba(0,0,0,.92);display:none;align-items:center;justify-content:center;cursor:zoom-out}
@@ -129,10 +133,13 @@ th{color:#a0c4ff}td a{color:#7dd3fc}
 .cf{position:fixed;top:-14px;width:8px;height:14px;z-index:4000;animation:cf 2.2s linear forwards;pointer-events:none}
 @keyframes cf{to{transform:translateY(105vh) rotate(720deg)}}
 
-.captcha-box{background:rgba(0,210,255,.08);border:1px dashed var(--pb);padding:10px;border-radius:8px;margin-bottom:12px;text-align:start}
-.captcha-box label{font-size:.78rem;color:#00d2ff;font-weight:bold}
-.captcha-box div{display:flex;gap:8px;align-items:center;margin-top:5px}
-.captcha-box input{width:80px!important;padding:6px;text-align:center;font-weight:bold}
+/* Captcha Checkbox Box Style */
+.captcha-container{background:rgba(0,242,254,.08);border:1px solid rgba(0,242,254,.35);padding:12px;border-radius:10px;margin-bottom:14px;display:flex;align-items:center;justify-content:space-between}
+.captcha-left{display:flex;align-items:center;gap:12px;cursor:pointer}
+.custom-checkbox{width:28px;height:28px;background:#fff;border:2px solid #ccc;border-radius:4px;display:flex;align-items:center;justify-content:center;font-size:18px;color:#00c853;font-weight:900;transition:all .2s}
+.custom-checkbox.checked{border-color:#00c853;background:#e8f5e9}
+.captcha-label{font-size:.85rem;color:#fff;font-weight:700;user-select:none}
+.captcha-brand{font-size:.65rem;color:#8a99ad;text-align:center;line-height:1.2}
 
 .stars-rating{display:flex;justify-content:center;gap:8px;margin:10px 0;direction:ltr}
 .stars-rating span{font-size:1.8rem;cursor:pointer;color:#555;transition:color .2s,transform .2s}
@@ -153,7 +160,7 @@ html.light .sc{background:#fff}html.light .sc p{color:#35506f}
 html.light .latin{color:#0b6aa8}html.light .hl,html.light .link,html.light td a,html.light .panel a{color:#006a99}
 html.light .med{color:#00875a}
 html.light .info{background:#eef5fb;color:#0b1b33}
-html.light #splash{background:#eaf4ff;color:#0b1b33}
+html.light #splash{background:#eaf4ff}
 html.light .lang,html.light .tools button{background:rgba(255,255,255,.85)}
 html.light .sub.neu{color:#35506f}
 @media print{
@@ -165,7 +172,9 @@ html.light .sub.neu{color:#35506f}
 </head>
 <body>
 <div class="bg"><div class="s1"></div><div class="s2"></div></div>
-<div id="splash"><img id="splashLogo" alt=""><div>Bears of Peace Ju-Jutsu</div></div>
+<div id="splash">
+  <div class="spinner-box"><div class="spinner"></div><span>جارٍ تحميل منصة المقاتلين...</span></div>
+</div>
 <button class="lang" id="langBtn" onclick="toggleLanguage()">English</button>
 <div class="tools"><button id="themeBtn" onclick="toggleTheme()" title="الوضع">🌙</button><button id="soundBtn" onclick="toggleSound()" title="الصوت">🔊</button></div>
 <div id="lightbox" onclick="this.style.display='none'"><img id="lbImg" alt=""></div>
@@ -179,9 +188,15 @@ html.light .sub.neu{color:#35506f}
     <div class="fg"><label data-t="lDob"></label><input type="text" id="loginDob" placeholder="DD/MM/YYYY" inputmode="numeric"></div>
     <div class="fg"><label data-t="lAcc"></label><input type="text" id="loginAcc" placeholder="26/XX"></div>
     
-    <div class="captcha-box">
-      <label>🛡️ التحقق أمنياً (لست روبوت):</label>
-      <div><span id="captchaQuestion"></span><input type="number" id="captchaAnswer" placeholder="الناتج"></div>
+    <div class="captcha-container">
+      <div class="captcha-left" onclick="toggleRobotCheck()">
+        <div class="custom-checkbox" id="robotCheckbox"></div>
+        <span class="captcha-label">أنا لست روبوت</span>
+      </div>
+      <div class="captcha-brand">
+        <div style="font-weight:bold;color:#00f2fe">reCAPTCHA</div>
+        <span style="font-size:0.55rem">Privacy - Terms</span>
+      </div>
     </div>
 
     <button class="btn" onclick="handleLogin()" data-t="bLogin"></button>
@@ -304,21 +319,21 @@ const BACKEND_SVG_FALLBACK = "data:image/svg+xml;utf8,"+encodeURIComponent(`
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 800" width="100%" height="100%">
   <defs>
     <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
-      <stop offset="0%" stop-color="#020818"/>
-      <stop offset="50%" stop-color="#071b38"/>
-      <stop offset="100%" stop-color="#01040a"/>
+      <stop offset="0%" stop-color="#010409"/>
+      <stop offset="50%" stop-color="#0d1b38"/>
+      <stop offset="100%" stop-color="#010409"/>
     </linearGradient>
     <radialGradient id="glow" cx="50%" cy="40%" r="50%">
-      <stop offset="0%" stop-color="#00d2ff" stop-opacity="0.35"/>
+      <stop offset="0%" stop-color="#00f2fe" stop-opacity="0.4"/>
       <stop offset="100%" stop-color="#000" stop-opacity="0"/>
     </radialGradient>
   </defs>
   <rect width="600" height="800" fill="url(#bg)"/>
   <circle cx="300" cy="350" r="280" fill="url(#glow)"/>
-  <circle cx="300" cy="350" r="180" fill="none" stroke="#00d2ff" stroke-width="3" stroke-dasharray="10 15" opacity="0.6"/>
-  <text x="300" y="320" font-family="'Cairo', sans-serif" font-weight="900" font-size="70" fill="#ffffff" text-anchor="middle" filter="drop-shadow(0 0 15px #00d2ff)">🐻</text>
+  <circle cx="300" cy="350" r="180" fill="none" stroke="#00f2fe" stroke-width="3" stroke-dasharray="10 15" opacity="0.6"/>
+  <text x="300" y="320" font-family="'Cairo', sans-serif" font-weight="900" font-size="70" fill="#ffffff" text-anchor="middle" filter="drop-shadow(0 0 15px #00f2fe)">🐻</text>
   <text x="300" y="410" font-family="'Cairo', sans-serif" font-weight="900" font-size="32" fill="#ffffff" text-anchor="middle" letter-spacing="1">دببة السلم للجي جيتسو</text>
-  <text x="300" y="460" font-family="'Cairo', sans-serif" font-weight="800" font-size="20" fill="#00d2ff" text-anchor="middle" letter-spacing="2">BEARS OF PEACE JU-JUTSU</text>
+  <text x="300" y="460" font-family="'Cairo', sans-serif" font-weight="800" font-size="20" fill="#00f2fe" text-anchor="middle" letter-spacing="2">BEARS OF PEACE JU-JUTSU</text>
   <text x="300" y="500" font-family="'Cairo', sans-serif" font-weight="600" font-size="16" fill="#8a99ad" text-anchor="middle">OUED ESLAM - VAILLANT FIGHTERS</text>
 </svg>`);
 
@@ -327,12 +342,19 @@ const BACKEND_SVG_FALLBACK = "data:image/svg+xml;utf8,"+encodeURIComponent(`
 const WEB3FORMS_KEY = "d3202d37-61c2-4ff2-84a9-1a78fe5dea52";
 let currentFighter = null;
 
-let cNum1 = 0, cNum2 = 0;
-function generateCaptcha(){
-  cNum1 = Math.floor(Math.random() * 10) + 1;
-  cNum2 = Math.floor(Math.random() * 9) + 1;
-  document.getElementById('captchaQuestion').textContent = `${cNum1} + ${cNum2} =`;
-  document.getElementById('captchaAnswer').value = '';
+let isRobotVerified = false;
+function toggleRobotCheck(){
+  isRobotVerified = !isRobotVerified;
+  const cb = document.getElementById('robotCheckbox');
+  if(isRobotVerified){
+    cb.classList.add('checked');
+    cb.innerHTML = '✔';
+    beep(750,.1);
+  } else {
+    cb.classList.remove('checked');
+    cb.innerHTML = '';
+    beep(400,.1);
+  }
 }
 
 let selectedRating = 5;
@@ -470,7 +492,7 @@ const fightersData=[
  mk("26/19","محمد ضياء الدين","ڨروج","Mohamed Diaeddine Guerroudj","08/05/2017","تيارت","حي بوسحابة احمد","0670270928","ڨروج راشد","C","gray","23gMjg67"),
  mk("26/20","تاج الدين","لعبش","Tadjeddine Laabach","23/07/2012","زمورة","حي احمد بلعالية","0662978763","لعبش طيب","A","blue","hF3LT4zj"),
  mk("26/21","يوسف","لعبش","Youssef Laabach","08/12/2013","رحوية","حي احمد بلعالية","0662978763","لعبش طيب","A","greenblack","rfFTvm06"),
- mk("26/22","ياسين","عكرمي","Akermi yassine","16/05/2010","زمورة","حي بشيري العيد","0659653374","عكرمي لخضر","A","blue","BHFYBpHH"),
+ mk("26/22","ياسين","عكرمي","Akrami yassine","16/05/2010","زمورة","حي بشيري العيد","0659653374","عكرمي أحمد","A","blue","BHFYBpHH"),
  mk("26/23","مولاي عبد المحسن","بلخادم","Moulay Abdelmohsen Belkhadem","21/10/2009","غليزان","حي بلحاج احمد محمد","0561621595","بلخادم عمر","A","greenblack","0pVcpZ8T"),
  mk("26/24","يوسف الصديق","مفلاح","Youssef Seddik Meflah","04/04/2010","منداس","حي بلحاج احمد محمد","066515314317","مفلاح بن عودة","A","greenblack","Y4Bftq3t"),
  mk("26/25","الياس","عكرمي","Ilyas Akrami","20/12/2012","زمورة","حي بشيري العيد","0697854360","عكرمي امحمد","A","greenblack","qM6Cw4vk"),
@@ -483,8 +505,10 @@ const fightersData=[
  mk("26/32","محمد عدة","سعدي","Mohammed Aadda Saadi","19/11/2013","تيارت","حي مجاهد قويدر","0772757913","سعدي محمد","A","white","GhdwZ2c",true),
  mk("26/33","محمد براء","بن مداح","Mohamed Baraa Ben Maddah","12/02/2019","عين بوسيف","حي بن بدرة بن عودة","0796992436","بن مداح عبد القادر","C","white","jvcM0Vry"),
  mk("26/34","سيف الاسلام","عبد اللطيف","Seif El Islam Abdelatif","28/08/2016","منداس","بشيري العيد","0771926392","عبد اللطيف عدة","C","white","gLRpxGSB"),
- mk("26/35","صهيب","بلجيلالي","Suhaib Beldjilali","13/07/2019","منداس","حي بوسحابة احمد","0773544293","بلجيلالي","C","yellow","XZqxsDjh"),
- mk("26/36","خالد","بوعامر","Khaled Bouamer","26/11/2015","تيارت","حي بوسحابة احمد","0776868143","بوعامر","B","white","YFfVhYXc")
+ mk("26/35","صهيب","بلجيلالي","Soheib Beldjillali","13/07/2019","منداس","حي بوسحابة احمد","0773544293","بلجيلالي","C","yellow","https://ibb.co/pvLRs4Dc"),
+ mk("26/36","خالد","بوعامر","Khaled Bouameur","26/11/2015","تيارت","حي بوسحابة احمد","0776868143","بوعامر محمد أمين","B","white","https://ibb.co/tMtsTSYf"),
+ mk("26/37","محمد الامين","مفلاح","Mohamed El Amine Meflah","15/03/2014","غليزان","القرية الفلاحية وادي السلام","0656008036","مفلاح","A","white","VpggTHBc"),
+ mk("26/38","محمد عبد الرزاق","بوعامر","Mohamed Abderrazak Bouamer","27/04/2012","الرحوية","بوعمود بخدة","0771210560","بوعامر","A","white","nNQJ5FyJ")
 ];
 
 function cleanWords(str){
@@ -508,8 +532,8 @@ function nameMatches(input,f){
 }
 
 const T={
- ar:{subLogin:"بوابة المقاتلين الآمنة",subForgot:"التحقق من الهوية",lName:"الاسم واللقب (لا يشترط الترتيب):",lDob:"تاريخ الميلاد (DD/MM/YYYY):",lAcc:"رقم الاعتماد:",lPhone:"رقم الهاتف:",bLogin:"دخول البطاقة",bSend:"إظهار معلومات الدخول",forgot:"نسيت كلمة السر؟",recTitle:"استعادة الحساب",back:"العودة لتسجيل الدخول",logout:"⬅ خروج",pName:"أدخل اسمك ولقبك هنا",eLogin:"خطأ في البيانات أو عملية التحقق الرسومية! تأكد وحاول ثانية.",eRec:"البيانات غير مطابقة. تحقق من الاسم وتاريخ الميلاد ورقم الهاتف.",newCard:"إنشاء بطاقة جديدة",regTitle:"تسجيل جديد",eSend:"تعذر الإرسال، حاول مرة أخرى أو تواصل مع المسؤول.",sending:"جارٍ الإرسال...",btn:"English"},
- en:{subLogin:"Fighter Secure Portal",subForgot:"Verify Ownership",lName:"Full Name (order doesn't matter):",lDob:"Date of Birth (DD/MM/YYYY):",lAcc:"Accreditation Number:",lPhone:"Phone Number:",bLogin:"Access Card",bSend:"Show Login Details",forgot:"Forgot Password?",recTitle:"Account Recovery",back:"Back to Login",logout:"⬅ Logout",pName:"Enter your name and surname",eLogin:"Wrong details or failed Captcha! Check and try again.",eRec:"Details don't match. Check name, date of birth and phone.",newCard:"Create a new card",regTitle:"New Registration",eSend:"Could not send. Try again or contact the manager.",sending:"Sending...",btn:"عربي"}
+ ar:{subLogin:"بوابة المقاتلين الآمنة",subForgot:"التحقق من الهوية",lName:"الاسم واللقب (لا يشترط الترتيب):",lDob:"تاريخ الميلاد (DD/MM/YYYY):",lAcc:"رقم الاعتماد:",lPhone:"رقم الهاتف:",bLogin:"دخول البطاقة",bSend:"إظهار معلومات الدخول",forgot:"نسيت كلمة السر؟",recTitle:"استعادة الحساب",back:"العودة لتسجيل الدخول",logout:"⬅ خروج",pName:"أدخل اسمك ولقبك هنا",eLogin:"خطأ في البيانات أو لم تقم بتأكيد (أنا لست روبوت)! تأكد وحاول ثانية.",eRec:"البيانات غير مطابقة. تحقق من الاسم وتاريخ الميلاد ورقم الهاتف.",newCard:"إنشاء بطاقة جديدة",regTitle:"تسجيل جديد",eSend:"تعذر الإرسال، حاول مرة أخرى أو تواصل مع المسؤول.",sending:"جارٍ الإرسال...",btn:"English"},
+ en:{subLogin:"Fighter Secure Portal",subForgot:"Verify Ownership",lName:"Full Name (order doesn't matter):",lDob:"Date of Birth (DD/MM/YYYY):",lAcc:"Accreditation Number:",lPhone:"Phone Number:",bLogin:"Access Card",bSend:"Show Login Details",forgot:"Forgot Password?",recTitle:"Account Recovery",back:"Back to Login",logout:"⬅ Logout",pName:"Enter your name and surname",eLogin:"Wrong details or robot check failed! Check and try again.",eRec:"Details don't match. Check name, date of birth and phone.",newCard:"Create a new card",regTitle:"New Registration",eSend:"Could not send. Try again or contact the manager.",sending:"Sending...",btn:"عربي"}
 };
 let currentLang='ar';
 function applyLang(){
@@ -528,7 +552,6 @@ function show(id){
     if(el) el.style.display='none';
   });
   regMsg.className='msg';
-  if(id==='loginSection') generateCaptcha();
   beep(500,.1);
 }
 
@@ -541,19 +564,17 @@ function submitRecovery(){
   fSuccess.innerHTML = `✅ <strong>تم إيجاد حسابك بنجاح!</strong><br><br>
   📝 <strong>الاسم:</strong> ${esc(m.nameAr)}<br>
   📅 <strong>الميلاد:</strong> ${esc(m.dob)}<br>
-  🪪 <strong>رقم الاعتماد:</strong> <span style="color:#00d2ff;font-size:1.1rem;font-weight:900;">${esc(m.id)}</span>`;
+  🪪 <strong>رقم الاعتماد:</strong> <span style="color:#00f2fe;font-size:1.1rem;font-weight:900;">${esc(m.id)}</span>`;
   fSuccess.style.display='block';
   beep(750,.2);
 }
 
 async function handleLogin(){
   const dob=normDob(loginDob.value),acc=normAcc(loginAcc.value);
-  const userAns = +captchaAnswer.value;
   
-  if(userAns !== (cNum1 + cNum2)){
-    loginError.textContent = "❌ خطأ في عملية إثبات أنك لست روبوت! أعد المحاولة.";
+  if(!isRobotVerified){
+    loginError.textContent = "❌ يرجى تأكيد أنك لست روبوت بالنقر على المربع أولاً!";
     loginError.style.display = 'block';
-    generateCaptcha();
     beep(280,.2);
     return;
   }
@@ -568,7 +589,6 @@ async function handleLogin(){
   }else{
     loginError.textContent = T[currentLang].eLogin;
     loginError.style.display='block';
-    generateCaptcha();
     beep(320,.2);
   }
 }
@@ -578,8 +598,12 @@ const EXTS=['jpg','png','jpeg','webp'];
 function imgFail(img){
   const i=+img.dataset.st||0;
   img.dataset.st=i+1;
-  if(i<EXTS.length) img.src=`https://i.ibb.co/${img.dataset.code}/image.${EXTS[i]}`;
-  else{img.onerror=null;img.src=NO_PHOTO;}
+  const rawCode=img.dataset.code;
+  if(i<EXTS.length) {
+    img.src = rawCode.startsWith('http') ? rawCode : `https://i.ibb.co/${rawCode}/image.${EXTS[i]}`;
+  } else {
+    img.onerror=null;img.src=NO_PHOTO;
+  }
 }
 
 function flipCard(){
@@ -597,6 +621,8 @@ function renderFighterCard(f){
     ?'🎯 <strong>الهدف القادم:</strong> مراجعة وضعية الانتساب والترقي نحو الأحزمة المتقدمة فور زوال التعليق.'
     :'🎯 <strong>الهدف القادم:</strong> التقدم المستمر نحو الأحزمة المتقدمة والانضباط التدريبي.';
   
+  const imgSrc = f.photo.startsWith('http') ? f.photo : `https://i.ibb.co/${esc(f.photo)}/image.jpg`;
+
   activeCardContainer.innerHTML=`
   <div class="card" id="mainFighterCard" style="border-color:${b.g}">
     <div class="card-front">
@@ -609,11 +635,11 @@ function renderFighterCard(f){
       <div class="greet">👋 مرحباً ${esc(x.first)}</div>
       ${f.suspended?'<div class="susp">❌ مشطوب حتى إشعار آخر</div>':''}
       <div class="prof">
-        <div class="photo"><img id="fighterImg" src="https://i.ibb.co/${esc(f.photo)}/image.jpg" data-st="1" onclick="zoomPhoto(this)" style="cursor:zoom-in" data-code="${esc(f.photo)}" alt="صورة ${esc(f.nameAr)}" onerror="imgFail(this)"></div>
+        <div class="photo"><img id="fighterImg" src="${imgSrc}" data-st="1" onclick="zoomPhoto(this)" style="cursor:zoom-in" data-code="${esc(f.photo)}" alt="صورة ${esc(f.nameAr)}" onerror="imgFail(this)"></div>
         <div class="kim"><svg viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
           <path d="M20 20 L35 10 L65 10 L80 20 L95 35 L80 45 L80 90 L20 90 L20 45 L5 35 Z" fill="#f0f0f0" stroke="#ccc" stroke-width="1.5"/>
-          <path d="M35 10 L50 50 L20 90" stroke="#004080" stroke-width="4" fill="none"/>
-          <path d="M65 10 L50 50 L80 90" stroke="#004080" stroke-width="4" fill="none"/>
+          <path d="M35 10 L50 50 L20 90" stroke="#0476ff" stroke-width="4" fill="none"/>
+          <path d="M65 10 L50 50 L80 90" stroke="#0476ff" stroke-width="4" fill="none"/>
           <path d="M20 45 L30 40 L30 85 L20 90 Z" fill="#e0e0e0"/><path d="M80 45 L70 40 L70 85 L80 90 Z" fill="#d0d0d0"/>
           <rect x="22" y="55" width="56" height="8" fill="${b.c}"/>
           ${f.belt==='greenblack'?'<rect x="46" y="55" width="8" height="8" fill="#111"/>':''}
@@ -648,7 +674,7 @@ function renderFighterCard(f){
           <button class="act" onclick="saveCard()">📸 حفظ كصورة</button>
           <button class="act" onclick="window.print()">🖨️ طباعة</button>
           <button class="act wide parent" onclick="togglePanel('pParent')">📢 إخبار المدرب بأي إشكال لابنك (خاص بأولياء الأمور)</button>
-          <button class="act wide" style="background:linear-gradient(135deg,#004080,#0077ff)" onclick="flipCard()">🪪 الوجه الخلفي للبطاقة (اضغط للتقليب)</button>
+          <button class="act wide" style="background:linear-gradient(135deg,#0476ff,#00f2fe);color:#000" onclick="flipCard()">🪪 الوجه الخلفي للبطاقة (اضغط للتقليب)</button>
           <button class="act wide" onclick="togglePanel('p5')">⚠️ يرجى إخبارنا بالمشكلة</button>
         </div>
         <div id="p1" class="panel">${target}</div>
@@ -677,7 +703,7 @@ function renderFighterCard(f){
 
     <div class="card-back">
       <img src="https://i.ibb.co/vvB5ZmFH/1790268608620.jpg" class="card-back-img" alt="الوجه الخلفي للبطاقة" onerror="this.onerror=null;this.src=BACKEND_SVG_FALLBACK;">
-      <button class="act card-back-btn" style="background:linear-gradient(135deg,#004080,#0077ff); padding:12px;" onclick="flipCard()">🔄 العودة للوجه الأمامي</button>
+      <button class="act card-back-btn" style="background:linear-gradient(135deg,#0476ff,#00f2fe); color:#000; padding:12px;" onclick="flipCard()">🔄 العودة للوجه الأمامي</button>
     </div>
   </div>`;
   show('cardView');
@@ -759,6 +785,9 @@ regForm.addEventListener("submit",async e=>{
 function logoutFighter(){
   show('loginSection');
   loginName.value=loginDob.value=loginAcc.value='';
+  isRobotVerified=false;
+  const cb = document.getElementById('robotCheckbox');
+  if(cb){cb.classList.remove('checked');cb.innerHTML='';}
   activeCardContainer.innerHTML='';
   beep(380,.15);
 }
@@ -766,7 +795,7 @@ function logoutFighter(){
 let soundOn=true;
 const store={get:k=>{try{return localStorage.getItem(k)}catch(e){return null}},set:(k,v)=>{try{localStorage.setItem(k,v)}catch(e){}}};
 function applyTheme(l){document.documentElement.classList.toggle('light',l);themeBtn.textContent=l?'☀️':'🌙';
-  const m=document.querySelector('meta[name=theme-color]');if(m)m.content=l?'#eaf4ff':'#030814';}
+  const m=document.querySelector('meta[name=theme-color]');if(m)m.content=l?'#eaf4ff':'#010409';}
 function toggleTheme(){const l=!document.documentElement.classList.contains('light');applyTheme(l);store.set('theme',l?'light':'dark');beep(l?780:480,.12);}
 
 function toggleSound(){
@@ -807,7 +836,7 @@ function beep(f=600,d=.15){
   }catch(e){}
 }
 
-function confetti(){const cols=['#00d2ff','#0077ff','#00e676','#ffd600','#ff5252','#fff'];
+function confetti(){const cols=['#00f2fe','#0476ff','#00e676','#ffd600','#ff5252','#fff'];
   for(let i=0;i<40;i++){const d=document.createElement('div');d.className='cf';
     d.style.left=Math.random()*100+'vw';d.style.background=cols[i%cols.length];d.style.animationDelay=Math.random()*.6+'s';d.style.animationDuration=(1.8+Math.random()*1.2)+'s';
     document.body.appendChild(d);setTimeout(()=>d.remove(),3500);}}
@@ -832,7 +861,7 @@ function generateCanvasCard(f) {
     ctx.fillStyle = isLight ? '#ffffff' : '#0a1931';
     ctx.fillRect(0, 0, 600, 700);
 
-    ctx.strokeStyle = '#00d2ff';
+    ctx.strokeStyle = '#00f2fe';
     ctx.lineWidth = 6;
     ctx.strokeRect(10, 10, 580, 680);
 
@@ -841,18 +870,18 @@ function generateCanvasCard(f) {
     ctx.font = 'bold 24px Cairo, sans-serif';
     ctx.fillText('دببة السلم للجي جيتسو وادي السلام', 300, 50);
 
-    ctx.fillStyle = '#00d2ff';
+    ctx.fillStyle = '#00f2fe';
     ctx.font = '16px Cairo, sans-serif';
     ctx.fillText('BEARS OF PEACE JU-JUTSU OUED ESLAM', 300, 75);
 
-    ctx.fillStyle = '#00d2ff';
+    ctx.fillStyle = '#00f2fe';
     ctx.fillRect(180, 90, 240, 30);
     ctx.fillStyle = '#000000';
     ctx.font = 'bold 16px Cairo, sans-serif';
     ctx.fillText('بطاقة مقاتل / FIGHTER CARD', 300, 111);
 
     ctx.textAlign = 'right';
-    ctx.fillStyle = isLight ? '#35506f' : '#a0c4ff';
+    ctx.fillStyle = isLight ? '#35506f' : '#b0e0ff';
     ctx.font = '16px Cairo, sans-serif';
 
     const labels = [
@@ -869,7 +898,7 @@ function generateCanvasCard(f) {
 
     let startY = 170;
     labels.forEach(([lbl, val]) => {
-      ctx.fillStyle = isLight ? '#35506f' : '#a0c4ff';
+      ctx.fillStyle = isLight ? '#35506f' : '#b0e0ff';
       ctx.fillText(lbl, 550, startY);
       ctx.fillStyle = isLight ? '#0b1b33' : '#ffffff';
       ctx.fillText(val || '-', 380, startY);
@@ -885,7 +914,7 @@ function generateCanvasCard(f) {
     img.crossOrigin = 'anonymous';
     img.onload = () => {
       ctx.drawImage(img, 50, 170, 140, 170);
-      ctx.strokeStyle = '#00d2ff';
+      ctx.strokeStyle = '#00f2fe';
       ctx.lineWidth = 3;
       ctx.strokeRect(50, 170, 140, 170);
       resolve(canvas.toDataURL('image/png'));
@@ -899,7 +928,7 @@ function generateCanvasCard(f) {
       ctx.fillText('صورة المقاتل', 120, 260);
       resolve(canvas.toDataURL('image/png'));
     };
-    img.src = `https://i.ibb.co/${f.photo}/image.jpg`;
+    img.src = f.photo.startsWith('http') ? f.photo : `https://i.ibb.co/${f.photo}`;
   });
 }
 
@@ -965,10 +994,13 @@ function exportCSV(){
 if('serviceWorker' in navigator&&location.protocol.startsWith('http'))navigator.serviceWorker.register('sw.js').catch(()=>{});
 
 applyLang();
-generateCaptcha();
-{const sl=document.getElementById('splashLogo'),sp=document.getElementById('splash');
- sl.src=LOGO_URL;sl.onerror=()=>sl.style.display='none';
- setTimeout(()=>{sp.style.opacity=0;setTimeout(()=>sp.style.display='none',650);},1300);}
+{
+  const sp=document.getElementById('splash');
+  setTimeout(()=>{
+    sp.style.opacity=0;
+    setTimeout(()=>sp.style.display='none',800);
+  }, 2500);
+}
 </script>
 </body>
 </html>
