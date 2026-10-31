@@ -117,6 +117,10 @@ body{min-height:100vh;display:flex;justify-content:center;align-items:center;ove
 @keyframes spin{to{transform:rotate(360deg)}}
 
 .auth,#cardView{animation:fi .4s}
+#intro{position:fixed;inset:0;z-index:5500;background:#010409;display:none;flex-direction:column;align-items:center;justify-content:center;gap:14px;opacity:0;transition:opacity .5s}
+#intro.show{display:flex}#intro.vis{opacity:1}
+#intro img{width:min(86vw,86vh,576px);height:auto;aspect-ratio:1/1;object-fit:contain;border-radius:16px;box-shadow:0 0 40px rgba(0,242,254,.4)}
+#intro .iname{color:#fff;font-weight:800;font-size:1.1rem;text-shadow:0 0 12px var(--glow);text-align:center;padding:0 16px}
 .tools{position:fixed;top:20px;left:20px;display:flex;gap:8px;z-index:1000}
 .tools button{background:rgba(4,118,255,.6);color:var(--pb);border:1px solid var(--pb);width:38px;height:38px;border-radius:50%;cursor:pointer;font-size:1rem;backdrop-filter:blur(10px)}
 select{flex:1;padding:8px;border-radius:8px;background:rgba(0,0,0,.5);color:#fff;border:1px solid rgba(0,242,254,.4);font-size:.8rem}
@@ -172,6 +176,7 @@ html.light .subs.neu{color:#35506f}
 <div id="splash">
   <div class="spinner-box"><div class="spinner"></div><span>جارٍ تحميل منصة المقاتلين...</span></div>
 </div>
+<div id="intro"><img id="introImg" alt=""><div class="iname" id="introName"></div></div>
 <button class="lang" id="langBtn" onclick="toggleLanguage()">English</button>
 <div class="tools"><button id="themeBtn" onclick="toggleTheme()" title="الوضع">🌙</button><button id="soundBtn" onclick="toggleSound()" title="الصوت">🔊</button></div>
 <div id="lightbox" onclick="this.style.display='none'"><img id="lbImg" alt=""></div>
@@ -335,6 +340,23 @@ const BACKEND_SVG_FALLBACK = "data:image/svg+xml;utf8,"+encodeURIComponent(`
  lg.onerror=()=>{lg.onerror=null;lg.src="data:image/svg+xml,"+encodeURIComponent('<svg xmlns="http://www.w3.org/2000/svg" width="110" height="110"><text x="55" y="72" font-size="60" text-anchor="middle">🐻</text></svg>');};}
 const WEB3FORMS_KEY = "d3202d37-61c2-4ff2-84a9-1a78fe5dea52";
 let currentFighter = null;
+const INTRO_GIF = "https://i.ibb.co/RTcCfph1/20261030-214409.gif";
+const INTRO_MS = 6000;
+(new Image()).src = INTRO_GIF; // تحميل مسبق
+let introBusy = false;
+function playIntro(f){
+  return new Promise(res=>{
+    const box=document.getElementById('intro'),im=document.getElementById('introImg');
+    document.getElementById('introName').textContent='👋 '+f.nameAr;
+    im.src=INTRO_GIF+'?t='+Date.now(); // لتبدأ الحركة من أول إطار
+    box.classList.add('show');
+    requestAnimationFrame(()=>requestAnimationFrame(()=>box.classList.add('vis')));
+    setTimeout(()=>{
+      box.classList.remove('vis');
+      setTimeout(()=>{box.classList.remove('show');im.src='';res();},500);
+    },INTRO_MS);
+  });
+}
 
 let isRobotVerified = false;
 function toggleRobotCheck(){
@@ -586,6 +608,10 @@ async function handleLogin(){
   if(f){
     loginError.style.display='none';
     await Promise.race([sheetReady,new Promise(r=>setTimeout(r,3500))]);
+    if(introBusy) return;
+    introBusy=true;
+    await playIntro(f);
+    introBusy=false;
     renderFighterCard(f);
     confetti();
     beep(750,.15);
