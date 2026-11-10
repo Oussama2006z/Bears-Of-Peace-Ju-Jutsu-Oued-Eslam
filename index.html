@@ -270,9 +270,9 @@ html.light .subs.neu{color:#35506f}
       </div>
       <span class="gt">الأوقات (يمكنك اختيار أكثر من وقت)</span>
       <div class="choices" id="rTimes">
-        <button type="button" class="choice times" data-v="الاثنين 17:00 – 18:30">الاثنين 17:00 – 18:30</button>
-        <button type="button" class="choice times" data-v="الأربعاء 17:00 – 18:30">الأربعاء 17:00 – 18:30</button>
-        <button type="button" class="choice times" data-v="الجمعة 17:00 – 18:30">الجمعة 17:00 – 18:30</button>
+        <button type="button" class="choice times" data-v="الاثنين 16:30 – 18:00">الاثنين 16:30 – 18:00</button>
+        <button type="button" class="choice times" data-v="الأربعاء 16:30 – 18:00">الأربعاء 16:30 – 18:00</button>
+        <button type="button" class="choice times" data-v="الجمعة 16:30 – 18:00">الجمعة 16:30 – 18:00</button>
       </div>
       <button type="button" class="btn alt" id="rFileBtn">استمارة التسجيل</button>
       <div class="info" id="rFileInfo">
@@ -298,7 +298,7 @@ html.light .subs.neu{color:#35506f}
     <div class="sub" style="text-align:center">Bears of Peace Ju Jutsu Oued Eslam</div>
     <div class="sc"><h3>من نحن</h3><p>نادي دببة السلم للجي جيتسو بوادي السلام: تدريب في الجي جيتسو وMMA والكونغ فو للأطفال والشباب، مع التركيز على الانضباط والاحترام.</p></div>
     <div class="sc"><h3>المدربون</h3><p>بن جمعة عبد القادر • علو أسامة</p></div>
-    <div class="sc"><h3>الحصص</h3><p>الاثنين والأربعاء والجمعة، من 17:00 إلى 18:30.</p></div>
+    <div class="sc"><h3>الحصص</h3><p>الاثنين والأربعاء والجمعة، من 16:30 إلى 18:00.</p></div>
     <div class="sc"><h3>التخصصات</h3><p>Ju Jutsu • MMA • Kung Fu • Grappling</p></div>
     <a class="btn alt" href="https://www.facebook.com/profile.php?id=61574944910883" target="_blank" rel="noopener">📘 صفحتنا على فيسبوك</a>
     <a class="btn alt" href="tel:0557905083">📞 تواصل مع المسؤول</a>
@@ -336,7 +336,7 @@ html.light .subs.neu{color:#35506f}
 
 <script>
 const MANAGER_PHONE = "0557905083";
-const ADMIN_PASS = "bears2026";
+const ADMIN_PASS = "جي جيتسو 2022";
 const LOGO_URL = "https://i.ibb.co/vvB5ZmFH/1790268608620.jpg";
 
 const BACKEND_SVG_FALLBACK = "data:image/svg+xml;utf8,"+encodeURIComponent(`
@@ -421,7 +421,7 @@ async function submitRating(){
   }
 }
 
-const SHEET_CSV_URL = "";
+const SHEET_CSV_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vRJL64LkEdoXrjNpO8o82tHakMpcpAtWZB3-mCW4KAa2jvpqvCUr2usXwx4slgoM0yYgJSLqUzp4Mor/pub?gid=0&single=true&output=csv";
 let SHEET = {};
 const EVENTS = [];
 const VIDEOS = [];
@@ -469,21 +469,32 @@ function cardExtras(f){
     `🏆 الشارات: ${badges.length?badges.map(esc).join(' • '):'لا توجد بعد'}`+
     (row.note?`<br>📝 ملاحظة المدرب: ${esc(row.note)}`:'');
   const evs=EVENTS.length?'<br>🗓️ <strong>الفعاليات القادمة:</strong><ul>'+EVENTS.map(e=>`<li>${esc(e.d)} — ${esc(e.t)}</li>`).join('')+'</ul>':'';
-  const sched=`📅 <strong>جدول الحصص:</strong><br>${SCHEDULE.map(x=>x[1]).join(' • ')} — 17:00 – 18:30${evs}<br><button class="act" style="margin-top:8px;width:100%" onclick="addToCalendar()">➕ أضف الحصص إلى التقويم</button>`;
+  const sched=`📅 <strong>جدول الحصص:</strong><br>${SCHEDULE.map(x=>x[1]).join(' • ')} — 16:30 – 18:00${evs}<br><button class="act" style="margin-top:8px;width:100%" onclick="addToCalendar()">➕ أضف الحصص إلى التقويم</button>`;
   const ann=SHEET.ALL&&SHEET.ALL.note;
   const news=`📢 <strong>إعلانات النادي:</strong><br>${ann?esc(ann):'لا توجد إعلانات حالياً.'}`;
   const vids=`🎬 <strong>فيديوهات تعليمية:</strong><br>`+(VIDEOS.length?'<ul>'+VIDEOS.filter(v=>/^https?:\/\//.test(v.u)).map(v=>`<li><a href="${esc(v.u)}" target="_blank" rel="noopener">▶ ${esc(v.t)}</a></li>`).join('')+'</ul>':'ستتوفر قريباً.');
   const tip=TIPS[Math.floor(Date.now()/864e5)%TIPS.length];
-  return {first,subHtml,prog,sched,news,vids,tip};
+  const extra=`⭐ <strong>الحصص الإضافية:</strong><br>📌 حصة يوم السبت — ${fmtD(nextSaturday())}<br>🕙 من 10:00 إلى 11:00 صباحاً<br><button class="act" style="margin-top:8px;width:100%" onclick="addExtraToCalendar()">➕ أضف الحصة إلى التقويم</button>`;
+  return {first,subHtml,prog,sched,news,vids,tip,extra};
 }
 
 /* التقويم بمنطقة زمنية: توقيت الجزائر (Africa/Algiers = UTC+1 ثابت) */
+function nextSaturday(){const d=new Date();d.setHours(0,0,0,0);d.setDate(d.getDate()+((6-d.getDay()+7)%7||7));return d;}
+function addExtraToCalendar(){
+  const pad=n=>String(n).padStart(2,'0'),TZ='Africa/Algiers',d=nextSaturday();
+  const day=d.getFullYear()+pad(d.getMonth()+1)+pad(d.getDate());
+  const stamp=new Date().toISOString().replace(/[-:]/g,'').split('.')[0]+'Z';
+  const tz=['BEGIN:VTIMEZONE','TZID:'+TZ,'BEGIN:STANDARD','DTSTART:19700101T000000','TZOFFSETFROM:+0100','TZOFFSETTO:+0100','TZNAME:CET','END:STANDARD','END:VTIMEZONE'].join("\r\n");
+  const ev=['BEGIN:VEVENT','UID:bears-extra-'+day+'@peace','DTSTAMP:'+stamp,'DTSTART;TZID='+TZ+':'+day+'T100000','DTEND;TZID='+TZ+':'+day+'T110000','SUMMARY:حصة إضافية Bears of Peace Ju-Jutsu','END:VEVENT'].join("\r\n");
+  const ics=['BEGIN:VCALENDAR','VERSION:2.0','PRODID:-//Bears of Peace//AR','CALSCALE:GREGORIAN',tz,ev,'END:VCALENDAR'].join("\r\n");
+  const a=document.createElement('a');a.href=URL.createObjectURL(new Blob([ics],{type:'text/calendar'}));a.download='bears-extra-session.ics';document.body.appendChild(a);a.click();a.remove();
+}
 function addToCalendar(){
   const pad=n=>String(n).padStart(2,'0'),idx={SU:0,MO:1,TU:2,WE:3,TH:4,FR:5,SA:6},TZ='Africa/Algiers';
   const stamp=new Date().toISOString().replace(/[-:]/g,'').split('.')[0]+'Z';
   const ev=SCHEDULE.map(([c,n])=>{const d=new Date();d.setDate(d.getDate()+((idx[c]-d.getDay()+7)%7||7));
     const day=d.getFullYear()+pad(d.getMonth()+1)+pad(d.getDate());
-    return ['BEGIN:VEVENT','UID:bears-'+c+'@peace','DTSTAMP:'+stamp,'DTSTART;TZID='+TZ+':'+day+'T170000','DTEND;TZID='+TZ+':'+day+'T183000','RRULE:FREQ=WEEKLY;BYDAY='+c,'SUMMARY:تدريب Bears of Peace Ju-Jutsu','END:VEVENT'].join("\r\n");});
+    return ['BEGIN:VEVENT','UID:bears-'+c+'@peace','DTSTAMP:'+stamp,'DTSTART;TZID='+TZ+':'+day+'T163000','DTEND;TZID='+TZ+':'+day+'T180000','RRULE:FREQ=WEEKLY;BYDAY='+c,'SUMMARY:تدريب Bears of Peace Ju-Jutsu','END:VEVENT'].join("\r\n");});
   const tz=['BEGIN:VTIMEZONE','TZID:'+TZ,'BEGIN:STANDARD','DTSTART:19700101T000000','TZOFFSETFROM:+0100','TZOFFSETTO:+0100','TZNAME:CET','END:STANDARD','END:VTIMEZONE'].join("\r\n");
   const ics=['BEGIN:VCALENDAR','VERSION:2.0','PRODID:-//Bears of Peace//AR','CALSCALE:GREGORIAN',tz,...ev,'END:VCALENDAR'].join("\r\n");
   const a=document.createElement('a');a.href=URL.createObjectURL(new Blob([ics],{type:'text/calendar'}));a.download='bears-training.ics';document.body.appendChild(a);a.click();a.remove();
@@ -560,7 +571,7 @@ const fightersData=[
  mk("26/39","امحمد يعقوب","زريڨي","Mhamed Yaakoub Zergui","16/10/2015","منداس","حي بوسحابة احمد","0797310349","-","C","white","Y4gpwMTs"),
  mk("26/40","ابراهيم","زريڨي","Brahim Zergui","09/07/2013","غليزان","حي بوسحابة احمد","0666577909","-","A","white","RTFrVvps"),
  mk("26/41","ايوب ادم","زريڨي","Ayoub Adam Zergui","25/05/2018","تيارت","حي بوسحابة احمد","0666577909","-","C","white","tpkN2QxL"),
- mk("26/42","محمد","عباس","Mohamed Abbas","28/08/2017","زمورة","حي بن بدرة بن عودة","0771732598","-","C","white","Fb9SgDk7")
+ mk("26/42","محمد","عباس","Mohamed Abbas","26/08/2017","زمورة","حي بن بدرة بن عودة","0771732598","-","C","white","Fb9SgDk7")
 ];
 
 /* ===== الصور: قائمة الروابط المحتملة لكل مقاتل (تُستعمل في البطاقة وفي "حفظ كصورة") ===== */
@@ -773,6 +784,7 @@ function renderFighterCard(f){
           <button class="act" onclick="togglePanel('p9')">🎬 فيديوهات</button>
           <button class="act" onclick="saveCard()">📸 حفظ كصورة</button>
           <button class="act" onclick="window.print()">🖨️ طباعة</button>
+          <button class="act" style="grid-column:span 2;background:linear-gradient(135deg,#ff9800,#ffc107);color:#000" onclick="togglePanel('p10')">⭐ حصص إضافية</button>
           <button class="act wide parent" onclick="togglePanel('pParent')">📢 إخبار المدرب بأي إشكال لابنك (خاص بأولياء الأمور)</button>
           <button class="act wide" style="background:linear-gradient(135deg,#0476ff,#00f2fe);color:#000" onclick="flipCard()">🪪 الوجه الخلفي للبطاقة (اضغط للتقليب)</button>
           <button class="act wide" onclick="togglePanel('p5')">⚠️ يرجى إخبارنا بالمشكلة</button>
@@ -785,6 +797,7 @@ function renderFighterCard(f){
         <div id="p7" class="panel">${x.prog}</div>
         <div id="p8" class="panel">${x.news}</div>
         <div id="p9" class="panel">${x.vids}</div>
+        <div id="p10" class="panel">${x.extra}</div>
         <div id="pParent" class="panel"><div class="issue">
           <label>رسالة ولي الأمر حول ابنك (${esc(f.nameAr)}):</label>
           <textarea id="parentText" rows="3" placeholder="اكتب هنا أي تفاصيل صحية، غياب متوقع، أو إشكال يمر به الابن..."></textarea>
