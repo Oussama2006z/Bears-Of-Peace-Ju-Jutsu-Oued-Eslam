@@ -7,6 +7,18 @@
 <meta name="theme-color" content="#030814">
 <link rel="apple-touch-icon" href="icon-192.png">
 <link rel="preconnect" href="https://i.ibb.co">
+<!-- OneSignal: الإشعارات (ملف العامل داخل المجلد push/) -->
+<script src="https://cdn.onesignal.com/sdks/web/v16/OneSignalSDK.page.js" defer></script>
+<script>
+window.OneSignalDeferred = window.OneSignalDeferred || [];
+OneSignalDeferred.push(async function(OneSignal){
+  await OneSignal.init({
+    appId: "c4fae739-9595-4b57-bd08-7ea7051f1c20",
+    serviceWorkerPath: "Bears-Of-Peace-Ju-Jutsu-Oued-Eslam/push/OneSignalSDKWorker.js",
+    serviceWorkerParam: { scope: "/Bears-Of-Peace-Ju-Jutsu-Oued-Eslam/push/" }
+  });
+});
+</script>
 <title>Bears of Peace Ju-Jutsu - Fighter Portal</title>
 <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;800;900&display=swap" rel="stylesheet">
 <style>
