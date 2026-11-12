@@ -12,11 +12,14 @@
 <script>
 window.OneSignalDeferred = window.OneSignalDeferred || [];
 OneSignalDeferred.push(async function(OneSignal){
-  await OneSignal.init({
-    appId: "c4fae739-9595-4b57-bd08-7ea7051f1c20",
-    serviceWorkerPath: "Bears-Of-Peace-Ju-Jutsu-Oued-Eslam/push/OneSignalSDKWorker.js",
-    serviceWorkerParam: { scope: "/Bears-Of-Peace-Ju-Jutsu-Oued-Eslam/push/" }
-  });
+  try{
+    await OneSignal.init({
+      appId: "c4fae739-9595-4b57-bd08-7ea7051f1c20",
+      serviceWorkerPath: "Bears-Of-Peace-Ju-Jutsu-Oued-Eslam/push/OneSignalSDKWorker.js",
+      serviceWorkerParam: { scope: "/Bears-Of-Peace-Ju-Jutsu-Oued-Eslam/push/" }
+    });
+    window._osReady = true;
+  }catch(e){ window._osErr = String((e && e.message) || e); }
 });
 </script>
 <title>Bears of Peace Ju-Jutsu - Fighter Portal</title>
@@ -206,6 +209,11 @@ html.light .subs.neu{color:#35506f}
  .card.flipped .card-front{visibility:visible!important}
  .card-back{display:none!important}
 }
+.mini{background:rgba(0,242,254,.15);border:1px solid var(--pb);color:var(--pb);border-radius:6px;padding:3px 8px;cursor:pointer;font-size:.75rem}
+.fg select{width:100%}
+#aTabs .choice{flex:1 1 22%;padding:9px 4px;font-size:.8rem}
+.sc textarea{width:100%}
+html.light .mini{color:#006a99}
 </style>
 </head>
 <body>
@@ -239,7 +247,7 @@ html.light .subs.neu{color:#35506f}
     <div class="err" id="loginError" data-t="eLogin"></div>
     <button class="btn alt" onclick="show('regSection')" data-t="newCard"></button><br>
     <span class="link" onclick="show('forgotSection')" data-t="forgot"></span><br>
-    <span class="link" onclick="show('aboutSection')">ℹ️ عن النادي</span><span class="sep">|</span><span class="link" onclick="show('ratingSection')">⭐ تقييم المنصة</span><span class="sep">|</span><span class="link" onclick="show('adminAuthSection')">🔐 المسؤول</span>
+    <span class="link" onclick="enableNotifs()">🔔 تفعيل الإشعارات</span><br><span class="link" onclick="show('aboutSection')">ℹ️ عن النادي</span><span class="sep">|</span><span class="link" onclick="show('ratingSection')">⭐ تقييم المنصة</span><span class="sep">|</span><span class="link" onclick="show('adminAuthSection')">🔐 المسؤول</span>
   </div>
 
   <div id="forgotSection" class="auth" style="display:none">
@@ -309,11 +317,11 @@ html.light .subs.neu{color:#35506f}
     <div class="logo" style="text-align:center">عن النادي</div>
     <div class="sub" style="text-align:center">Bears of Peace Ju Jutsu Oued Eslam</div>
     <div class="sc"><h3>من نحن</h3><p>نادي دببة السلم للجي جيتسو بوادي السلام: تدريب في الجي جيتسو وMMA والكونغ فو للأطفال والشباب، مع التركيز على الانضباط والاحترام.</p></div>
-    <div class="sc"><h3>المدربون</h3><p>بن جمعة عبد القادر • علو أسامة</p></div>
-    <div class="sc"><h3>الحصص</h3><p>الاثنين والأربعاء والجمعة، من 16:30 إلى 18:00.</p></div>
+    <div class="sc"><h3>المدربون</h3><p id="aboutCoaches">بن جمعة عبد القادر • علو أسامة</p></div>
+    <div class="sc"><h3>الحصص</h3><p id="aboutSched">الاثنين والأربعاء والجمعة، من 16:30 إلى 18:00.</p></div>
     <div class="sc"><h3>التخصصات</h3><p>Ju Jutsu • MMA • Kung Fu • Grappling</p></div>
     <a class="btn alt" href="https://www.facebook.com/profile.php?id=61574944910883" target="_blank" rel="noopener">📘 صفحتنا على فيسبوك</a>
-    <a class="btn alt" href="tel:0557905083">📞 تواصل مع المسؤول</a>
+    <a class="btn alt" id="aboutCall" href="tel:0557905083">📞 تواصل مع المسؤول</a>
     <div style="text-align:center"><span class="link" onclick="show('loginSection')" data-t="back"></span></div>
   </div>
 
@@ -328,7 +336,40 @@ html.light .subs.neu{color:#35506f}
 
   <div id="adminSection" class="auth" style="display:none;text-align:start">
     <div class="logo" style="text-align:center">🔐 لوحة المسؤول</div>
+    <div class="choices" id="aTabs" style="margin-bottom:10px">
+      <button type="button" class="choice active" data-tab="tFighters">👥 المقاتلون</button>
+      <button type="button" class="choice" data-tab="tSettings">⚙️ الإعدادات</button>
+      <button type="button" class="choice" data-tab="tNotify">🔔 الإشعارات</button>
+      <button type="button" class="choice" data-tab="tPass">🔑 كلمة السر</button>
+    </div>
+    <div class="atab" id="tFighters">
     <div class="sc" id="aStats" style="font-size:.8rem;color:#b0e0ff;line-height:1.8"></div>
+    <button class="btn" onclick="openFighterForm(null)">➕ إضافة مقاتل جديد</button>
+    <div class="sc" id="fForm" style="display:none;margin-top:12px">
+      <h3 id="fmTitle">➕ مقاتل جديد</h3>
+      <div class="fg"><label>رقم الاعتماد (مثال 26/43):</label><input type="text" id="fm_id" inputmode="numeric"></div>
+      <div class="fg"><label>الاسم واللقب بالعربية:</label><input type="text" id="fm_nameAr" ></div>
+      <div class="fg"><label>الاسم واللقب باللاتينية:</label><input type="text" id="fm_nameEn" ></div>
+      <div class="fg"><label>تاريخ الميلاد (DD/MM/YYYY):</label><input type="text" id="fm_dob" inputmode="numeric"></div>
+      <div class="fg"><label>مكان الميلاد:</label><input type="text" id="fm_pob" ></div>
+      <div class="fg"><label>العنوان:</label><input type="text" id="fm_address" ></div>
+      <div class="fg"><label>رقم الهاتف:</label><input type="text" id="fm_phone" inputmode="tel"></div>
+      <div class="fg"><label>اسم الأب:</label><input type="text" id="fm_father" ></div>
+      <div class="fg"><label>المجموعة:</label><select id="fm_group"><option>A</option><option>B</option><option>C</option></select></div>
+      <div class="fg"><label>الحزام:</label><select id="fm_belt"></select></div>
+      <div class="fg"><label>الصورة (كود ibb أو رابط ibb.co أو رابط مباشر):</label><input type="text" id="fm_photo" ></div>
+      <label class="chk"><input type="checkbox" id="fm_susp"><span>🚫 مشطوب (يظهر اسمه فقط مع عبارة الشطب)</span></label>
+      <div class="fg"><label>مدفوع حتى (DD/MM/YYYY):</label><input type="text" id="fm_paid" inputmode="numeric"></div>
+      <div class="fg"><label>عدد الحصص التي حضرها:</label><input type="text" id="fm_present" inputmode="numeric"></div>
+      <div class="fg"><label>عدد الحصص الكلي:</label><input type="text" id="fm_total" inputmode="numeric"></div>
+      <div class="fg"><label>النقاط:</label><input type="text" id="fm_points" ></div>
+      <div class="fg"><label>الشارات (افصل بينها بـ | ):</label><input type="text" id="fm_badges" ></div>
+      <div class="fg"><label>ملاحظة المدرب:</label><textarea id="fm_note" rows="2"></textarea></div>
+      <button class="btn" id="fmSave" onclick="saveFighter()">💾 حفظ</button>
+      <button class="btn alt" type="button" onclick="closeFighterForm()">إلغاء</button>
+      <button class="btn alt" id="fmDel" type="button" onclick="deleteFighter()" style="display:none">🗑️ حذف المقاتل نهائياً</button>
+      <div class="msg" id="fmMsg"></div>
+    </div>
     <div class="fg"><input type="text" id="aSearch" placeholder="بحث بالاسم أو الاعتماد أو الهاتف" oninput="adminRender()"></div>
     <div class="choices" style="margin-bottom:10px">
       <select id="aGroup" onchange="adminRender()"><option value="">كل المجموعات</option><option>A</option><option>B</option><option>C</option></select>
@@ -336,6 +377,42 @@ html.light .subs.neu{color:#35506f}
       <select id="aStat" onchange="adminRender()"><option value="">كل الحالات</option><option value="act">نشط</option><option value="susp">مشطوب</option></select>
     </div>
     <div style="overflow-x:auto"><table id="aTable"></table></div>
+    <button class="btn" onclick="exportCSV()">⬇️ تصدير القائمة (Excel/CSV)</button>
+    </div>
+    <div class="atab" id="tSettings" style="display:none">
+    <div class="sc"><h3>📅 جدول الحصص الأسبوعي</h3>
+      <div class="gt">أيام الحصص (يمكن اختيار أكثر من يوم):</div>
+      <div class="choices" id="sDays"><button type="button" class="choice" data-v="SA">السبت</button><button type="button" class="choice" data-v="SU">الأحد</button><button type="button" class="choice" data-v="MO">الاثنين</button><button type="button" class="choice" data-v="TU">الثلاثاء</button><button type="button" class="choice" data-v="WE">الأربعاء</button><button type="button" class="choice" data-v="TH">الخميس</button><button type="button" class="choice" data-v="FR">الجمعة</button></div>
+      <div class="fg"><label>من الساعة:</label><input type="time" id="sFrom"></div>
+      <div class="fg"><label>إلى الساعة:</label><input type="time" id="sTo"></div>
+    </div>
+    <div class="sc"><h3>⭐ حصص إضافية</h3>
+      <div id="sExtraList"></div>
+      <div class="fg"><label>التاريخ:</label><input type="date" id="sxDate"></div>
+      <div class="fg"><label>من:</label><input type="time" id="sxFrom" value="10:00"></div>
+      <div class="fg"><label>إلى:</label><input type="time" id="sxTo" value="11:00"></div>
+      <div class="fg"><label>ملاحظة (اختياري):</label><input type="text" id="sxNote"></div>
+      <button class="btn alt" type="button" onclick="addExtraSession()">➕ أضف الحصة للقائمة</button>
+    </div>
+    <div class="sc"><h3>📢 إعلان النادي (يظهر في بطاقة كل مقاتل)</h3>
+      <div class="fg"><textarea id="sAnn" rows="3" maxlength="500"></textarea></div>
+    </div>
+    <div class="sc"><h3>🗓️ الفعاليات القادمة</h3>
+      <div class="fg"><label>سطر لكل فعالية: التاريخ | العنوان</label><textarea id="sEvents" rows="3"></textarea></div>
+    </div>
+    <div class="sc"><h3>🎬 فيديوهات تعليمية</h3>
+      <div class="fg"><label>سطر لكل فيديو: العنوان | الرابط</label><textarea id="sVideos" rows="3"></textarea></div>
+    </div>
+    <div class="sc"><h3>👨‍🏫 معلومات النادي</h3>
+      <div class="fg"><label>المدربون (اسم في كل سطر):</label><textarea id="sCoaches" rows="3"></textarea></div>
+      <div class="fg"><label>نص موعد الإجازة:</label><input type="text" id="sVac"></div>
+      <div class="fg"><label>هاتف المسؤول:</label><input type="text" id="sPhone" inputmode="tel"></div>
+      <div class="fg"><label>يوم دفع الاشتراك من كل شهر (1 إلى 28):</label><input type="number" id="sMonth" min="1" max="28"></div>
+    </div>
+    <button class="btn" onclick="saveSettings()">💾 حفظ الإعدادات</button>
+    <div class="msg" id="sMsg"></div>
+    </div>
+    <div class="atab" id="tNotify" style="display:none">
     <div class="sc" style="margin-top:12px">
       <h3>🔔 إرسال إشعار للجميع</h3>
       <div class="choices" style="margin:8px 0">
@@ -350,7 +427,15 @@ html.light .subs.neu{color:#35506f}
       <button class="btn" id="nBtn" onclick="sendNotif()">📤 إرسال للجميع</button>
       <div class="msg" id="nMsgBox"></div>
     </div>
-    <button class="btn" onclick="exportCSV()">⬇️ تصدير القائمة (Excel/CSV)</button>
+    </div>
+    <div class="atab" id="tPass" style="display:none">
+    <div class="sc"><h3>🔑 تغيير كلمة سر المسؤول</h3>
+      <div class="fg"><label>كلمة السر الجديدة (8 أحرف فأكثر):</label><input type="password" id="pNew"></div>
+      <div class="fg"><label>أعد كتابتها:</label><input type="password" id="pNew2"></div>
+      <button class="btn" onclick="changePass()">💾 حفظ كلمة السر</button>
+      <div class="msg" id="pMsg"></div>
+    </div>
+    </div>
     <div style="text-align:center"><span class="link" onclick="show('loginSection')" data-t="back"></span></div>
   </div>
 
@@ -361,7 +446,7 @@ html.light .subs.neu{color:#35506f}
 </div>
 
 <script>
-const MANAGER_PHONE = "0557905083";
+let MANAGER_PHONE = "0557905083";
 const API_URL = "https://script.google.com/macros/s/AKfycbwPfdDo6OLQR_O1hQ2X2aAIRs2oOE9qdvikUzaBIQGRyswchnUK2VtwqRNiiz3HWu_g/exec";
 let adminPassMem='',ADMIN_ROWS=[];
 async function api(payload){
@@ -455,9 +540,43 @@ async function submitRating(){
 }
 
 let SHEET = {};
-const EVENTS = [];
-const VIDEOS = [];
-const SCHEDULE = [["MO","الاثنين"],["WE","الأربعاء"],["FR","الجمعة"]];
+let EVENTS = [];
+let VIDEOS = [];
+let SCHEDULE = [["MO","الاثنين"],["WE","الأربعاء"],["FR","الجمعة"]];
+/* ===== إعدادات الموقع (تُدار من لوحة المسؤول وتُقرأ من الخادم) ===== */
+const DAY_AR={SU:'الأحد',MO:'الاثنين',TU:'الثلاثاء',WE:'الأربعاء',TH:'الخميس',FR:'الجمعة',SA:'السبت'};
+const DAYS7=['الأحد','الاثنين','الثلاثاء','الأربعاء','الخميس','الجمعة','السبت'];
+let SET={days:['MO','WE','FR'],from:'16:30',to:'18:00',extra:[],announcement:'',events:[],videos:[],vacation:'مبرمج في سنة 2027 بإذن الله.',coaches:['بن جمعة عبد القادر','علو أسامة'],phone:'0557905083',monthDay:25};
+const pj=(t,d)=>{try{const v=JSON.parse(t);return Array.isArray(v)?v:d}catch(e){return d}};
+const hm=t=>{const a=String(t||'00:00').split(':');return String(a[0]).padStart(2,'0')+String(a[1]||'00').padStart(2,'0');};
+function applySettings(raw){
+  if(!raw) return;
+  if(raw.days) SET.days=raw.days.split(',').filter(c=>DAY_AR[c]);
+  if(/^\d{1,2}:\d{2}/.test(raw.from||'')) SET.from=raw.from.slice(0,5).padStart(5,'0');
+  if(/^\d{1,2}:\d{2}/.test(raw.to||'')) SET.to=raw.to.slice(0,5).padStart(5,'0');
+  SET.extra=pj(raw.extra,[]).filter(e=>e&&/^\d{4}-\d{2}-\d{2}$/.test(e.date||''));
+  SET.events=pj(raw.events,[]);
+  SET.videos=pj(raw.videos,[]);
+  if(raw.announcement!==undefined) SET.announcement=raw.announcement;
+  if(raw.vacation) SET.vacation=raw.vacation;
+  if(raw.coaches) SET.coaches=raw.coaches.split('|').map(x=>x.trim()).filter(Boolean);
+  if(/^[0-9+\s]{6,}$/.test(raw.phone||'')){SET.phone=raw.phone.trim();MANAGER_PHONE=SET.phone;}
+  const md=+raw.monthDay; if(md>=1&&md<=28) SET.monthDay=md;
+  SCHEDULE=SET.days.map(c=>[c,DAY_AR[c]]);
+  EVENTS=SET.events.map(e=>({d:e.d||'',t:e.t||''}));
+  VIDEOS=SET.videos.map(v=>({t:v.t||'',u:v.u||''}));
+  renderPublicBits();
+}
+function renderPublicBits(){
+  const rt=document.getElementById('rTimes');
+  if(rt){
+    rt.innerHTML=SCHEDULE.map(([c,n])=>`<button type="button" class="choice times" data-v="${n} ${SET.from} – ${SET.to}">${n} ${SET.from} – ${SET.to}</button>`).join('');
+    if(typeof regSel!=='undefined') regSel.times=[];
+  }
+  const as=document.getElementById('aboutSched'); if(as) as.textContent=SCHEDULE.map(x=>x[1]).join(' • ')+'، من '+SET.from+' إلى '+SET.to+'.';
+  const ac=document.getElementById('aboutCoaches'); if(ac) ac.textContent=SET.coaches.join(' • ');
+  const al=document.getElementById('aboutCall'); if(al) al.href='tel:'+MANAGER_PHONE;
+}
 const TIPS = ["الانضباط يصنع البطل قبل الموهبة.","أحسن الإحماء قبل كل حصة لتتجنب الإصابات.","احترم مدربك وزملاءك داخل القاعة وخارجها.","اشرب الماء بكثرة وقت التدريب.","النوم الجيد نصف التدريب.","التكرار هو سر إتقان أي تقنية.","لا تقارن نفسك بغيرك، قارن نفسك بالأمس.","الحزام يُكتسب بالمثابرة لا بالعجلة.","التواضع أول صفات المقاتل.","ركّز على التقنية قبل القوة."];
 
 function parseCSV(t){const rows=[];let r=[],c='',q=false;
@@ -474,11 +593,11 @@ function cardExtras(f){
   const row=SHEET[normAcc(f.id)]||{};
   const first=f.nameAr.split(' ')[0];
   const t0=new Date();t0.setHours(0,0,0,0);
-  let due=new Date(t0.getFullYear(),t0.getMonth(),25);if(t0>due)due=new Date(t0.getFullYear(),t0.getMonth()+1,25);
+  let due=new Date(t0.getFullYear(),t0.getMonth(),SET.monthDay);if(t0>due)due=new Date(t0.getFullYear(),t0.getMonth()+1,SET.monthDay);
   const left=Math.round((due-t0)/864e5),pu=parseD(row.paid_until);
   let cls='neu',txt='حالة الاشتراك: تُحدَّد من الإدارة';
   if(pu){if(pu>=t0){cls='ok';txt='✅ مدفوع حتى '+fmtD(pu);}else{cls='bad';txt='⚠️ غير مدفوع (آخر دفعة '+fmtD(pu)+')';}}
-  const cd=left===0?'⏰ اليوم موعد الاشتراك':'⏳ '+left+' يوم حتى يوم 25';
+  const cd=left===0?'⏰ اليوم موعد الاشتراك':'⏳ '+left+' يوم حتى يوم '+SET.monthDay;
   const warn=(cls!=='ok'&&left<=3)?'<div>🔔 تذكير: اقترب موعد دفع الاشتراك</div>':'';
   const subHtml=`<div class="it full subs ${cls}"><div>💳 ${txt}</div><div>${cd}</div>${warn}</div>`;
 
@@ -490,23 +609,36 @@ function cardExtras(f){
     `🏆 الشارات: ${badges.length?badges.map(esc).join(' • '):'لا توجد بعد'}`+
     (row.note?`<br>📝 ملاحظة المدرب: ${esc(row.note)}`:'');
   const evs=EVENTS.length?'<br>🗓️ <strong>الفعاليات القادمة:</strong><ul>'+EVENTS.map(e=>`<li>${esc(e.d)} — ${esc(e.t)}</li>`).join('')+'</ul>':'';
-  const sched=`📅 <strong>جدول الحصص:</strong><br>${SCHEDULE.map(x=>x[1]).join(' • ')} — 16:30 – 18:00${evs}<br><button class="act" style="margin-top:8px;width:100%" onclick="addToCalendar()">➕ أضف الحصص إلى التقويم</button>`;
-  const ann=SHEET.ALL&&SHEET.ALL.note;
+  const sched=`📅 <strong>جدول الحصص:</strong><br>${SCHEDULE.map(x=>x[1]).join(' • ')} — ${SET.from} – ${SET.to}${evs}<br><button class="act" style="margin-top:8px;width:100%" onclick="addToCalendar()">➕ أضف الحصص إلى التقويم</button>`;
+  const ann=SET.announcement||(SHEET.ALL&&SHEET.ALL.note);
   const news=`📢 <strong>إعلانات النادي:</strong><br>${ann?esc(ann):'لا توجد إعلانات حالياً.'}`;
   const vids=`🎬 <strong>فيديوهات تعليمية:</strong><br>`+(VIDEOS.length?'<ul>'+VIDEOS.filter(v=>/^https?:\/\//.test(v.u)).map(v=>`<li><a href="${esc(v.u)}" target="_blank" rel="noopener">▶ ${esc(v.t)}</a></li>`).join('')+'</ul>':'ستتوفر قريباً.');
   const tip=TIPS[Math.floor(Date.now()/864e5)%TIPS.length];
-  const extra=`⭐ <strong>الحصص الإضافية:</strong><br>📌 حصة يوم السبت — ${fmtD(nextSaturday())}<br>🕙 من 10:00 إلى 11:00 صباحاً<br><button class="act" style="margin-top:8px;width:100%" onclick="addExtraToCalendar()">➕ أضف الحصة إلى التقويم</button>`;
+  const todayISO=t0.getFullYear()+'-'+String(t0.getMonth()+1).padStart(2,'0')+'-'+String(t0.getDate()).padStart(2,'0');
+  const exUp=SET.extra.map((e,i)=>({...e,i})).filter(e=>e.date>=todayISO).sort((a,b)=>(a.date+(a.from||'')).localeCompare(b.date+(b.from||'')));
+  const extra='⭐ <strong>الحصص الإضافية:</strong>'+(exUp.length?'<ul>'+exUp.map(e=>`<li>📌 ${DAYS7[new Date(e.date+'T00:00:00').getDay()]} ${e.date.split('-').reverse().join('/')} — من ${esc(e.from||'')} إلى ${esc(e.to||'')}${e.note?' — '+esc(e.note):''}<br><button class="act" style="margin-top:4px;width:100%" onclick="addExtraToCalendar(${e.i})">➕ أضف للتقويم</button></li>`).join('')+'</ul>':'<br>لا توجد حصص إضافية حالياً.');
   return {first,subHtml,prog,sched,news,vids,tip,extra};
 }
 
 /* التقويم بمنطقة زمنية: توقيت الجزائر (Africa/Algiers = UTC+1 ثابت) */
+/* تفعيل الإشعارات يدوياً (زر) */
+function enableNotifs(){
+  if(/FBAN|FBAV|FB_IAB|Instagram|Line\//i.test(navigator.userAgent)){alert('أنت تفتح الموقع داخل تطبيق (فيسبوك أو غيره) ولا يدعم الإشعارات. افتح الرابط في متصفح Chrome نفسه.');return;}
+  if(!('Notification' in window)){alert('متصفحك لا يدعم الإشعارات. استعمل Chrome (وعلى آيفون أضف الموقع إلى الشاشة الرئيسية أولاً).');return;}
+  if(Notification.permission==='denied'){alert('الإشعارات محظورة لهذا الموقع. اضغط على القفل 🔒 بجانب الرابط ← الأذونات ← الإشعارات ← سماح، ثم حدّث الصفحة.');return;}
+  if(window._osErr){alert('خطأ في OneSignal:\n'+window._osErr);return;}
+  if(!window._osReady||!window.OneSignal){alert('مكتبة OneSignal لم تعمل. تأكد من الإنترنت، وعطّل مانع الإعلانات إن وُجد، ثم حدّث الصفحة وانتظر 5 ثوانٍ وجرّب مجدداً.');return;}
+  OneSignal.Notifications.requestPermission().then(()=>{
+    alert(OneSignal.Notifications.permission?'✅ تم تفعيل الإشعارات':'لم يتم السماح بالإشعارات.');
+  }).catch(e=>alert('تعذر تفعيل الإشعارات:\n'+((e&&e.message)||e)));
+}
 function nextSaturday(){const d=new Date();d.setHours(0,0,0,0);d.setDate(d.getDate()+((6-d.getDay()+7)%7||7));return d;}
-function addExtraToCalendar(){
-  const pad=n=>String(n).padStart(2,'0'),TZ='Africa/Algiers',d=nextSaturday();
-  const day=d.getFullYear()+pad(d.getMonth()+1)+pad(d.getDate());
+function addExtraToCalendar(i){
+  const e=SET.extra[i]; if(!e) return;
+  const TZ='Africa/Algiers',day=e.date.replace(/-/g,'');
   const stamp=new Date().toISOString().replace(/[-:]/g,'').split('.')[0]+'Z';
   const tz=['BEGIN:VTIMEZONE','TZID:'+TZ,'BEGIN:STANDARD','DTSTART:19700101T000000','TZOFFSETFROM:+0100','TZOFFSETTO:+0100','TZNAME:CET','END:STANDARD','END:VTIMEZONE'].join("\r\n");
-  const ev=['BEGIN:VEVENT','UID:bears-extra-'+day+'@peace','DTSTAMP:'+stamp,'DTSTART;TZID='+TZ+':'+day+'T100000','DTEND;TZID='+TZ+':'+day+'T110000','SUMMARY:حصة إضافية Bears of Peace Ju-Jutsu','END:VEVENT'].join("\r\n");
+  const ev=['BEGIN:VEVENT','UID:bears-extra-'+day+hm(e.from)+'@peace','DTSTAMP:'+stamp,'DTSTART;TZID='+TZ+':'+day+'T'+hm(e.from)+'00','DTEND;TZID='+TZ+':'+day+'T'+hm(e.to)+'00','SUMMARY:حصة إضافية Bears of Peace Ju-Jutsu','END:VEVENT'].join("\r\n");
   const ics=['BEGIN:VCALENDAR','VERSION:2.0','PRODID:-//Bears of Peace//AR','CALSCALE:GREGORIAN',tz,ev,'END:VCALENDAR'].join("\r\n");
   const a=document.createElement('a');a.href=URL.createObjectURL(new Blob([ics],{type:'text/calendar'}));a.download='bears-extra-session.ics';document.body.appendChild(a);a.click();a.remove();
 }
@@ -515,7 +647,7 @@ function addToCalendar(){
   const stamp=new Date().toISOString().replace(/[-:]/g,'').split('.')[0]+'Z';
   const ev=SCHEDULE.map(([c,n])=>{const d=new Date();d.setDate(d.getDate()+((idx[c]-d.getDay()+7)%7||7));
     const day=d.getFullYear()+pad(d.getMonth()+1)+pad(d.getDate());
-    return ['BEGIN:VEVENT','UID:bears-'+c+'@peace','DTSTAMP:'+stamp,'DTSTART;TZID='+TZ+':'+day+'T163000','DTEND;TZID='+TZ+':'+day+'T180000','RRULE:FREQ=WEEKLY;BYDAY='+c,'SUMMARY:تدريب Bears of Peace Ju-Jutsu','END:VEVENT'].join("\r\n");});
+    return ['BEGIN:VEVENT','UID:bears-'+c+'@peace','DTSTAMP:'+stamp,'DTSTART;TZID='+TZ+':'+day+'T'+hm(SET.from)+'00','DTEND;TZID='+TZ+':'+day+'T'+hm(SET.to)+'00','RRULE:FREQ=WEEKLY;BYDAY='+c,'SUMMARY:تدريب Bears of Peace Ju-Jutsu','END:VEVENT'].join("\r\n");});
   const tz=['BEGIN:VTIMEZONE','TZID:'+TZ,'BEGIN:STANDARD','DTSTART:19700101T000000','TZOFFSETFROM:+0100','TZOFFSETTO:+0100','TZNAME:CET','END:STANDARD','END:VTIMEZONE'].join("\r\n");
   const ics=['BEGIN:VCALENDAR','VERSION:2.0','PRODID:-//Bears of Peace//AR','CALSCALE:GREGORIAN',tz,...ev,'END:VCALENDAR'].join("\r\n");
   const a=document.createElement('a');a.href=URL.createObjectURL(new Blob([ics],{type:'text/calendar'}));a.download='bears-training.ics';document.body.appendChild(a);a.click();a.remove();
@@ -682,6 +814,7 @@ async function handleLogin(){
     f={id:w.id,nameAr:w.nameAr,nameEn:w.nameEn,dob:w.dob,pob:w.pob,address:w.address,phone:w.phone,father:w.father,group:w.group,belt:w.belt,photo:w.photo,suspended:false};
     SHEET={};SHEET[normAcc(w.id)]=w;
     if(r.ann) SHEET.ALL={note:r.ann};
+    if(r.settings) applySettings(r.settings);
   }
   if(introBusy) return;
   introBusy=true;
@@ -776,9 +909,9 @@ function renderFighterCard(f){
           <button class="act wide" onclick="togglePanel('p5')">⚠️ يرجى إخبارنا بالمشكلة</button>
         </div>
         <div id="p1" class="panel">${target}</div>
-        <div id="p2" class="panel">👨‍🏫 <strong>طاقم التدريب والإشراف:</strong><br>- المدرب: بن جمعة عبد القادر<br>- المدرب: علو أسامة</div>
+        <div id="p2" class="panel">👨‍🏫 <strong>طاقم التدريب والإشراف:</strong><br>${SET.coaches.map(c=>'- المدرب: '+esc(c)).join('<br>')}</div>
         <div id="p3" class="panel">💡 <strong>نصيحة اليوم:</strong> ${x.tip}<br>💡 <strong>دائماً:</strong> الاستمرارية، الانضباط، الاحترام، والتركيز أثناء التدريبات.</div>
-        <div id="p4" class="panel">✈️ <strong>موعد الوصول للإجازة:</strong> مبرمج في سنة <strong>2027</strong> بإذن الله.</div>
+        <div id="p4" class="panel">✈️ <strong>موعد الوصول للإجازة:</strong> ${esc(SET.vacation)}</div>
         <div id="p6" class="panel">${x.sched}</div>
         <div id="p7" class="panel">${x.prog}</div>
         <div id="p8" class="panel">${x.news}</div>
@@ -797,7 +930,7 @@ function renderFighterCard(f){
           <div id="successMsg" class="okmsg">تم إرسال المشكلة بنجاح، شكراً لتواصلك!</div>
         </div></div>
       </div>
-      <div class="ft"><div>المجموعة: <span class="badge">${esc(f.group)}</span></div><div>نهاية الشهر: <span class="hl">يوم 25</span></div></div>
+      <div class="ft"><div>المجموعة: <span class="badge">${esc(f.group)}</span></div><div>نهاية الشهر: <span class="hl">يوم ${SET.monthDay}</span></div></div>
     </div>
 
     <div class="card-back">
@@ -1047,8 +1180,11 @@ async function checkAdminAuth(){
   ADMIN_ROWS = r.rows.map(x=>({...x,suspended:String(x.suspended).toUpperCase()==='TRUE'}));
   adminPassInput.value = '';
   aBelt.innerHTML='<option value="">كل الأحزمة</option>'+Object.keys(BELTS).map(k=>`<option value="${k}">${BELTS[k].ar}</option>`).join('');
+  fm_belt.innerHTML=Object.keys(BELTS).map(k=>`<option value="${k}">${BELTS[k].ar}</option>`).join('');
   show('adminSection');
+  showTab('tFighters');
   adminRender();
+  api({action:'public'}).then(x=>{if(x&&x.ok){applySettings(x.settings);fillSettingsForm();}});
   beep(900,.18);
 }
 function fillNotif(t,m){nTitle.value=t;nMsg.value=m;nMsg.focus();beep(600,.1);}
@@ -1077,8 +1213,129 @@ function adminRender(){
     ['A','B','C'].map(g=>`المجموعة ${g}: <b>${cnt(f=>f.group===g)}</b>`).join(' • ')+'<br>'+
     Object.keys(BELTS).map(k=>`${BELTS[k].ar}: <b>${cnt(f=>f.belt===k)}</b>`).join(' • ');
   const list=adminFiltered();
-  aTable.innerHTML='<tr><th>الاعتماد</th><th>الاسم</th><th>الهاتف</th><th>المجموعة</th><th>الحزام</th><th>الحالة</th><th>الاشتراك</th></tr>'+
-    (list.map(f=>`<tr><td>${esc(f.id)}</td><td>${esc(f.nameAr)}</td><td><a href="tel:${esc(f.phone)}">${esc(f.phone)}</a></td><td>${f.group}</td><td>${(BELTS[f.belt]||{}).ar||'?'}</td><td>${f.suspended?'🚫 مشطوب':'✔ نشط'}</td><td>${payStatus(f)}</td></tr>`).join('')||'<tr><td colspan="7">لا نتائج</td></tr>');
+  aTable.innerHTML='<tr><th>الاعتماد</th><th>الاسم</th><th>الهاتف</th><th>المجموعة</th><th>الحزام</th><th>الحالة</th><th>الاشتراك</th><th>إجراء</th></tr>'+
+    (list.map(f=>`<tr><td>${esc(f.id)}</td><td>${esc(f.nameAr)}</td><td><a href="tel:${esc(f.phone)}">${esc(f.phone)}</a></td><td>${esc(f.group)}</td><td>${(BELTS[f.belt]||{}).ar||'?'}</td><td>${f.suspended?'🚫 مشطوب':'✔ نشط'}</td><td>${payStatus(f)}</td><td><button class="mini" onclick="openFighterForm('${esc(f.id)}')">✏️</button> <button class="mini" onclick="toggleSusp('${esc(f.id)}')">${f.suspended?'✅':'🚫'}</button></td></tr>`).join('')||'<tr><td colspan="8">لا نتائج</td></tr>');
+}
+/* ===== إدارة المقاتلين والإعدادات من لوحة المسؤول ===== */
+document.getElementById('aTabs').addEventListener('click',e=>{const b=e.target.closest('.choice');if(b&&b.dataset.tab) showTab(b.dataset.tab);});
+document.getElementById('sDays').addEventListener('click',e=>{const b=e.target.closest('.choice');if(b){b.classList.toggle('active');beep(650,.08);}});
+function showTab(id){
+  document.querySelectorAll('.atab').forEach(t=>t.style.display=t.id===id?'block':'none');
+  document.querySelectorAll('#aTabs .choice').forEach(b=>b.classList.toggle('active',b.dataset.tab===id));
+  beep(560,.08);
+}
+function adminMsg(el,t,ok){el.className='msg show '+(ok?'ok':'error');el.textContent=t;}
+function adminErr(r){
+  if(r.error==='network') return 'تعذر الاتصال بالخادم.';
+  if(r.error==='badpass'||r.error==='locked') return 'تعذر التحقق من كلمة السر، أو محاولات كثيرة. سجّل الدخول من جديد.';
+  if(r.error==='exists') return 'رقم الاعتماد مستعمل مسبقاً.';
+  if(r.error==='notfound') return 'المقاتل غير موجود.';
+  if(r.error==='bad_id') return 'رقم الاعتماد غير صحيح.';
+  if(r.error==='short') return 'كلمة السر قصيرة (8 أحرف على الأقل).';
+  return 'حدث خطأ: '+(r.error||'');
+}
+async function reloadAdmin(){
+  const r=await api({action:'admin_list',pass:adminPassMem});
+  if(r.ok){ADMIN_ROWS=r.rows.map(x=>({...x,suspended:String(x.suspended).toUpperCase()==='TRUE'}));adminRender();}
+  return !!r.ok;
+}
+function nextId(){
+  const yy=String(new Date().getFullYear()).slice(2);let max=0;
+  ADMIN_ROWS.forEach(f=>{const n=nums(f.id);if(n.length===2&&n[0]===yy&&+n[1]>max)max=+n[1];});
+  return yy+'/'+String(max+1).padStart(2,'0');
+}
+let fmMode='add';
+function openFighterForm(id){
+  const f=id?ADMIN_ROWS.find(x=>x.id===id):null;
+  fmMode=f?'edit':'add';
+  const g=(k,d='')=>f?(f[k]||d):d;
+  fmTitle.textContent=f?'✏️ تعديل: '+f.nameAr:'➕ مقاتل جديد';
+  fm_id.value=f?f.id:nextId();fm_id.readOnly=!!f;
+  fm_nameAr.value=g('nameAr');fm_nameEn.value=g('nameEn');fm_dob.value=g('dob');fm_pob.value=g('pob');
+  fm_address.value=g('address');fm_phone.value=g('phone');fm_father.value=g('father');
+  fm_group.value=g('group','C');fm_belt.value=g('belt','white');fm_photo.value=g('photo');
+  fm_susp.checked=!!(f&&f.suspended);fm_paid.value=g('paid_until');fm_present.value=g('present');
+  fm_total.value=g('total');fm_points.value=g('points');fm_badges.value=g('badges');fm_note.value=g('note');
+  fmDel.style.display=f?'block':'none';fmMsg.className='msg';
+  fForm.style.display='block';fForm.scrollIntoView({behavior:'smooth'});beep(600,.1);
+}
+function closeFighterForm(){fForm.style.display='none';}
+const normPhoto=v=>{v=String(v||'').trim();const m=v.match(/^https?:\/\/(?:www\.)?ibb\.co\/([A-Za-z0-9]+)\/?$/);return m?m[1]:v;};
+const fmtDate3=v=>{const d=nums(v);return d.length===3?d[0].padStart(2,'0')+'/'+d[1].padStart(2,'0')+'/'+d[2]:'';};
+async function saveFighter(){
+  const n=nums(fm_id.value);
+  if(n.length!==2||n[0].length!==2||n[1].length!==2){adminMsg(fmMsg,'رقم الاعتماد يجب أن يكون مثل 26/43',false);beep(300,.2);return;}
+  if(!fm_nameAr.value.trim()){adminMsg(fmMsg,'اكتب الاسم واللقب بالعربية.',false);beep(300,.2);return;}
+  const dob=fmtDate3(fm_dob.value);
+  if(!dob){adminMsg(fmMsg,'تاريخ الميلاد يجب أن يكون DD/MM/YYYY',false);beep(300,.2);return;}
+  const f={id:n[0]+'/'+n[1],nameAr:fm_nameAr.value.trim(),nameEn:fm_nameEn.value.trim(),dob,pob:fm_pob.value.trim(),address:fm_address.value.trim(),
+    phone:fm_phone.value.trim(),father:fm_father.value.trim(),group:fm_group.value,belt:fm_belt.value,photo:normPhoto(fm_photo.value),
+    suspended:fm_susp.checked?'TRUE':'FALSE',paid_until:fm_paid.value.trim()?fmtDate3(fm_paid.value):'',present:fm_present.value.trim(),
+    total:fm_total.value.trim(),points:fm_points.value.trim(),badges:fm_badges.value.trim(),note:fm_note.value.trim()};
+  fmSave.disabled=true;
+  const r=await api({action:'admin_save',pass:adminPassMem,mode:fmMode,fighter:f});
+  fmSave.disabled=false;
+  if(!r.ok){adminMsg(fmMsg,adminErr(r),false);beep(250,.2);return;}
+  await reloadAdmin();
+  adminMsg(fmMsg,'✅ تم الحفظ',true);beep(880,.2);
+  setTimeout(closeFighterForm,1200);
+}
+async function deleteFighter(){
+  const f=ADMIN_ROWS.find(x=>x.id===fm_id.value.trim());if(!f) return;
+  if(!confirm('حذف '+f.nameAr+' نهائياً؟ لا يمكن التراجع. (للإيقاف المؤقت استعمل الشطب بدل الحذف)')) return;
+  const r=await api({action:'admin_delete',pass:adminPassMem,id:f.id});
+  if(!r.ok){adminMsg(fmMsg,adminErr(r),false);beep(250,.2);return;}
+  await reloadAdmin();closeFighterForm();beep(700,.2);
+}
+async function toggleSusp(id){
+  const f=ADMIN_ROWS.find(x=>x.id===id);if(!f) return;
+  if(!confirm((f.suspended?'إعادة تفعيل ':'شطب ')+f.nameAr+'؟')) return;
+  const r=await api({action:'admin_save',pass:adminPassMem,mode:'edit',fighter:{id:f.id,suspended:f.suspended?'FALSE':'TRUE'}});
+  if(!r.ok){alert(adminErr(r));beep(250,.2);return;}
+  await reloadAdmin();beep(800,.15);
+}
+let sxList=[];
+function renderExtraList(){
+  sExtraList.innerHTML=sxList.length?sxList.map((e,i)=>`<div class="it" style="margin-bottom:6px">📌 ${esc(e.date)} — ${esc(e.from)} إلى ${esc(e.to)}${e.note?' — '+esc(e.note):''} <button type="button" class="mini" onclick="delExtra(${i})">✖</button></div>`).join(''):'<div class="label" style="margin-bottom:6px">لا توجد حصص إضافية.</div>';
+}
+function addExtraSession(){
+  if(!sxDate.value||!sxFrom.value||!sxTo.value){alert('اختر التاريخ والوقت.');return;}
+  sxList.push({date:sxDate.value,from:sxFrom.value,to:sxTo.value,note:sxNote.value.trim()});
+  sxNote.value='';renderExtraList();beep(700,.1);
+}
+function delExtra(i){sxList.splice(i,1);renderExtraList();}
+function fillSettingsForm(){
+  document.querySelectorAll('#sDays .choice').forEach(b=>b.classList.toggle('active',SET.days.includes(b.dataset.v)));
+  sFrom.value=SET.from;sTo.value=SET.to;
+  sxList=SET.extra.map(e=>({...e}));renderExtraList();
+  sAnn.value=SET.announcement||'';
+  sEvents.value=SET.events.map(e=>(e.d||'')+' | '+(e.t||'')).join('\n');
+  sVideos.value=SET.videos.map(v=>(v.t||'')+' | '+(v.u||'')).join('\n');
+  sVac.value=SET.vacation;sCoaches.value=SET.coaches.join('\n');sPhone.value=SET.phone;sMonth.value=SET.monthDay;
+}
+async function saveSettings(){
+  const days=[...document.querySelectorAll('#sDays .choice.active')].map(b=>b.dataset.v);
+  if(!days.length){alert('اختر يوماً واحداً على الأقل.');return;}
+  if(!sFrom.value||!sTo.value){alert('حدّد وقت البداية والنهاية.');return;}
+  const lines=t=>t.split('\n').map(x=>x.trim()).filter(Boolean);
+  const events=lines(sEvents.value).map(l=>{const a=l.split('|');return {d:(a.shift()||'').trim(),t:a.join('|').trim()};});
+  const videos=lines(sVideos.value).map(l=>{const a=l.split('|');return {t:(a.shift()||'').trim(),u:a.join('|').trim()};}).filter(v=>/^https?:\/\//.test(v.u));
+  const settings={days:days.join(','),from:sFrom.value,to:sTo.value,extra:JSON.stringify(sxList),announcement:sAnn.value.trim(),
+    events:JSON.stringify(events),videos:JSON.stringify(videos),vacation:sVac.value.trim(),coaches:lines(sCoaches.value).join('|'),
+    phone:sPhone.value.trim(),monthDay:String(sMonth.value||25)};
+  const r=await api({action:'settings_save',pass:adminPassMem,settings});
+  if(!r.ok){adminMsg(sMsg,adminErr(r),false);beep(250,.2);return;}
+  applySettings(r.settings);fillSettingsForm();
+  adminMsg(sMsg,'✅ تم حفظ الإعدادات، وستظهر في الموقع فوراً.',true);beep(880,.2);
+}
+async function changePass(){
+  const a=pNew.value,b=pNew2.value;
+  if(a.length<8){adminMsg(pMsg,'كلمة السر قصيرة (8 أحرف على الأقل).',false);return;}
+  if(a!==b){adminMsg(pMsg,'الكلمتان غير متطابقتين.',false);return;}
+  const r=await api({action:'admin_pass',pass:adminPassMem,newPass:a});
+  if(!r.ok){adminMsg(pMsg,adminErr(r),false);beep(250,.2);return;}
+  adminPassMem=a;pNew.value=pNew2.value='';
+  adminMsg(pMsg,'✅ تم تغيير كلمة السر. استعمل الجديدة في المرة القادمة.',true);beep(880,.2);
 }
 function exportCSV(){
   const q=v=>'"'+String(v).replace(/"/g,'""')+'"';
@@ -1092,6 +1349,7 @@ if('serviceWorker' in navigator&&location.protocol.startsWith('http'))navigator.
 
 applyLang();
 newCaptcha();
+api({action:'public'}).then(r=>{if(r&&r.ok&&r.settings) applySettings(r.settings);});
 {
   const sp=document.getElementById('splash');
   setTimeout(()=>{sp.style.opacity=0;setTimeout(()=>sp.style.display='none',800);}, 2500);
