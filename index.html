@@ -235,7 +235,7 @@ html.light .subs.neu{color:#35506f}
       <button type="button" class="cap-new" onclick="newCaptcha()" aria-label="سؤال جديد">🔄</button>
     </div>
 
-    <button class="btn" onclick="handleLogin()" data-t="bLogin"></button>
+    <button class="btn" id="loginBtn" onclick="handleLogin()" data-t="bLogin"></button>
     <div class="err" id="loginError" data-t="eLogin"></div>
     <button class="btn alt" onclick="show('regSection')" data-t="newCard"></button><br>
     <span class="link" onclick="show('forgotSection')" data-t="forgot"></span><br>
@@ -336,6 +336,20 @@ html.light .subs.neu{color:#35506f}
       <select id="aStat" onchange="adminRender()"><option value="">كل الحالات</option><option value="act">نشط</option><option value="susp">مشطوب</option></select>
     </div>
     <div style="overflow-x:auto"><table id="aTable"></table></div>
+    <div class="sc" style="margin-top:12px">
+      <h3>🔔 إرسال إشعار للجميع</h3>
+      <div class="choices" style="margin:8px 0">
+        <button type="button" class="choice" onclick="fillNotif('تغيير موعد الحصة','تم تغيير موعد حصة اليوم، يرجى مراجعة المدرب.')">🕘 تغيير موعد</button>
+        <button type="button" class="choice" onclick="fillNotif('حصة إضافية','حصة إضافية يوم السبت من 10:00 إلى 11:00 صباحاً.')">⭐ حصة إضافية</button>
+        <button type="button" class="choice" onclick="fillNotif('إلغاء حصة','نعتذر، تم إلغاء حصة اليوم.')">🚫 إلغاء حصة</button>
+        <button type="button" class="choice" onclick="fillNotif('تذكير بالاشتراك','نذكّركم باقتراب موعد دفع الاشتراك (يوم 25).')">💳 تذكير اشتراك</button>
+        <button type="button" class="choice" onclick="fillNotif('إعلان','')">📣 إعلان</button>
+      </div>
+      <div class="fg"><label>العنوان:</label><input type="text" id="nTitle" maxlength="80"></div>
+      <div class="fg"><label>نص الإشعار:</label><textarea id="nMsg" rows="3" maxlength="300"></textarea></div>
+      <button class="btn" id="nBtn" onclick="sendNotif()">📤 إرسال للجميع</button>
+      <div class="msg" id="nMsgBox"></div>
+    </div>
     <button class="btn" onclick="exportCSV()">⬇️ تصدير القائمة (Excel/CSV)</button>
     <div style="text-align:center"><span class="link" onclick="show('loginSection')" data-t="back"></span></div>
   </div>
@@ -348,7 +362,14 @@ html.light .subs.neu{color:#35506f}
 
 <script>
 const MANAGER_PHONE = "0557905083";
-const ADMIN_PASS = "جي جيتسو 2022";
+const API_URL = "https://script.google.com/macros/s/AKfycbwFaV4xngQZ5a7N3ISHr1_25USXXSR8RbUZ4vV_B6r_v4kAFd_wZrsyyT7cQDY4IvWh/exec";
+let adminPassMem='',ADMIN_ROWS=[];
+async function api(payload){
+  try{
+    const r=await fetch(API_URL,{method:'POST',headers:{'Content-Type':'text/plain;charset=utf-8'},body:JSON.stringify(payload)});
+    return await r.json();
+  }catch(e){return {ok:false,error:'network'};}
+}
 const LOGO_URL = "https://i.ibb.co/vvB5ZmFH/1790268608620.jpg";
 
 const BACKEND_SVG_FALLBACK = "data:image/svg+xml;utf8,"+encodeURIComponent(`
@@ -433,7 +454,6 @@ async function submitRating(){
   }
 }
 
-const SHEET_CSV_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vRJL64LkEdoXrjNpO8o82tHakMpcpAtWZB3-mCW4KAa2jvpqvCUr2usXwx4slgoM0yYgJSLqUzp4Mor/pub?gid=0&single=true&output=csv";
 let SHEET = {};
 const EVENTS = [];
 const VIDEOS = [];
@@ -447,17 +467,6 @@ function parseCSV(t){const rows=[];let r=[],c='',q=false;
     else if(ch=='\n'){r.push(c);rows.push(r);r=[];c=''}else if(ch!='\r')c+=ch}
   if(c||r.length){r.push(c);rows.push(r)}return rows}
 
-async function loadSheet(){
-  if(!SHEET_CSV_URL) return;
-  try{
-    const res=await fetch(SHEET_CSV_URL);const rows=parseCSV(await res.text());
-    const h=rows[0].map(x=>x.trim().toLowerCase());const out={};
-    rows.slice(1).forEach(r=>{const o={};h.forEach((k,i)=>o[k]=(r[i]||'').trim());
-      const id=(o.id||'').toUpperCase()==='ALL'?'ALL':normAcc(o.id);if(id) out[id]=o;});
-    SHEET=out;
-  }catch(e){}
-}
-const sheetReady = loadSheet();
 const parseD=s=>{const n=nums(s);return n.length===3?new Date(+n[2],+n[1]-1,+n[0]):null};
 const fmtD=d=>String(d.getDate()).padStart(2,'0')+'/'+String(d.getMonth()+1).padStart(2,'0')+'/'+d.getFullYear();
 
@@ -539,52 +548,6 @@ const BELTS={
                                     وإن فشل يستخرج الرابط المباشر تلقائياً من صفحة https://ibb.co/zV2Qd4t3
    2) "DDR86wXh/اسم-الملف.jpg"    -> https://i.ibb.co/DDR86wXh/اسم-الملف.jpg  (رابط مباشر، الأضمن)
    3) "https://i.ibb.co/..."      -> كما هو */
-const mk=(id,first,last,en,dob,pob,address,phone,father,group,belt,photo,suspended=false)=>({id,nameAr:first+" "+last,nameEn:en,dob,pob,address,phone,father,group,belt,photo,suspended});
-
-const fightersData=[
- mk("26/01","عبد الله","بن جمعة","Abdellah Ben Djouma","06/07/2015","منداس","حي بلحاج احمد محمد","0672733232","بن جمعة امحمد","A","white","zV2Qd4t3"),
- mk("26/02","حمزة عبد الرحمان","بشيري","Hamza Abderrahmane Bachiri","19/06/2018","الرحوية - تيارت","حي بلحاج احمد محمد","0675890999","بشيري محمد","B","blue","b5fKytdF"),
- mk("26/03","محمد عبد الحكيم","بيوض","Mohamed Abdelhakim Bioud","24/04/2019","منداس","وادي السلام","0775083804","بيوض عبد القادر","B","blue","4Zvs9jJT"),
- mk("26/04","عبد الوهاب","بن جمعة","Abdelouahab Ben Djouma","03/02/2020","تيارت","حي بلحاج احمد محمد","0672733232","بن جمعة امحمد","B","orange","dwbRqVyZ"),
- mk("26/05","اصيل عبد الرحمن","بن جمعة","Asil Abderrahmane Ben Djouma","07/01/2020","تيارت","حي بلحاج احمد محمد","0560591258","بن جمعة ابراهيم","B","orange","q3qxK30Z"),
- mk("26/06","ايوب","ڨردوبة","Ayoub Guerdouba","24/02/2017","منداس","حي ڨردوبة احمد","0773233873","ڨردوبة طاهر","B","blue","xSrqNCVk"),
- mk("26/07","ادم وليد","مهداوي","Adam Walid Mahdaoui","11/02/2017","غليزان","حي بوسحابة احمد","0797171358","مهداوي لزرڨ","B","blue","MXR114Y"),
- mk("26/08","يونس","بن عبد القادر","Younes Ben Abdelkader","11/03/2016","تيارت","حي بلحاج احمد محمد","0773346008","بن عبد القادر عبد الحميد","B","greenblack","zTn3bQn4"),
- mk("26/09","عبد الجليل","مباركي","Abdeljalil Mebarki","19/05/2018","زمورة","حي بن بدرة بن عودة","0772389060","مباركي عبد القادر","B","greenblack","4RJdK1fR"),
- mk("26/10","يوسف","ڨردوبة","Youssef Guerdouba","19/05/2013","منداس","حي ڨردوبة امحمد","0773233873","ڨردوبة طاهر","A","green","TDSSzM6r"),
- mk("26/11","محمد صهيب","مداح","Mohamed Souhaib Maddah","07/04/2017","رحوية","حي احمد بلعالية","0773515911","مداح محمد","C","white","SkXSVHK",true),
- mk("26/12","عبد الله","زريڨي","Abdellah Zergui","31/07/2019","زمورة","حي صفيح قويدر","0774853393","زريڨي ميلود","C","yellow","FLHswZH1"),
- mk("26/13","معاذ عبد السميع","لحمر","Mouadh Abdessamie Lahmar","24/06/2019","فرندة","حي مجاهد قويدر","0798351726","لحمر بن عودة","B","orange","1JT6SrBt"),
- mk("26/14","عبد الرحمن","بلڨرع","Abderrahmane Belgraa","22/07/2014","منداس","حي القرية الفلاحية","0698241200","بلڨرع محمد","C","white","NPdWwJ3",true),
- mk("26/15","حاج","اسماعيل","Hadj Ismail","30/04/2015","تيارت","حي بلحاج احمد محمد","0794383002","حاج علي","B","white","N69tsJph",true),
- mk("26/16","صهيب","مجاهد","Souhaib Medjahed","09/10/2017","تيارت","حي صفيح قويدر","0674526282","مجاهد جمال","C","white","G3Bp841Y",true),
- mk("26/17","جواد ابراهيم","بيوض","Djawad Brahim Bioud","16/06/2018","رحوية","حي بشيري العيد","0773871749","بيوض محمد","C","gray","5gt94sY9"),
- mk("26/18","براء شاهين","عويلي","Baraa Chahine Aouili","05/09/2020","منداس","حي مجاهد قويدر","0674576286","مجاهد جمال","C","yellow","wrrKdyCt"),
- mk("26/19","محمد ضياء الدين","ڨروج","Mohamed Diaeddine Guerroudj","08/05/2017","تيارت","حي بوسحابة احمد","0670270928","ڨروج راشد","C","gray","23gMjg67",true),
- mk("26/20","تاج الدين","لعبش","Tadjeddine Laabach","23/07/2012","زمورة","حي احمد بلعالية","0662978763","لعبش طيب","A","blue","hF3LT4zj"),
- mk("26/21","يوسف","لعبش","Youssef Laabach","08/12/2013","رحوية","حي احمد بلعالية","0662978763","لعبش طيب","A","greenblack","rfFTvm06"),
- mk("26/22","ياسين","عكرمي","Akrami Yassine","16/05/2010","زمورة","حي بشيري العيد","0659653374","عكرمي أحمد","A","blue","BHFYBpHH"),
- mk("26/23","مولاي عبد المحسن","بلخادم","Moulay Abdelmohsen Belkhadem","21/10/2009","غليزان","حي بلحاج احمد محمد","0561621595","بلخادم عمر","A","greenblack","0pVcpZ8T"),
- mk("26/24","يوسف الصديق","مفلاح","Youssef Seddik Meflah","04/04/2010","منداس","حي بلحاج احمد محمد","066515314317","مفلاح بن عودة","A","greenblack","Y4Bftq3t"),
- mk("26/25","الياس","عكرمي","Ilyas Akrami","20/12/2012","زمورة","حي بشيري العيد","0697854360","عكرمي امحمد","A","greenblack","qM6Cw4vk",true),
- mk("26/26","عبد الجليل","نذار","Abdeljalil Nethar","09/04/2010","زمورة","حي مجاهد قويدر","0775810774","نذار علي","A","blue","xt0mhwwS"),
- mk("26/27","سمير","بن سعيد","Samir Bensaïd","07/11/2010","وادي السلام","حي بلحاج احمد محمد","0659715778","بن سعيد عدة","A","orange","27XGkjxM"),
- mk("26/28","محمد رضا الرحمن","بلحاج","Mohamed Reda Errahmane Belhadj","18/10/2015","وادي الجمعة","حي مجاهد قويدر","0773763059","سعدي حبيبة","B","orange","gZyMkGj3"),
- mk("26/29","هيثم عبد الرحمن","برقية","Haitham Abderrahmane Bourguia","19/08/2013","رحوية","حي ڨردوبة امحمد","0697279112","برقية احمد","A","white","DgVgXKMz",true),
- mk("26/30","بوعلام ايوب","برقية","Boualam Ayoub Bourguia","04/05/2018","رحوية","حي ڨردوبة امحمد","0697179112","برقية احمد","C","white","FbTjFbRY",true),
- mk("26/31","ايوب","مداح","Ayoub Maddah","21/09/2020","تيارت","حي بوسحابة احمد","0556821813","مداح احمد","C","gray","1Y2khrG7"),
- mk("26/32","محمد عدة","سعدي","Mohammed Aadda Saadi","19/11/2013","تيارت","حي مجاهد قويدر","0772757913","سعدي محمد","A","white","GhdwZ2c",true),
- mk("26/33","محمد براء","بن مداح","Mohamed Baraa Ben Maddah","12/02/2019","عين بوسيف","حي بن بدرة بن عودة","0796992436","بن مداح عبد القادر","C","white","jvcM0Vry"),
- mk("26/34","سيف الاسلام","عبد اللطيف","Seif El Islam Abdelatif","28/08/2016","منداس","بشيري العيد","0771926392","عبد اللطيف عدة","C","white","gLRpxGSB"),
- mk("26/35","صهيب","بلجيلالي","Soheib Beldjillali","13/07/2019","منداس","حي بوسحابة احمد","0773544293","بلجيلالي هواري","C","yellow","DDR86wXh/20261030-133257.jpg"),
- mk("26/36","خالد","بوعامر","Khaled Bouameur","26/11/2015","تيارت","حي بوسحابة احمد","0776868143","بوعامر محمد أمين","B","white","XZgsr9FB/20261030-133247.jpg"),
- mk("26/37","محمد الامين","مفلاح","Mohamed El Amine Meflah","15/03/2014","غليزان","القرية الفلاحية وادي السلام","0656008036","مفلاح بن عودة","A","white","VpggTHBc"),
- mk("26/38","محمد عبد الرزاق","بوعامر","Mohamed Abderrazak Bouamer","27/04/2012","الرحوية","بوعمود بخدة","0771210560","بوعامر محمد","A","white","nNQJ5FyJ"),
- mk("26/39","امحمد يعقوب","زريڨي","Mhamed Yaakoub Zergui","16/10/2015","منداس","حي بوسحابة احمد","0797310349","-","C","white","Y4gpwMTs"),
- mk("26/40","ابراهيم","زريڨي","Brahim Zergui","09/07/2013","غليزان","حي بوسحابة احمد","0666577909","-","A","white","RTFrVvps"),
- mk("26/41","ايوب ادم","زريڨي","Ayoub Adam Zergui","25/05/2018","تيارت","حي بوسحابة احمد","0666577909","-","C","white","tpkN2QxL"),
- mk("26/42","محمد","عباس","Mohamed Abbas","26/08/2017","زمورة","حي بن بدرة بن عودة","0771732598","-","C","white","Fb9SgDk7")
-];
 
 /* ===== الصور: قائمة الروابط المحتملة لكل مقاتل (تُستعمل في البطاقة وفي "حفظ كصورة") ===== */
 const EXTS=['jpg','png','jpeg','webp'];
@@ -667,6 +630,7 @@ function applyLang(){
 }
 function toggleLanguage(){currentLang=currentLang==='ar'?'en':'ar';applyLang();beep(600,.1);}
 function show(id){
+  if(id!=='adminSection'){adminPassMem='';ADMIN_ROWS=[];}
   document.querySelector('.wrap').classList.toggle('adm',id==='adminSection');
   ['loginSection','forgotSection','regSection','aboutSection','ratingSection','adminAuthSection','adminSection','cardView'].forEach(s=>document.getElementById(s).style.display=s===id?'block':'none');
   ['loginError','fError','fSuccess','adminAuthErr'].forEach(e=>{
@@ -677,21 +641,21 @@ function show(id){
   beep(500,.1);
 }
 
-function submitRecovery(){
-  const dob=normDob(fDob.value),phone=normPhone(fPhone.value);
-  const m=fightersData.find(f=>nameMatches(fName.value,f)&&normDob(f.dob)===dob&&normPhone(f.phone)===phone);
+async function submitRecovery(){
   fSuccess.style.display='none';fError.style.display='none';
-  if(!m){fError.textContent=T[currentLang].eRec;fError.style.display='block';beep(300,.2);return;}
+  recBtn.disabled=true;
+  const r=await api({action:'recover',name:fName.value,dob:fDob.value,phone:fPhone.value});
+  recBtn.disabled=false;
+  if(!r.ok){fError.textContent=r.error==='locked'?'⛔ محاولات كثيرة، حاول لاحقاً.':(r.error==='network'?'تعذر الاتصال بالخادم، حاول مرة أخرى.':T[currentLang].eRec);fError.style.display='block';beep(300,.2);return;}
   fSuccess.innerHTML = `✅ <strong>تم إيجاد حسابك بنجاح!</strong><br><br>
-  📝 <strong>الاسم:</strong> ${esc(m.nameAr)}<br>
-  📅 <strong>الميلاد:</strong> ${esc(m.dob)}<br>
-  🪪 <strong>رقم الاعتماد:</strong> <span style="color:#00f2fe;font-size:1.1rem;font-weight:900;">${esc(m.id)}</span>`;
+  📝 <strong>الاسم:</strong> ${esc(r.nameAr)}<br>
+  📅 <strong>الميلاد:</strong> ${esc(r.dob)}<br>
+  🪪 <strong>رقم الاعتماد:</strong> <span style="color:#00f2fe;font-size:1.1rem;font-weight:900;">${esc(r.id)}</span>`;
   fSuccess.style.display='block';
   beep(750,.2);
 }
 
 async function handleLogin(){
-  const dob=normDob(loginDob.value),acc=normAcc(loginAcc.value);
   if(nums(capA.value).join('')!==capAns){
     loginError.textContent = "❌ جواب خاطئ! حلّ المسألة الحسابية لإثبات أنك لست روبوت.";
     loginError.style.display = 'block';
@@ -699,22 +663,32 @@ async function handleLogin(){
     beep(280,.2);
     return;
   }
-  const f=fightersData.find(f=>nameMatches(loginName.value,f)&&normDob(f.dob)===dob&&normAcc(f.id)===acc);
-  if(f){
-    loginError.style.display='none';
-    await Promise.race([sheetReady,new Promise(r=>setTimeout(r,3500))]);
-    if(introBusy) return;
-    introBusy=true;
-    if(!f.suspended) await playIntro(f);
-    introBusy=false;
-    renderFighterCard(f);
-    if(!f.suspended){confetti();beep(750,.15);}else{beep(300,.25);}
-  }else{
-    loginError.textContent = T[currentLang].eLogin;
+  loginBtn.disabled=true;
+  const r=await api({action:'login',name:loginName.value,dob:loginDob.value,acc:loginAcc.value});
+  loginBtn.disabled=false;
+  if(!r.ok){
+    loginError.textContent = r.error==='locked'?'⛔ محاولات خاطئة كثيرة. حاول بعد 15 دقيقة.':(r.error==='network'?'تعذر الاتصال بالخادم، حاول مرة أخرى.':T[currentLang].eLogin);
     loginError.style.display='block';
     newCaptcha();
     beep(320,.2);
+    return;
   }
+  loginError.style.display='none';
+  let f;
+  if(r.suspended){
+    f={nameAr:r.nameAr,suspended:true};
+  }else{
+    const w=r.fighter;
+    f={id:w.id,nameAr:w.nameAr,nameEn:w.nameEn,dob:w.dob,pob:w.pob,address:w.address,phone:w.phone,father:w.father,group:w.group,belt:w.belt,photo:w.photo,suspended:false};
+    SHEET={};SHEET[normAcc(w.id)]=w;
+    if(r.ann) SHEET.ALL={note:r.ann};
+  }
+  if(introBusy) return;
+  introBusy=true;
+  if(!f.suspended) await playIntro(f);
+  introBusy=false;
+  renderFighterCard(f);
+  if(!f.suspended){confetti();beep(750,.15);}else{beep(300,.25);}
 }
 const esc=s=>String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 
@@ -1059,31 +1033,46 @@ async function saveCard(){
   }catch(e){alert('حدث خطأ أثناء تحميل الصورة، جرب مرة أخرى.');beep(300,.2);}
 }
 
-function checkAdminAuth(){
+async function checkAdminAuth(){
   const p = adminPassInput.value;
-  if(p === ADMIN_PASS){
-    adminAuthErr.style.display = 'none';
-    adminPassInput.value = '';
-    aBelt.innerHTML='<option value="">كل الأحزمة</option>'+Object.keys(BELTS).map(k=>`<option value="${k}">${BELTS[k].ar}</option>`).join('');
-    show('adminSection');
-    sheetReady.then(adminRender);
-    adminRender();
-    beep(900,.18);
-  } else {
+  adminAuthErr.style.display = 'none';
+  const r = await api({action:'admin_list',pass:p});
+  if(!r.ok){
+    adminAuthErr.textContent = r.error==='locked'?'محاولات كثيرة، حاول بعد 10 دقائق.':(r.error==='network'?'تعذر الاتصال بالخادم.':'كلمة السر خاطئة!');
     adminAuthErr.style.display = 'block';
     beep(280,.2);
+    return;
   }
+  adminPassMem = p;
+  ADMIN_ROWS = r.rows.map(x=>({...x,suspended:String(x.suspended).toUpperCase()==='TRUE'}));
+  adminPassInput.value = '';
+  aBelt.innerHTML='<option value="">كل الأحزمة</option>'+Object.keys(BELTS).map(k=>`<option value="${k}">${BELTS[k].ar}</option>`).join('');
+  show('adminSection');
+  adminRender();
+  beep(900,.18);
+}
+function fillNotif(t,m){nTitle.value=t;nMsg.value=m;nMsg.focus();beep(600,.1);}
+async function sendNotif(){
+  const t=nTitle.value.trim()||'Bears of Peace',m=nMsg.value.trim();
+  const box=document.getElementById('nMsgBox');
+  if(!m){box.className='msg show error';box.textContent='اكتب نص الإشعار أولاً.';beep(300,.2);return;}
+  if(!confirm('إرسال هذا الإشعار لجميع المشتركين؟\n\n'+t+'\n'+m)) return;
+  nBtn.disabled=true;
+  const r=await api({action:'notify',pass:adminPassMem,title:t,message:m});
+  nBtn.disabled=false;
+  if(r.ok){box.className='msg show ok';box.textContent='✅ تم إرسال الإشعار.';nMsg.value='';beep(880,.2);}
+  else{box.className='msg show error';box.textContent=(r.error==='badpass'||r.error==='locked')?'تعذر التحقق من كلمة السر أو محاولات كثيرة.':'تعذر الإرسال، تأكد من مفتاح OneSignal في السكربت. '+(r.info||r.error||'');beep(250,.2);}
 }
 
-function payStatus(f){const r=SHEET[normAcc(f.id)],pu=r&&parseD(r.paid_until),t=new Date();t.setHours(0,0,0,0);return !pu?'—':(pu>=t?'✅':'⚠️');}
+function payStatus(f){const pu=parseD(f.paid_until),t=new Date();t.setHours(0,0,0,0);return !pu?'—':(pu>=t?'✅':'⚠️');}
 function adminFiltered(){
   const q=cleanWords(aSearch.value),g=aGroup.value,b=aBelt.value,st=aStat.value;
-  return fightersData.filter(f=>{
+  return ADMIN_ROWS.filter(f=>{
     const hay=cleanWords(f.nameAr+' '+f.nameEn+' '+f.id+' '+f.phone).join(' ');
     return q.every(w=>hay.includes(w))&&(!g||f.group===g)&&(!b||f.belt===b)&&(!st||(st==='susp')===f.suspended);});
 }
 function adminRender(){
-  const all=fightersData,cnt=(fn)=>all.filter(fn).length;
+  const all=ADMIN_ROWS,cnt=(fn)=>all.filter(fn).length;
   aStats.innerHTML=`👥 الإجمالي: <b>${all.length}</b> • ✔ نشط: <b>${cnt(f=>!f.suspended)}</b> • 🚫 مشطوب: <b>${cnt(f=>f.suspended)}</b><br>`+
     ['A','B','C'].map(g=>`المجموعة ${g}: <b>${cnt(f=>f.group===g)}</b>`).join(' • ')+'<br>'+
     Object.keys(BELTS).map(k=>`${BELTS[k].ar}: <b>${cnt(f=>f.belt===k)}</b>`).join(' • ');
