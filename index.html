@@ -16,6 +16,7 @@ OneSignalDeferred.push(async function(OneSignal){
     await OneSignal.init({
       appId: "c4fae739-9595-4b57-bd08-7ea7051f1c20",
       serviceWorkerPath: "Bears-Of-Peace-Ju-Jutsu-Oued-Eslam/push/OneSignalSDKWorker.js",
+      serviceWorkerOverrideForTypical: true,
       serviceWorkerParam: { scope: "/Bears-Of-Peace-Ju-Jutsu-Oued-Eslam/push/" }
     });
     window._osReady = true;
@@ -447,7 +448,7 @@ html.light .mini{color:#006a99}
 
 <script>
 let MANAGER_PHONE = "0557905083";
-const API_URL = "https://script.google.com/macros/s/AKfycbwPfdDo6OLQR_O1hQ2X2aAIRs2oOE9qdvikUzaBIQGRyswchnUK2VtwqRNiiz3HWu_g/exec";
+const API_URL = "https://script.google.com/macros/s/AKfycbx9ennSmz0ttWTXNM4As95zX2d8K-7_J_m90O3S_d6Nj9fR25-aEgyFaXsC9j5czaAW/exec";
 let adminPassMem='',ADMIN_ROWS=[];
 async function api(payload){
   try{
