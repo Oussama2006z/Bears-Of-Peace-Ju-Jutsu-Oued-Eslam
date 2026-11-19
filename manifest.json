@@ -1,0 +1,14 @@
+{
+  "name": "Bears of Peace Ju Jutsu",
+  "short_name": "Bears of Peace",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#030814",
+  "theme_color": "#030814",
+  "lang": "ar",
+  "dir": "rtl",
+  "icons": [
+    {"src": "https://i.ibb.co/vvB5ZmFH/1790268608620.jpg", "sizes": "512x512", "type": "image/jpeg", "purpose": "any"}
+  ]
+}
