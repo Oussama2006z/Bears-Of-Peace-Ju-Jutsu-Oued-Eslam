@@ -244,6 +244,7 @@ html.light .mini{color:#006a99}
       <button type="button" class="cap-new" onclick="newCaptcha()" aria-label="سؤال جديد">🔄</button>
     </div>
 
+    <label class="chk"><input type="checkbox" id="rememberMe" checked><span>تذكّرني على هذا الجهاز (دخول تلقائي)</span></label>
     <button class="btn" id="loginBtn" onclick="handleLogin()" data-t="bLogin"></button>
     <div class="err" id="loginError" data-t="eLogin"></div>
     <button class="btn alt" onclick="show('regSection')" data-t="newCard"></button><br>
@@ -788,6 +789,14 @@ async function submitRecovery(){
   beep(750,.2);
 }
 
+function fighterFromResult(r){
+  if(r.suspended) return {nameAr:r.nameAr,suspended:true};
+  const w=r.fighter;
+  SHEET={};SHEET[normAcc(w.id)]=w;
+  if(r.ann) SHEET.ALL={note:r.ann};
+  if(r.settings) applySettings(r.settings);
+  return {id:w.id,nameAr:w.nameAr,nameEn:w.nameEn,dob:w.dob,pob:w.pob,address:w.address,phone:w.phone,father:w.father,group:w.group,belt:w.belt,photo:w.photo,suspended:false};
+}
 async function handleLogin(){
   if(nums(capA.value).join('')!==capAns){
     loginError.textContent = "❌ جواب خاطئ! حلّ المسألة الحسابية لإثبات أنك لست روبوت.";
@@ -797,7 +806,8 @@ async function handleLogin(){
     return;
   }
   loginBtn.disabled=true;
-  const r=await api({action:'login',name:loginName.value,dob:loginDob.value,acc:loginAcc.value});
+  const cred={n:loginName.value,d:loginDob.value,a:loginAcc.value};
+  const r=await api({action:'login',name:cred.n,dob:cred.d,acc:cred.a});
   loginBtn.disabled=false;
   if(!r.ok){
     loginError.textContent = r.error==='locked'?'⛔ محاولات خاطئة كثيرة. حاول بعد 15 دقيقة.':(r.error==='network'?'تعذر الاتصال بالخادم، حاول مرة أخرى.':T[currentLang].eLogin);
@@ -807,22 +817,24 @@ async function handleLogin(){
     return;
   }
   loginError.style.display='none';
-  let f;
-  if(r.suspended){
-    f={nameAr:r.nameAr,suspended:true};
-  }else{
-    const w=r.fighter;
-    f={id:w.id,nameAr:w.nameAr,nameEn:w.nameEn,dob:w.dob,pob:w.pob,address:w.address,phone:w.phone,father:w.father,group:w.group,belt:w.belt,photo:w.photo,suspended:false};
-    SHEET={};SHEET[normAcc(w.id)]=w;
-    if(r.ann) SHEET.ALL={note:r.ann};
-    if(r.settings) applySettings(r.settings);
-  }
+  if(rememberMe.checked) store.set('saved',JSON.stringify(cred)); else store.del('saved');
+  const f=fighterFromResult(r);
   if(introBusy) return;
   introBusy=true;
   if(!f.suspended) await playIntro(f);
   introBusy=false;
   renderFighterCard(f);
   if(!f.suspended){confetti();beep(750,.15);}else{beep(300,.25);}
+}
+/* دخول تلقائي من البيانات المحفوظة على الجهاز (مثل فيسبوك) */
+async function autoLogin(){
+  const raw=store.get('saved');
+  if(!raw) return;
+  let c;try{c=JSON.parse(raw);}catch(e){store.del('saved');return;}
+  if(!c||!c.n||!c.a) {store.del('saved');return;}
+  const r=await api({action:'login',name:c.n,dob:c.d,acc:c.a});
+  if(!r.ok){ if(r.error==='nomatch') store.del('saved'); return; }
+  renderFighterCard(fighterFromResult(r));
 }
 const esc=s=>String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 
@@ -1012,6 +1024,7 @@ regForm.addEventListener("submit",async e=>{
   beep(920,.25);
 });
 function logoutFighter(){
+  store.del('saved');
   show('loginSection');
   loginName.value=loginDob.value=loginAcc.value='';
   newCaptcha();
@@ -1020,7 +1033,7 @@ function logoutFighter(){
 }
 
 let soundOn=true;
-const store={get:k=>{try{return localStorage.getItem(k)}catch(e){return null}},set:(k,v)=>{try{localStorage.setItem(k,v)}catch(e){}}};
+const store={get:k=>{try{return localStorage.getItem(k)}catch(e){return null}},set:(k,v)=>{try{localStorage.setItem(k,v)}catch(e){}},del:k=>{try{localStorage.removeItem(k)}catch(e){}}};
 function applyTheme(l){document.documentElement.classList.toggle('light',l);themeBtn.textContent=l?'☀️':'🌙';
   const m=document.querySelector('meta[name=theme-color]');if(m)m.content=l?'#eaf4ff':'#010409';}
 function toggleTheme(){const l=!document.documentElement.classList.contains('light');applyTheme(l);store.set('theme',l?'light':'dark');beep(l?780:480,.12);}
@@ -1350,6 +1363,7 @@ if('serviceWorker' in navigator&&location.protocol.startsWith('http'))navigator.
 
 applyLang();
 newCaptcha();
+autoLogin();
 api({action:'public'}).then(r=>{if(r&&r.ok&&r.settings) applySettings(r.settings);});
 {
   const sp=document.getElementById('splash');
