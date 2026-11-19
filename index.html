@@ -227,6 +227,10 @@ html.light .mini{color:#006a99}
 <div class="tools"><button id="themeBtn" onclick="toggleTheme()" title="الوضع">🌙</button><button id="soundBtn" onclick="toggleSound()" title="الصوت">🔊</button></div>
 <div id="lightbox" onclick="this.style.display='none'"><img id="lbImg" alt=""></div>
 
+<div id="autoBox" style="display:none;position:fixed;inset:0;z-index:4500;background:rgba(1,4,9,.9);flex-direction:column;align-items:center;justify-content:center;gap:16px">
+  <div class="spinner-box"><div class="spinner"></div><span>جارٍ تسجيل دخولك تلقائياً...</span></div>
+  <button class="btn alt" style="width:auto;padding:8px 22px" onclick="cancelAuto()">إلغاء</button>
+</div>
 <div class="wrap">
   <div class="site-logo"><img id="siteLogo" alt="Bears of Peace"></div>
   <div id="loginSection" class="auth">
@@ -817,7 +821,8 @@ async function handleLogin(){
     return;
   }
   loginError.style.display='none';
-  if(rememberMe.checked) store.set('saved',JSON.stringify(cred)); else store.del('saved');
+  let saveFailed=false;
+  if(rememberMe.checked){store.set('saved',JSON.stringify(cred));saveFailed=(store.get('saved')===null);}else store.del('saved');
   const f=fighterFromResult(r);
   if(introBusy) return;
   introBusy=true;
@@ -825,15 +830,27 @@ async function handleLogin(){
   introBusy=false;
   renderFighterCard(f);
   if(!f.suspended){confetti();beep(750,.15);}else{beep(300,.25);}
+  if(saveFailed) setTimeout(()=>alert('تنبيه: هذا المتصفح لا يسمح بحفظ الدخول التلقائي (قد تكون داخل تطبيق فيسبوك أو في التصفح الخفي). افتح الموقع في Chrome العادي.'),900);
 }
 /* دخول تلقائي من البيانات المحفوظة على الجهاز (مثل فيسبوك) */
+let autoCancelled=false;
+function cancelAuto(){autoCancelled=true;store.del('saved');autoBox.style.display='none';}
 async function autoLogin(){
   const raw=store.get('saved');
   if(!raw) return;
   let c;try{c=JSON.parse(raw);}catch(e){store.del('saved');return;}
-  if(!c||!c.n||!c.a) {store.del('saved');return;}
-  const r=await api({action:'login',name:c.n,dob:c.d,acc:c.a});
-  if(!r.ok){ if(r.error==='nomatch') store.del('saved'); return; }
+  if(!c||!c.n||!c.a){store.del('saved');return;}
+  autoBox.style.display='flex';
+  let r=await api({action:'login',name:c.n,dob:c.d,acc:c.a});
+  if(!r.ok&&r.error==='network'&&!autoCancelled) r=await api({action:'login',name:c.n,dob:c.d,acc:c.a});
+  if(autoCancelled) return;
+  autoBox.style.display='none';
+  if(!r.ok){
+    if(r.error==='nomatch') store.del('saved');
+    loginError.textContent=r.error==='network'?'تعذر الدخول التلقائي (الاتصال)، سجّل الدخول يدوياً.':'تعذر الدخول التلقائي، سجّل الدخول يدوياً.';
+    loginError.style.display='block';
+    return;
+  }
   renderFighterCard(fighterFromResult(r));
 }
 const esc=s=>String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
