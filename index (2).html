@@ -1,0 +1,1528 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl" id="htmlRoot">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="manifest" href="manifest.json">
+<meta name="theme-color" content="#030814">
+<link rel="apple-touch-icon" href="icon-192.png">
+<link rel="preconnect" href="https://i.ibb.co">
+<!-- OneSignal: الإشعارات (ملف العامل داخل المجلد push/) -->
+<script src="https://cdn.onesignal.com/sdks/web/v16/OneSignalSDK.page.js" defer></script>
+<script>
+window.OneSignalDeferred = window.OneSignalDeferred || [];
+OneSignalDeferred.push(async function(OneSignal){
+  try{
+    await OneSignal.init({
+      appId: "c4fae739-9595-4b57-bd08-7ea7051f1c20",
+      serviceWorkerPath: "Bears-Of-Peace-Ju-Jutsu-Oued-Eslam/push/OneSignalSDKWorker.js",
+      serviceWorkerOverrideForTypical: true,
+      serviceWorkerParam: { scope: "/Bears-Of-Peace-Ju-Jutsu-Oued-Eslam/push/" }
+    });
+    window._osReady = true;
+  }catch(e){ window._osErr = String((e && e.message) || e); }
+});
+</script>
+<title>Bears of Peace Ju-Jutsu - Fighter Portal</title>
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;800;900&display=swap" rel="stylesheet">
+<style>
+:root{--pb:#00f2fe;--db:#0476ff;--glow:rgba(0,242,254,.9);--bg:#010409;--card:rgba(10,22,45,.88)}
+*{box-sizing:border-box;margin:0;padding:0;font-family:'Cairo',sans-serif}
+html{min-height:100%;background:radial-gradient(ellipse at center,#0d1b38 0%,#010409 100%) fixed #010409}
+body{min-height:100vh;display:flex;justify-content:center;align-items:center;overflow-x:hidden;padding:30px 0}
+.bg{position:fixed;top:0;left:0;width:100vw;height:100vh;pointer-events:none;z-index:0;overflow:hidden;background:radial-gradient(circle at 50% 50%,rgba(0,242,254,.18),transparent 75%)}
+.s1,.s2{position:absolute;border-radius:50%;filter:blur(65px);animation:pulse 6s infinite alternate}
+.s1{top:-25%;left:-15%;width:80vw;height:80vh;background:radial-gradient(circle,rgba(0,242,254,.35),transparent 70%)}
+.s2{bottom:-25%;right:-15%;width:90vw;height:90vh;background:radial-gradient(circle,rgba(4,118,255,.4),transparent 70%)}
+@keyframes pulse{0%{transform:scale(1);opacity:.7}100%{transform:scale(1.25) translate(25px,-25px);opacity:1}}
+
+/* ===== خلفية رياضية مضيئة متحركة: أضواء ملعب + أرضية سباق + جسيمات ===== */
+.beam{position:absolute;top:-8%;width:42vw;height:125vh;background:linear-gradient(to bottom,rgba(0,242,254,.42),rgba(4,118,255,.12) 55%,transparent 85%);clip-path:polygon(46% 0,54% 0,100% 100%,0 100%);transform-origin:50% 0;filter:blur(5px);mix-blend-mode:screen;animation:sweep 7s ease-in-out infinite alternate}
+.b1{left:-6vw;animation-duration:8s}
+.b2{left:29vw;animation-duration:6s;animation-delay:-2.5s}
+.b3{right:-6vw;animation-duration:9s;animation-delay:-4s}
+@keyframes sweep{0%{transform:rotate(-24deg)}100%{transform:rotate(24deg)}}
+.floor{position:absolute;left:-60%;right:-60%;bottom:0;height:48vh;transform:perspective(420px) rotateX(64deg);transform-origin:50% 100%;background:
+ repeating-linear-gradient(90deg,rgba(0,242,254,.65) 0 3px,transparent 3px 110px),
+ repeating-linear-gradient(0deg,rgba(0,242,254,.45) 0 2px,transparent 2px 80px);
+ box-shadow:0 0 60px rgba(0,242,254,.5) inset;
+ -webkit-mask-image:linear-gradient(to top,#000 10%,transparent);mask-image:linear-gradient(to top,#000 10%,transparent);
+ animation:run 1.4s linear infinite}
+@keyframes run{from{background-position:0 0,0 0}to{background-position:0 0,0 80px}}
+.pt{position:absolute;bottom:-12px;border-radius:50%;background:#00f2fe;box-shadow:0 0 12px 3px rgba(0,242,254,.9);opacity:.9;animation:rise linear infinite}
+@keyframes rise{to{transform:translateY(-112vh);opacity:0}}
+@media (prefers-reduced-motion:reduce){.beam,.floor,.pt,.s1,.s2{animation:none!important}}
+
+.lang{position:fixed;top:20px;right:20px;background:rgba(4,118,255,.6);color:var(--pb);border:1px solid var(--pb);padding:8px 16px;border-radius:20px;cursor:pointer;font-weight:800;z-index:1000;backdrop-filter:blur(10px)}
+.wrap{position:relative;width:92%;max-width:500px;z-index:1}
+.auth{background:var(--card);border-radius:20px;padding:28px;backdrop-filter:blur(15px);border:1px solid rgba(0,242,254,.4);box-shadow:0 0 35px rgba(0,242,254,.25),inset 0 0 20px rgba(0,242,254,.15);text-align:center}
+.logo{font-size:1.2rem;font-weight:900;color:#fff;text-shadow:0 0 12px var(--glow);margin-bottom:5px}
+.sub{font-size:.75rem;color:var(--pb);letter-spacing:1px;margin-bottom:22px}
+.fg{margin-bottom:14px;text-align:start}
+.fg label{display:block;font-size:.78rem;color:#b0e0ff;margin-bottom:5px;font-weight:600}
+.fg input,.fg textarea{width:100%;padding:10px 14px;background:rgba(0,0,0,.55);border:1px solid rgba(0,242,254,.45);border-radius:8px;color:#fff;font-size:.9rem;outline:none}
+.fg input:focus,.fg textarea:focus{border-color:var(--pb);box-shadow:0 0 12px rgba(0,242,254,.5)}
+.btn{width:100%;background:linear-gradient(135deg,#0476ff,#00f2fe);color:#000;border:1px solid var(--pb);padding:12px;border-radius:8px;font-weight:900;cursor:pointer;margin-top:10px;display:block;text-align:center;text-decoration:none}
+.btn:hover{background:linear-gradient(135deg,#00f2fe,#0476ff);color:#fff}
+.link{display:inline-block;margin-top:15px;font-size:.8rem;color:var(--pb);cursor:pointer;text-decoration:underline}
+.err,.ok{font-size:.8rem;margin-top:10px;display:none;font-weight:bold}
+.err{color:#ff6a3d}.ok{color:#00ffcc;line-height:1.6}
+#cardView{display:none}
+.back{background:rgba(4,118,255,.8);color:#fff;border:1px solid var(--pb);padding:6px 14px;border-radius:6px;font-size:.75rem;font-weight:bold;cursor:pointer;margin-bottom:12px}
+
+.card-perspective{perspective:1200px}
+.card{position:relative;width:100%;min-height:600px;background:var(--card);border-radius:20px;padding:25px;backdrop-filter:blur(15px);border:1px solid rgba(0,242,254,.3);box-shadow:0 0 30px rgba(0,242,254,.2),inset 0 0 15px rgba(0,242,254,.1);transform-style:preserve-3d;transition:transform .8s cubic-bezier(.4,.2,.2,1)}
+.card.flipped{transform:rotateY(180deg)}
+.card-front,.card-back{width:100%;backface-visibility:hidden;-webkit-backface-visibility:hidden}
+.card-front{position:relative;z-index:2}
+.card-back{position:absolute;inset:0;z-index:1;transform:rotateY(180deg);border-radius:20px;overflow:hidden;display:flex;flex-direction:column;justify-content:flex-end;padding:20px;background:#010409;min-height:600px}
+.card.flipped .card-front{visibility:hidden}
+.card.flipped .card-back{visibility:visible}
+.card-back-img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:1;border-radius:20px}
+.card-back-btn{position:relative;z-index:10;width:100%;box-shadow:0 5px 25px rgba(0,0,0,.9);border:1px solid var(--pb)}
+
+.hd{text-align:center;border-bottom:2px solid rgba(0,242,254,.3);padding-bottom:12px;margin-bottom:15px}
+.cn-ar{color:#fff;font-size:1.1rem;font-weight:800;text-shadow:0 0 10px var(--glow)}
+.cn-en{color:var(--pb);font-size:.72rem;font-weight:600;letter-spacing:1px;text-transform:uppercase}
+.ctitle{display:inline-block;background:linear-gradient(90deg,transparent,var(--pb),transparent);color:#000;font-weight:900;padding:2px 20px;font-size:.8rem;margin-top:6px;border-radius:10px}
+.sup{text-align:center;background:rgba(4,118,255,.25);border:1px dashed rgba(0,242,254,.4);padding:8px;border-radius:8px;margin-bottom:15px;font-size:.78rem;color:#b0e0ff}
+.sup span{color:var(--pb);font-weight:bold}
+.susp{background:linear-gradient(135deg,#b71c1c,#d32f2f);color:#fff;text-align:center;padding:6px;border-radius:6px;font-weight:900;font-size:.85rem;margin-bottom:12px;box-shadow:0 0 10px rgba(211,47,47,.6);border:1px solid #ff5252}
+.susp.big{font-size:1.9rem;line-height:1.5;padding:34px 12px;margin:24px 0 8px;border-radius:14px;box-shadow:0 0 30px rgba(211,47,47,.8)}
+.susp-name{text-align:center;color:#fff;font-weight:900;font-size:1.5rem;margin:10px 0}
+.prof{display:flex;justify-content:space-around;align-items:center;margin-bottom:15px}
+.photo{width:110px;height:130px;border-radius:12px;overflow:hidden;border:2px solid var(--pb);box-shadow:0 0 15px var(--glow)}
+.photo img{width:100%;height:100%;object-fit:cover}
+.kim{width:120px;height:130px;animation:fl 4s ease-in-out infinite alternate}
+@keyframes fl{0%{transform:perspective(600px) rotateY(-15deg) rotateX(5deg) translateY(0)}100%{transform:perspective(600px) rotateY(15deg) rotateX(-5deg) translateY(-8px)}}
+.kim svg{width:100%;height:100%;filter:drop-shadow(0 10px 10px rgba(0,0,0,.8)) drop-shadow(0 0 8px var(--pb))}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;background:rgba(0,0,0,.35);padding:12px;border-radius:12px;border:1px solid rgba(255,255,255,.05)}
+.it{display:flex;flex-direction:column}.full{grid-column:span 2}
+.label{font-size:.72rem;color:#b0e0ff;margin-bottom:1px}
+.value{font-size:.85rem;color:#fff;font-weight:600}
+.hl{color:var(--pb);font-weight:800}
+.latin{font-size:.78rem;color:#7dd3fc;direction:ltr;display:inline-block;text-align:right}
+.belt{grid-column:span 2;margin-top:3px;padding:6px;background:rgba(0,0,0,.5);border-radius:6px;display:flex;align-items:center;justify-content:space-between}
+.bar{width:50%;height:14px;border-radius:3px;border:1px solid #777;box-shadow:0 0 8px rgba(0,0,0,.8)}
+.acts{grid-column:span 2;margin-top:10px;display:grid;grid-template-columns:1fr 1fr;gap:6px}
+.act{background:linear-gradient(135deg,#0476ff,#00f2fe);color:#000;border:1px solid var(--pb);padding:8px 10px;border-radius:6px;font-weight:800;font-size:.78rem;cursor:pointer;text-align:center;text-decoration:none;display:flex;align-items:center;justify-content:center;gap:5px;transition:all .3s}
+.act:hover{background:linear-gradient(135deg,#00f2fe,#0476ff);transform:scale(1.02);box-shadow:0 0 10px var(--glow);color:#fff}
+.act.wide{grid-column:span 2;background:linear-gradient(135deg,#8b0000,#ff4500);color:#fff}
+.act.parent{grid-column:span 2;background:linear-gradient(135deg,#2e7d32,#4caf50);border-color:#00ffcc;color:#fff}
+.panel{grid-column:span 2;display:none;margin-top:8px;padding:10px;background:rgba(0,242,254,.12);border:1px solid var(--pb);border-radius:8px;color:#fff;font-size:.82rem;animation:fi .4s forwards}
+@keyframes fi{from{opacity:0;transform:translateY(-4px)}to{opacity:1;transform:none}}
+.issue input[type=text],.issue textarea{width:100%;padding:6px;margin:5px 0 8px;background:rgba(0,0,0,.5);border:1px solid rgba(0,242,254,.4);border-radius:4px;color:#fff;font-size:.78rem}
+.issue button{background:#00e676;color:#000;border:none;padding:5px 12px;border-radius:4px;font-weight:bold;cursor:pointer;font-size:.78rem}
+.issue label{font-size:.75rem;color:#b0e0ff}
+.okmsg{color:#00ffcc;font-weight:bold;display:none;margin-top:5px}
+.ft{margin-top:15px;display:flex;justify-content:space-between;align-items:center;font-size:.72rem;color:#88a0c0;border-top:1px dashed rgba(0,242,254,.2);padding-top:10px}
+.badge{background:var(--db);color:#fff;padding:2px 6px;border-radius:4px;font-weight:bold;border:1px solid var(--pb)}
+.med{color:#00ffcc;font-weight:bold}
+.btn.alt{background:transparent;border:1px solid var(--pb);color:var(--pb)}
+.btn.alt:hover{background:rgba(0,242,254,.15);color:#fff}
+.choices{display:flex;flex-wrap:wrap;gap:8px}
+.choice{flex:1 1 30%;padding:11px 8px;border-radius:10px;border:1px solid rgba(0,242,254,.3);background:rgba(10,15,26,.8);color:#fff;font-size:.9rem;cursor:pointer;transition:all .25s}
+.choice.times{flex:1 1 100%}
+.choice.active{background:var(--pb);border-color:var(--pb);color:#000;font-weight:700;box-shadow:0 0 15px rgba(0,242,254,.4)}
+.gt{display:block;margin:14px 0 6px;color:#b0e0ff;font-size:.78rem;font-weight:600;text-align:start}
+.msg{display:none;margin-top:12px;padding:10px;border-radius:10px;font-size:.85rem;line-height:1.6}
+.msg.show{display:block}.msg.error{background:#3a1a1a;color:#ffb4b4;border:1px solid #7a2222}.msg.ok{background:#0f382c;color:#b8f5c9;border:1px solid #1b6e53}
+.info{display:none;margin-top:10px;padding:12px;border-radius:10px;font-size:.85rem;background:#131c2e;border:1px dashed var(--pb);text-align:center}
+.info.show{display:block}
+.reg-form-img{width:100%;max-height:400px;object-fit:contain;border-radius:8px;border:1px solid var(--pb);margin:10px 0;background:#000;cursor:zoom-in}
+.about{margin-top:20px;padding-top:14px;border-top:1px solid rgba(0,242,254,.2);text-align:start}
+.about .t{text-align:center;font-weight:700;color:#fff;margin-bottom:10px;font-size:.95rem}
+.sc{background:rgba(10,15,26,.6);border:1px solid rgba(0,242,254,.2);border-radius:8px;padding:8px 12px;margin-bottom:8px}
+.sc h3{font-size:.9rem;color:var(--pb);margin-bottom:3px}.sc p{font-size:.8rem;color:#8a99ad;line-height:1.4}
+.btn:disabled{opacity:.6;cursor:wait}
+.site-logo{text-align:center;margin-bottom:16px}
+.site-logo img{width:110px;height:110px;object-fit:contain;border-radius:50%;background:#fff;padding:4px;box-shadow:0 0 20px rgba(0,242,254,.3);transition:transform .3s,box-shadow .3s}
+.site-logo img:hover{transform:scale(1.03);box-shadow:0 0 25px var(--glow)}
+.greet{text-align:center;color:#fff;font-weight:800;font-size:1rem;margin-bottom:10px}
+/* صندوق الاشتراك (كان .sub فتعارض مع عنوان الصفحة) */
+.subs{padding:8px 10px;border-radius:8px;font-size:.8rem;font-weight:700;line-height:1.7;background:rgba(0,0,0,.45);border:1px solid #556}
+.subs.ok{border-color:#1b6e53;color:#b8f5c9;background:#0f382c}.subs.bad{border-color:#ff5252;color:#ffb4b4;background:#3a1a1a}.subs.neu{color:#b0e0ff}
+.pbar{height:10px;border-radius:6px;background:rgba(255,255,255,.12);overflow:hidden;margin:4px 0 8px}
+.pbar i{display:block;height:100%;background:linear-gradient(90deg,#00f2fe,#00e676)}
+.panel a{color:#7dd3fc}.panel ul{margin:4px 18px}
+.chk{display:flex;gap:8px;align-items:flex-start;text-align:start;font-size:.75rem;color:#b0e0ff;margin-top:12px;line-height:1.5}
+
+#splash{position:fixed;inset:0;z-index:5000;background:url('https://i.ibb.co/ZzhtgMx8/image.png') no-repeat center center;background-size:cover;display:flex;flex-direction:column;align-items:center;justify-content:flex-end;padding-bottom:50px;transition:opacity .8s ease-in-out}
+.spinner-box{display:flex;align-items:center;gap:10px;background:rgba(0,0,0,0.75);padding:10px 20px;border-radius:30px;border:1px solid rgba(0,242,254,0.5);color:#fff;font-weight:800;font-size:0.9rem;backdrop-filter:blur(5px)}
+.spinner{width:20px;height:20px;border:3px solid rgba(255,255,255,0.3);border-top-color:#00f2fe;border-radius:50%;animation:spin 1s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+
+.auth,#cardView{animation:fi .4s}
+#intro{position:fixed;inset:0;z-index:5500;background:#010409;display:none;flex-direction:column;align-items:center;justify-content:center;gap:14px;opacity:0;transition:opacity .5s}
+#intro.show{display:flex}#intro.vis{opacity:1}
+#intro img{width:min(86vw,86vh,576px);height:auto;aspect-ratio:1/1;object-fit:contain;border-radius:16px;box-shadow:0 0 40px rgba(0,242,254,.4)}
+#intro .iname{color:#fff;font-weight:800;font-size:1.1rem;text-shadow:0 0 12px var(--glow);text-align:center;padding:0 16px}
+.tools{position:fixed;top:20px;left:20px;display:flex;gap:8px;z-index:1000}
+.tools button{background:rgba(4,118,255,.6);color:var(--pb);border:1px solid var(--pb);width:38px;height:38px;border-radius:50%;cursor:pointer;font-size:1rem;backdrop-filter:blur(10px)}
+select{flex:1;padding:8px;border-radius:8px;background:rgba(0,0,0,.5);color:#fff;border:1px solid rgba(0,242,254,.4);font-size:.8rem}
+select option{color:#000}
+table{width:100%;border-collapse:collapse;font-size:.75rem;color:#fff}
+th,td{padding:5px 6px;border-bottom:1px solid rgba(0,242,254,.15);white-space:nowrap;text-align:start}
+th{color:#b0e0ff}td a{color:#7dd3fc}
+.wrap.adm{max-width:900px}
+.sep{color:#88a0c0;margin:0 6px}
+#lightbox{position:fixed;inset:0;z-index:6000;background:rgba(0,0,0,.92);display:none;align-items:center;justify-content:center;cursor:zoom-out}
+#lightbox img{max-width:92vw;max-height:92vh;border-radius:12px}
+.cf{position:fixed;top:-14px;width:8px;height:14px;z-index:4000;animation:cf 2.2s linear forwards;pointer-events:none}
+@keyframes cf{to{transform:translateY(105vh) rotate(720deg)}}
+
+.captcha-container{background:rgba(0,242,254,.08);border:1px solid rgba(0,242,254,.35);padding:12px;border-radius:10px;margin-bottom:14px;display:flex;align-items:center;justify-content:space-between;gap:10px}
+.captcha-left{display:flex;align-items:center;gap:12px;flex-wrap:wrap}
+.captcha-label{font-size:.85rem;color:#fff;font-weight:700;user-select:none}
+#capA{width:70px;padding:6px;border-radius:6px;border:1px solid rgba(0,242,254,.45);background:rgba(0,0,0,.55);color:#fff;text-align:center;font-size:.95rem;outline:none}
+.cap-new{background:none;border:1px solid var(--pb);color:var(--pb);border-radius:6px;padding:4px 10px;cursor:pointer;font-size:1rem}
+
+.stars-rating{display:flex;justify-content:center;gap:8px;margin:10px 0;direction:ltr}
+.stars-rating span{font-size:1.8rem;cursor:pointer;color:#555;transition:color .2s,transform .2s}
+.stars-rating span.active,.stars-rating span:hover{color:#ffd700;transform:scale(1.15)}
+
+html.light{background:radial-gradient(ellipse at center,#eaf4ff,#cfe3f7) fixed #eaf4ff}
+html.light .beam,html.light .floor{opacity:.45}
+html.light .auth,html.light .card{background:rgba(255,255,255,.93);border-color:rgba(0,120,200,.35)}
+html.light .logo,html.light .value,html.light .cn-ar,html.light .greet,html.light .about .t,html.light table,html.light .susp-name{color:#0b1b33;text-shadow:none}
+html.light .captcha-label{color:#0b1b33}
+html.light #capA{background:#fff;color:#0b1b33}
+html.light .label,html.light .fg label,html.light .gt,html.light .chk,html.light .issue label,html.light th,html.light .ft{color:#35506f}
+html.light .fg input,html.light .fg textarea,html.light .issue input,html.light select{background:#fff;color:#0b1b33}
+html.light .grid{background:rgba(0,40,90,.06)}
+html.light .panel{color:#0b1b33;background:rgba(0,150,220,.1)}
+html.light .sup{color:#35506f;background:rgba(0,64,128,.08)}
+html.light .belt{background:rgba(0,40,90,.08)}
+html.light .choice{background:#fff;color:#0b1b33}
+html.light .choice.active{color:#000}
+html.light .sc{background:#fff}html.light .sc p{color:#35506f}
+html.light .latin{color:#0b6aa8}html.light .hl,html.light .link,html.light td a,html.light .panel a{color:#006a99}
+html.light .med{color:#00875a}
+html.light .info{background:#eef5fb;color:#0b1b33}
+html.light #splash{background:#eaf4ff}
+html.light .lang,html.light .tools button{background:rgba(255,255,255,.85)}
+html.light .subs.neu{color:#35506f}
+@media print{
+ *{-webkit-print-color-adjust:exact;print-color-adjust:exact}
+ .bg,.lang,.tools,#splash,.site-logo,.back,.acts,.panel,#lightbox{display:none!important}
+ body{padding:0;display:block}.wrap{max-width:100%}.card{box-shadow:none;transform:none!important;backdrop-filter:none}
+ .card.flipped{transform:none!important}
+ .card.flipped .card-front{visibility:visible!important}
+ .card-back{display:none!important}
+}
+.mini{background:rgba(0,242,254,.15);border:1px solid var(--pb);color:var(--pb);border-radius:6px;padding:3px 8px;cursor:pointer;font-size:.75rem}
+.fg select{width:100%}
+#aTabs .choice{flex:1 1 30%;padding:9px 4px;font-size:.8rem}
+.sc textarea{width:100%}
+html.light .mini{color:#006a99}
+.av{width:42px;height:42px;border-radius:50%;object-fit:cover;border:2px solid var(--pb);background:#0a1931;flex:none}
+.post{margin-bottom:10px}.ph{display:flex;align-items:center;gap:10px;margin-bottom:6px;cursor:pointer}
+.pt2{white-space:pre-wrap;word-break:break-word;font-size:.88rem;color:#fff}
+.pimg{max-width:100%;border-radius:8px;margin-top:8px;cursor:zoom-in}
+.pend{background:#5a4a00;color:#ffe08a;border-radius:6px;padding:1px 6px;font-size:.7rem}
+#profModal{position:fixed;inset:0;z-index:5800;background:rgba(1,4,9,.94);display:none;overflow-y:auto;padding:20px 14px}
+html.light .pt2{color:#0b1b33}html.light #profModal{background:rgba(234,244,255,.96)}
+</style>
+</head>
+<body>
+<div class="bg"><div class="s1"></div><div class="s2"></div><div class="beam b1"></div><div class="beam b2"></div><div class="beam b3"></div><div class="floor"></div></div>
+<div id="splash">
+  <div class="spinner-box"><div class="spinner"></div><span>جارٍ تحميل منصة المقاتلين...</span></div>
+</div>
+<div id="intro"><img id="introImg" alt=""><div class="iname" id="introName"></div></div>
+<button class="lang" id="langBtn" onclick="toggleLanguage()">English</button>
+<div class="tools"><button id="themeBtn" onclick="toggleTheme()" title="الوضع">🌙</button><button id="soundBtn" onclick="toggleSound()" title="الصوت">🔊</button></div>
+<div id="lightbox" onclick="this.style.display='none'"><img id="lbImg" alt=""></div>
+
+<div id="autoBox" style="display:none;position:fixed;inset:0;z-index:4500;background:rgba(1,4,9,.9);flex-direction:column;align-items:center;justify-content:center;gap:16px">
+  <div class="spinner-box"><div class="spinner"></div><span>جارٍ تسجيل دخولك تلقائياً...</span></div>
+  <button class="btn alt" style="width:auto;padding:8px 22px" onclick="cancelAuto()">إلغاء</button>
+</div>
+<div class="wrap">
+  <div class="site-logo"><img id="siteLogo" alt="Bears of Peace"></div>
+  <div id="loginSection" class="auth">
+    <div class="logo">Bears of Peace Ju-Jutsu</div>
+    <div class="sub" data-t="subLogin"></div>
+    <div class="fg"><label data-t="lName"></label><input type="text" id="loginName" data-p="pName"></div>
+    <div class="fg"><label data-t="lDob"></label><input type="text" id="loginDob" placeholder="DD/MM/YYYY" inputmode="numeric"></div>
+    <div class="fg"><label data-t="lAcc"></label><input type="text" id="loginAcc" placeholder="26/XX"></div>
+
+    <div class="captcha-container">
+      <div class="captcha-left">
+        <span class="captcha-label" id="capQ"></span>
+        <input type="text" id="capA" inputmode="numeric" autocomplete="off" placeholder="؟">
+      </div>
+      <button type="button" class="cap-new" onclick="newCaptcha()" aria-label="سؤال جديد">🔄</button>
+    </div>
+
+    <label class="chk"><input type="checkbox" id="rememberMe" checked><span>تذكّرني على هذا الجهاز (دخول تلقائي)</span></label>
+    <button class="btn" id="loginBtn" onclick="handleLogin()" data-t="bLogin"></button>
+    <div class="err" id="loginError" data-t="eLogin"></div>
+    <button class="btn alt" onclick="show('regSection')" data-t="newCard"></button><br>
+    <span class="link" onclick="show('forgotSection')" data-t="forgot"></span><br>
+    <span class="link" onclick="enableNotifs()">🔔 تفعيل الإشعارات</span><br><span class="link" onclick="show('aboutSection')">ℹ️ عن النادي</span><span class="sep">|</span><span class="link" onclick="show('ratingSection')">⭐ تقييم المنصة</span><span class="sep">|</span><span class="link" onclick="show('adminAuthSection')">🔐 المسؤول</span>
+  </div>
+
+  <div id="forgotSection" class="auth" style="display:none">
+    <div class="logo" data-t="recTitle"></div>
+    <div class="sub" data-t="subForgot"></div>
+    <div class="fg"><label data-t="lName"></label><input type="text" id="fName" data-p="pName"></div>
+    <div class="fg"><label data-t="lDob"></label><input type="text" id="fDob" placeholder="DD/MM/YYYY" inputmode="numeric"></div>
+    <div class="fg"><label data-t="lPhone"></label><input type="text" id="fPhone" inputmode="tel"></div>
+    <button class="btn" id="recBtn" onclick="submitRecovery()" data-t="bSend"></button>
+    <div class="ok" id="fSuccess"></div>
+    <div class="err" id="fError" data-t="eRec"></div><br>
+    <span class="link" onclick="show('loginSection')" data-t="back"></span>
+  </div>
+
+  <div id="ratingSection" class="auth" style="display:none">
+    <div class="logo">⭐ تقييم المنصة والنادي</div>
+    <div class="sub">رأيكم يهمنا لتطوير خدماتنا التدريبية</div>
+    <div class="stars-rating" id="starRating">
+      <span data-v="1">★</span><span data-v="2">★</span><span data-v="3">★</span><span data-v="4">★</span><span data-v="5">★</span>
+    </div>
+    <div class="fg"><label>ملاحظة أو اقتراح (اختياري):</label><textarea id="ratingNote" rows="3" placeholder="اكتب انطباعك أو اقتراحك هنا..."></textarea></div>
+    <button class="btn" onclick="submitRating()">إرسال التقييم</button>
+    <div class="ok" id="ratingOk">شكراً لك! تم إرسال تقييمك بنجاح.</div>
+    <br><span class="link" onclick="show('loginSection')" data-t="back"></span>
+  </div>
+
+  <div id="regSection" class="auth" style="display:none">
+    <div class="logo" data-t="regTitle"></div>
+    <div class="sub">Bears of Peace Ju Jutsu Oued Eslam</div>
+    <form id="regForm" novalidate>
+      <div class="fg"><label>الاسم</label><input id="rFname" type="text" autocomplete="given-name"></div>
+      <div class="fg"><label>اللقب</label><input id="rLname" type="text" autocomplete="family-name"></div>
+      <div class="fg"><label>العمر</label><input id="rAge" type="number" min="3" max="99" inputmode="numeric"></div>
+      <div class="fg"><label>رقم الهاتف</label><input id="rPhone" type="tel" inputmode="tel" placeholder="07XXXXXXXX"></div>
+      <span class="gt">التخصص</span>
+      <div class="choices" id="rSports">
+        <button type="button" class="choice" data-v="Ju Jutsu">Ju Jutsu</button>
+        <button type="button" class="choice" data-v="MMA">MMA</button>
+        <button type="button" class="choice" data-v="Kung Fu">Kung Fu</button>
+      </div>
+      <span class="gt">الأوقات (يمكنك اختيار أكثر من وقت)</span>
+      <div class="choices" id="rTimes">
+        <button type="button" class="choice times" data-v="الاثنين 16:30 – 18:00">الاثنين 16:30 – 18:00</button>
+        <button type="button" class="choice times" data-v="الأربعاء 16:30 – 18:00">الأربعاء 16:30 – 18:00</button>
+        <button type="button" class="choice times" data-v="الجمعة 16:30 – 18:00">الجمعة 16:30 – 18:00</button>
+      </div>
+      <button type="button" class="btn alt" id="rFileBtn">استمارة التسجيل</button>
+      <div class="info" id="rFileInfo">
+        <div style="font-weight:bold;margin-bottom:6px;color:var(--pb)">📄 استمارة التسجيل الرسمية للنادي:</div>
+        <img src="https://i.ibb.co/qMCx3rTH/image.png" class="reg-form-img" onclick="zoomPhoto(this)" alt="استمارة التسجيل">
+        <div style="margin-top:10px;font-size:0.78rem;color:#b0e0ff;">أو توجه إلى القاعة الرياضية للحصول على واحدة</div>
+      </div>
+      <label class="chk"><input type="checkbox" id="rConsent"><span>أوافق على حفظ بيانات المتدرب لدى النادي لأغراض التسجيل والتواصل (وبالنسبة للقاصرين: بموافقة ولي الأمر).</span></label>
+      <button type="submit" class="btn" id="rSubmit">إرسال</button>
+      <div class="msg" id="regMsg"></div>
+    </form>
+    <div class="about">
+      <div class="t">تعريف بالتخصصات</div>
+      <div class="sc"><h3>Ju Jutsu</h3><p>فن قتالي ياباني يركز على الدفاع عن النفس، الإسقاطات، التثبيت، والإخضاع الأرضي بمرونة عالية.</p></div>
+      <div class="sc"><h3>MMA (الفنون القتالية المختلطة)</h3><p>رياضة تجمع بين تقنيات اللكم والرفس والقتال الأرضي، لتقديم تدريب شامل وممتع.</p></div>
+      <div class="sc"><h3>Kung Fu</h3><p>فن قتالي تقليدي يعتمد على السرعة، الرشاقة، التركيز، وتطوير اللياقة والانضباط البدني.</p></div>
+    </div>
+    <span class="link" onclick="show('loginSection')" data-t="back"></span>
+  </div>
+
+  <div id="aboutSection" class="auth" style="display:none;text-align:start">
+    <div class="logo" style="text-align:center">عن النادي</div>
+    <div class="sub" style="text-align:center">Bears of Peace Ju Jutsu Oued Eslam</div>
+    <div class="sc"><h3>من نحن</h3><p>نادي دببة السلم للجي جيتسو بوادي السلام: تدريب في الجي جيتسو وMMA والكونغ فو للأطفال والشباب، مع التركيز على الانضباط والاحترام.</p></div>
+    <div class="sc"><h3>المدربون</h3><p id="aboutCoaches">بن جمعة عبد القادر • علو أسامة</p></div>
+    <div class="sc"><h3>الحصص</h3><p id="aboutSched">الاثنين والأربعاء والجمعة، من 16:30 إلى 18:00.</p></div>
+    <div class="sc"><h3>التخصصات</h3><p>Ju Jutsu • MMA • Kung Fu • Grappling</p></div>
+    <a class="btn alt" href="https://www.facebook.com/profile.php?id=61574944910883" target="_blank" rel="noopener">📘 صفحتنا على فيسبوك</a>
+    <a class="btn alt" id="aboutCall" href="tel:0557905083">📞 تواصل مع المسؤول</a>
+    <div style="text-align:center"><span class="link" onclick="show('loginSection')" data-t="back"></span></div>
+  </div>
+
+  <div id="adminAuthSection" class="auth" style="display:none">
+    <div class="logo">🔐 دخول المسؤول</div>
+    <div class="sub">أدخل كلمة سر المسؤول للدخول إلى اللوحة</div>
+    <div class="fg"><label>كلمة السر:</label><input type="password" id="adminPassInput" placeholder="••••••••"></div>
+    <button class="btn" onclick="checkAdminAuth()">دخول</button>
+    <div class="err" id="adminAuthErr">كلمة السر خاطئة!</div><br>
+    <span class="link" onclick="show('loginSection')" data-t="back"></span>
+  </div>
+
+  <div id="adminSection" class="auth" style="display:none;text-align:start">
+    <div class="logo" style="text-align:center">🔐 لوحة المسؤول</div>
+    <div class="choices" id="aTabs" style="margin-bottom:10px">
+      <button type="button" class="choice active" data-tab="tFighters">👥 المقاتلون</button>
+      <button type="button" class="choice" data-tab="tSettings">⚙️ الإعدادات</button>
+      <button type="button" class="choice" data-tab="tNotify">🔔 الإشعارات</button>
+      <button type="button" class="choice" data-tab="tPosts">📰 المنشورات</button>
+      <button type="button" class="choice" data-tab="tPass">🔑 كلمة السر</button>
+    </div>
+    <div class="atab" id="tFighters">
+    <div class="sc" id="aStats" style="font-size:.8rem;color:#b0e0ff;line-height:1.8"></div>
+    <button class="btn" onclick="openFighterForm(null)">➕ إضافة مقاتل جديد</button>
+    <div class="sc" id="fForm" style="display:none;margin-top:12px">
+      <h3 id="fmTitle">➕ مقاتل جديد</h3>
+      <div class="fg"><label>رقم الاعتماد (مثال 26/43):</label><input type="text" id="fm_id" inputmode="numeric"></div>
+      <div class="fg"><label>الاسم واللقب بالعربية:</label><input type="text" id="fm_nameAr" ></div>
+      <div class="fg"><label>الاسم واللقب باللاتينية:</label><input type="text" id="fm_nameEn" ></div>
+      <div class="fg"><label>تاريخ الميلاد (DD/MM/YYYY):</label><input type="text" id="fm_dob" inputmode="numeric"></div>
+      <div class="fg"><label>مكان الميلاد:</label><input type="text" id="fm_pob" ></div>
+      <div class="fg"><label>العنوان:</label><input type="text" id="fm_address" ></div>
+      <div class="fg"><label>رقم الهاتف:</label><input type="text" id="fm_phone" inputmode="tel"></div>
+      <div class="fg"><label>اسم الأب:</label><input type="text" id="fm_father" ></div>
+      <div class="fg"><label>المجموعة:</label><select id="fm_group"><option>A</option><option>B</option><option>C</option></select></div>
+      <div class="fg"><label>الحزام:</label><select id="fm_belt"></select></div>
+      <div class="fg"><label>الصورة (كود ibb أو رابط ibb.co أو رابط مباشر):</label><input type="text" id="fm_photo" ></div>
+      <label class="chk"><input type="checkbox" id="fm_susp"><span>🚫 مشطوب (يظهر اسمه فقط مع عبارة الشطب)</span></label>
+      <div class="fg"><label>مدفوع حتى (DD/MM/YYYY):</label><input type="text" id="fm_paid" inputmode="numeric"></div>
+      <div class="fg"><label>عدد الحصص التي حضرها:</label><input type="text" id="fm_present" inputmode="numeric"></div>
+      <div class="fg"><label>عدد الحصص الكلي:</label><input type="text" id="fm_total" inputmode="numeric"></div>
+      <div class="fg"><label>النقاط:</label><input type="text" id="fm_points" ></div>
+      <div class="fg"><label>الشارات (افصل بينها بـ | ):</label><input type="text" id="fm_badges" ></div>
+      <div class="fg"><label>ملاحظة المدرب:</label><textarea id="fm_note" rows="2"></textarea></div>
+      <button class="btn" id="fmSave" onclick="saveFighter()">💾 حفظ</button>
+      <button class="btn alt" type="button" onclick="closeFighterForm()">إلغاء</button>
+      <button class="btn alt" id="fmDel" type="button" onclick="deleteFighter()" style="display:none">🗑️ حذف المقاتل نهائياً</button>
+      <div class="msg" id="fmMsg"></div>
+    </div>
+    <div class="fg"><input type="text" id="aSearch" placeholder="بحث بالاسم أو الاعتماد أو الهاتف" oninput="adminRender()"></div>
+    <div class="choices" style="margin-bottom:10px">
+      <select id="aGroup" onchange="adminRender()"><option value="">كل المجموعات</option><option>A</option><option>B</option><option>C</option></select>
+      <select id="aBelt" onchange="adminRender()"></select>
+      <select id="aStat" onchange="adminRender()"><option value="">كل الحالات</option><option value="act">نشط</option><option value="susp">مشطوب</option></select>
+    </div>
+    <div style="overflow-x:auto"><table id="aTable"></table></div>
+    <button class="btn" onclick="exportCSV()">⬇️ تصدير القائمة (Excel/CSV)</button>
+    </div>
+    <div class="atab" id="tSettings" style="display:none">
+    <div class="sc"><h3>📅 جدول الحصص الأسبوعي</h3>
+      <div class="gt">أيام الحصص (يمكن اختيار أكثر من يوم):</div>
+      <div class="choices" id="sDays"><button type="button" class="choice" data-v="SA">السبت</button><button type="button" class="choice" data-v="SU">الأحد</button><button type="button" class="choice" data-v="MO">الاثنين</button><button type="button" class="choice" data-v="TU">الثلاثاء</button><button type="button" class="choice" data-v="WE">الأربعاء</button><button type="button" class="choice" data-v="TH">الخميس</button><button type="button" class="choice" data-v="FR">الجمعة</button></div>
+      <div class="fg"><label>من الساعة:</label><input type="time" id="sFrom"></div>
+      <div class="fg"><label>إلى الساعة:</label><input type="time" id="sTo"></div>
+    </div>
+    <div class="sc"><h3>⭐ حصص إضافية</h3>
+      <div id="sExtraList"></div>
+      <div class="fg"><label>التاريخ:</label><input type="date" id="sxDate"></div>
+      <div class="fg"><label>من:</label><input type="time" id="sxFrom" value="10:00"></div>
+      <div class="fg"><label>إلى:</label><input type="time" id="sxTo" value="11:00"></div>
+      <div class="fg"><label>ملاحظة (اختياري):</label><input type="text" id="sxNote"></div>
+      <button class="btn alt" type="button" onclick="addExtraSession()">➕ أضف الحصة للقائمة</button>
+    </div>
+    <div class="sc"><h3>📢 إعلان النادي (يظهر في بطاقة كل مقاتل)</h3>
+      <div class="fg"><textarea id="sAnn" rows="3" maxlength="500"></textarea></div>
+    </div>
+    <div class="sc"><h3>🗓️ الفعاليات القادمة</h3>
+      <div class="fg"><label>سطر لكل فعالية: التاريخ | العنوان</label><textarea id="sEvents" rows="3"></textarea></div>
+    </div>
+    <div class="sc"><h3>🎬 فيديوهات تعليمية</h3>
+      <div class="fg"><label>سطر لكل فيديو: العنوان | الرابط</label><textarea id="sVideos" rows="3"></textarea></div>
+    </div>
+    <div class="sc"><h3>👨‍🏫 معلومات النادي</h3>
+      <div class="fg"><label>المدربون (اسم في كل سطر):</label><textarea id="sCoaches" rows="3"></textarea></div>
+      <div class="fg"><label>نص موعد الإجازة:</label><input type="text" id="sVac"></div>
+      <div class="fg"><label>هاتف المسؤول:</label><input type="text" id="sPhone" inputmode="tel"></div>
+      <div class="fg"><label>يوم دفع الاشتراك من كل شهر (1 إلى 28):</label><input type="number" id="sMonth" min="1" max="28"></div>
+    </div>
+    <button class="btn" onclick="saveSettings()">💾 حفظ الإعدادات</button>
+    <div class="msg" id="sMsg"></div>
+    </div>
+    <div class="atab" id="tNotify" style="display:none">
+    <div class="sc" style="margin-top:12px">
+      <h3>🔔 إرسال إشعار للجميع</h3>
+      <div class="choices" style="margin:8px 0">
+        <button type="button" class="choice" onclick="fillNotif('تغيير موعد الحصة','تم تغيير موعد حصة اليوم، يرجى مراجعة المدرب.')">🕘 تغيير موعد</button>
+        <button type="button" class="choice" onclick="fillNotif('حصة إضافية','حصة إضافية يوم السبت من 10:00 إلى 11:00 صباحاً.')">⭐ حصة إضافية</button>
+        <button type="button" class="choice" onclick="fillNotif('إلغاء حصة','نعتذر، تم إلغاء حصة اليوم.')">🚫 إلغاء حصة</button>
+        <button type="button" class="choice" onclick="fillNotif('تذكير بالاشتراك','نذكّركم باقتراب موعد دفع الاشتراك (يوم 25).')">💳 تذكير اشتراك</button>
+        <button type="button" class="choice" onclick="fillNotif('إعلان','')">📣 إعلان</button>
+      </div>
+      <div class="fg"><label>العنوان:</label><input type="text" id="nTitle" maxlength="80"></div>
+      <div class="fg"><label>نص الإشعار:</label><textarea id="nMsg" rows="3" maxlength="300"></textarea></div>
+      <button class="btn" id="nBtn" onclick="sendNotif()">📤 إرسال للجميع</button>
+      <div class="msg" id="nMsgBox"></div>
+    </div>
+    </div>
+    <div class="atab" id="tPosts" style="display:none">
+      <div class="sc"><h3>✍️ منشور من الإدارة</h3>
+        <textarea id="aPostText" rows="3" maxlength="1000" style="width:100%;padding:8px;border-radius:8px;background:rgba(0,0,0,.5);color:#fff;border:1px solid rgba(0,242,254,.4)"></textarea>
+        <input type="file" id="aPostFile" accept="image/*" hidden><div id="aPostPrev"></div>
+        <button class="btn alt" type="button" onclick="aPostFile.click()">📷 صورة</button>
+        <button class="btn" onclick="admAddPost()">📤 نشر الآن</button>
+      </div>
+      <button class="btn alt" onclick="loadAdmPosts();loadAdmProfs()">🔄 تحديث</button>
+      <div id="admPosts"></div>
+      <div class="sc"><h3>👥 الحسابات</h3><div id="admProfs"></div></div>
+    </div>
+    <div class="atab" id="tPass" style="display:none">
+    <div class="sc"><h3>🔑 تغيير كلمة سر المسؤول</h3>
+      <div class="fg"><label>كلمة السر الجديدة (8 أحرف فأكثر):</label><input type="password" id="pNew"></div>
+      <div class="fg"><label>أعد كتابتها:</label><input type="password" id="pNew2"></div>
+      <button class="btn" onclick="changePass()">💾 حفظ كلمة السر</button>
+      <div class="msg" id="pMsg"></div>
+    </div>
+    </div>
+    <div style="text-align:center"><span class="link" onclick="show('loginSection')" data-t="back"></span></div>
+  </div>
+
+  <div id="feedSection" class="auth" style="display:none;text-align:start">
+    <button class="back" onclick="show('cardView')">⬅ بطاقتي</button>
+    <div class="logo" style="text-align:center">🌐 مجتمع النادي</div>
+    <div class="sc">
+      <div class="ph" style="cursor:default"><img class="av" id="meAv" alt="" style="width:60px;height:60px"><div style="flex:1"><label class="label">اسمك المستعار (2–20 حرفاً):</label><input type="text" id="meNick" maxlength="20" style="width:100%;padding:8px;border-radius:8px;background:rgba(0,0,0,.5);color:#fff;border:1px solid rgba(0,242,254,.4)"></div></div>
+      <input type="file" id="meFile" accept="image/*" hidden>
+      <button class="btn alt" type="button" onclick="meFile.click()">🖼️ تغيير صورة الملف الشخصي</button>
+      <button class="btn" onclick="saveProfile()">💾 حفظ ملفي</button>
+    </div>
+    <div class="sc">
+      <textarea id="postText" rows="3" maxlength="500" placeholder="اكتب منشوراً..." style="width:100%;padding:8px;border-radius:8px;background:rgba(0,0,0,.5);color:#fff;border:1px solid rgba(0,242,254,.4)"></textarea>
+      <input type="file" id="postFile" accept="image/*" hidden>
+      <div id="postPrev"></div>
+      <button class="btn alt" type="button" onclick="postFile.click()">📷 إضافة صورة</button>
+      <button class="btn" id="postBtn" onclick="sendPost()">📤 نشر</button>
+      <div class="msg" id="postMsg"></div>
+      <div class="label" style="margin-top:6px">⚠️ تظهر المنشورات بعد موافقة المسؤول. الاحترام واجب، ولا تنشر معلومات شخصية.</div>
+    </div>
+    <div id="feedList"></div>
+  </div>
+  <div id="profModal"><button class="back" onclick="profModal.style.display='none'">✖ إغلاق</button><div id="profBody"></div></div>
+
+  <div id="cardView">
+    <button class="back" onclick="logoutFighter()" data-t="logout"></button>
+    <div class="card-perspective" id="activeCardContainer"></div>
+  </div>
+</div>
+
+<script>
+let MANAGER_PHONE = "0557905083";
+const API_URL = "https://script.google.com/macros/s/AKfycbwjH1M0krpmDWX7gwFouyksDOytlWMWmp2NXu--hH63_1uVGyoF2WtWsFLQmU5PPpI2/exec";
+let adminPassMem='',ADMIN_ROWS=[];
+async function api(payload){
+  try{
+    const r=await fetch(API_URL,{method:'POST',headers:{'Content-Type':'text/plain;charset=utf-8'},body:JSON.stringify(payload)});
+    return await r.json();
+  }catch(e){return {ok:false,error:'network'};}
+}
+const LOGO_URL = "https://i.ibb.co/vvB5ZmFH/1790268608620.jpg";
+
+const BACKEND_SVG_FALLBACK = "data:image/svg+xml;utf8,"+encodeURIComponent(`
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 800" width="100%" height="100%">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#010409"/><stop offset="50%" stop-color="#0d1b38"/><stop offset="100%" stop-color="#010409"/>
+    </linearGradient>
+    <radialGradient id="glow" cx="50%" cy="40%" r="50%">
+      <stop offset="0%" stop-color="#00f2fe" stop-opacity="0.4"/><stop offset="100%" stop-color="#000" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+  <rect width="600" height="800" fill="url(#bg)"/>
+  <circle cx="300" cy="350" r="280" fill="url(#glow)"/>
+  <circle cx="300" cy="350" r="180" fill="none" stroke="#00f2fe" stroke-width="3" stroke-dasharray="10 15" opacity="0.6"/>
+  <text x="300" y="320" font-size="70" fill="#ffffff" text-anchor="middle">🐻</text>
+  <text x="300" y="410" font-family="'Cairo', sans-serif" font-weight="900" font-size="32" fill="#ffffff" text-anchor="middle">دببة السلم للجي جيتسو</text>
+  <text x="300" y="460" font-family="'Cairo', sans-serif" font-weight="800" font-size="20" fill="#00f2fe" text-anchor="middle" letter-spacing="2">BEARS OF PEACE JU-JUTSU</text>
+  <text x="300" y="500" font-family="'Cairo', sans-serif" font-weight="600" font-size="16" fill="#8a99ad" text-anchor="middle">OUED ESLAM - VAILLANT FIGHTERS</text>
+</svg>`);
+
+{const lg=document.getElementById("siteLogo");lg.src=LOGO_URL;
+ lg.onerror=()=>{lg.onerror=null;lg.src="data:image/svg+xml,"+encodeURIComponent('<svg xmlns="http://www.w3.org/2000/svg" width="110" height="110"><text x="55" y="72" font-size="60" text-anchor="middle">🐻</text></svg>');};}
+
+/* جسيمات مضيئة متصاعدة للخلفية */
+(function(){const bg=document.querySelector('.bg');
+  for(let i=0;i<16;i++){const p=document.createElement('i');p.className='pt';
+    p.style.left=(Math.random()*100)+'%';
+    p.style.width=p.style.height=(3+Math.random()*5)+'px';
+    p.style.animationDuration=(6+Math.random()*9)+'s';
+    p.style.animationDelay=(-Math.random()*12)+'s';
+    bg.appendChild(p);}
+})();
+
+const WEB3FORMS_KEY = "d3202d37-61c2-4ff2-84a9-1a78fe5dea52";
+let currentFighter = null;
+const INTRO_GIF = "https://i.ibb.co/RTcCfph1/20261030-214409.gif";
+const INTRO_MS = 6000;
+(new Image()).src = INTRO_GIF; // تحميل مسبق
+let introBusy = false;
+function playIntro(f){
+  return new Promise(res=>{
+    const box=document.getElementById('intro'),im=document.getElementById('introImg');
+    document.getElementById('introName').textContent='👋 '+f.nameAr;
+    im.src=INTRO_GIF+'?t='+Date.now(); // لتبدأ الحركة من أول إطار
+    box.classList.add('show');
+    requestAnimationFrame(()=>requestAnimationFrame(()=>box.classList.add('vis')));
+    setTimeout(()=>{
+      box.classList.remove('vis');
+      setTimeout(()=>{box.classList.remove('show');im.src='';res();},500);
+    },INTRO_MS);
+  });
+}
+
+/* ===== التحقق من أنك لست روبوت: سؤال حسابي عشوائي حقيقي ===== */
+let capAns='';
+function newCaptcha(){
+  const a=2+Math.floor(Math.random()*8),b=2+Math.floor(Math.random()*8),plus=Math.random()<.5;
+  capAns=String(plus?a+b:a*b);
+  document.getElementById('capQ').textContent='🤖 أثبت أنك إنسان: '+a+(plus?' + ':' × ')+b+' = ';
+  document.getElementById('capA').value='';
+}
+
+let selectedRating = 5;
+document.querySelectorAll('#starRating span').forEach(star => {
+  star.addEventListener('click', (e) => {selectedRating = +e.target.dataset.v;updateStars();});
+});
+function updateStars(){
+  document.querySelectorAll('#starRating span').forEach(star => {
+    star.classList.toggle('active', +star.dataset.v <= selectedRating);
+  });
+}
+updateStars();
+
+async function submitRating(){
+  const note = ratingNote.value.trim();
+  const ok = await sendMail("تقييم المنصة والنادي", `التقييم: ${selectedRating}/5 نجوم\nالملاحظة: ${note || 'بدون ملاحظات'}`);
+  if(ok){
+    ratingOk.style.display='block';
+    beep(880,.2);
+    setTimeout(()=>{ ratingOk.style.display='none'; show('loginSection'); }, 2000);
+  }
+}
+
+let SHEET = {};
+let EVENTS = [];
+let VIDEOS = [];
+let SCHEDULE = [["MO","الاثنين"],["WE","الأربعاء"],["FR","الجمعة"]];
+/* ===== إعدادات الموقع (تُدار من لوحة المسؤول وتُقرأ من الخادم) ===== */
+const DAY_AR={SU:'الأحد',MO:'الاثنين',TU:'الثلاثاء',WE:'الأربعاء',TH:'الخميس',FR:'الجمعة',SA:'السبت'};
+const DAYS7=['الأحد','الاثنين','الثلاثاء','الأربعاء','الخميس','الجمعة','السبت'];
+let SET={days:['MO','WE','FR'],from:'16:30',to:'18:00',extra:[],announcement:'',events:[],videos:[],vacation:'مبرمج في سنة 2027 بإذن الله.',coaches:['بن جمعة عبد القادر','علو أسامة'],phone:'0557905083',monthDay:25};
+const pj=(t,d)=>{try{const v=JSON.parse(t);return Array.isArray(v)?v:d}catch(e){return d}};
+const hm=t=>{const a=String(t||'00:00').split(':');return String(a[0]).padStart(2,'0')+String(a[1]||'00').padStart(2,'0');};
+function applySettings(raw){
+  if(!raw) return;
+  if(raw.days) SET.days=raw.days.split(',').filter(c=>DAY_AR[c]);
+  if(/^\d{1,2}:\d{2}/.test(raw.from||'')) SET.from=raw.from.slice(0,5).padStart(5,'0');
+  if(/^\d{1,2}:\d{2}/.test(raw.to||'')) SET.to=raw.to.slice(0,5).padStart(5,'0');
+  SET.extra=pj(raw.extra,[]).filter(e=>e&&/^\d{4}-\d{2}-\d{2}$/.test(e.date||''));
+  SET.events=pj(raw.events,[]);
+  SET.videos=pj(raw.videos,[]);
+  if(raw.announcement!==undefined) SET.announcement=raw.announcement;
+  if(raw.vacation) SET.vacation=raw.vacation;
+  if(raw.coaches) SET.coaches=raw.coaches.split('|').map(x=>x.trim()).filter(Boolean);
+  if(/^[0-9+\s]{6,}$/.test(raw.phone||'')){SET.phone=raw.phone.trim();MANAGER_PHONE=SET.phone;}
+  const md=+raw.monthDay; if(md>=1&&md<=28) SET.monthDay=md;
+  SCHEDULE=SET.days.map(c=>[c,DAY_AR[c]]);
+  EVENTS=SET.events.map(e=>({d:e.d||'',t:e.t||''}));
+  VIDEOS=SET.videos.map(v=>({t:v.t||'',u:v.u||''}));
+  renderPublicBits();
+}
+function renderPublicBits(){
+  const rt=document.getElementById('rTimes');
+  if(rt){
+    rt.innerHTML=SCHEDULE.map(([c,n])=>`<button type="button" class="choice times" data-v="${n} ${SET.from} – ${SET.to}">${n} ${SET.from} – ${SET.to}</button>`).join('');
+    if(typeof regSel!=='undefined') regSel.times=[];
+  }
+  const as=document.getElementById('aboutSched'); if(as) as.textContent=SCHEDULE.map(x=>x[1]).join(' • ')+'، من '+SET.from+' إلى '+SET.to+'.';
+  const ac=document.getElementById('aboutCoaches'); if(ac) ac.textContent=SET.coaches.join(' • ');
+  const al=document.getElementById('aboutCall'); if(al) al.href='tel:'+MANAGER_PHONE;
+}
+const TIPS = ["الانضباط يصنع البطل قبل الموهبة.","أحسن الإحماء قبل كل حصة لتتجنب الإصابات.","احترم مدربك وزملاءك داخل القاعة وخارجها.","اشرب الماء بكثرة وقت التدريب.","النوم الجيد نصف التدريب.","التكرار هو سر إتقان أي تقنية.","لا تقارن نفسك بغيرك، قارن نفسك بالأمس.","الحزام يُكتسب بالمثابرة لا بالعجلة.","التواضع أول صفات المقاتل.","ركّز على التقنية قبل القوة."];
+
+function parseCSV(t){const rows=[];let r=[],c='',q=false;
+  for(let i=0;i<t.length;i++){const ch=t[i];
+    if(q){if(ch=='"'){if(t[i+1]=='"'){c+='"';i++}else q=false}else c+=ch}
+    else if(ch=='"')q=true;else if(ch==','){r.push(c);c=''}
+    else if(ch=='\n'){r.push(c);rows.push(r);r=[];c=''}else if(ch!='\r')c+=ch}
+  if(c||r.length){r.push(c);rows.push(r)}return rows}
+
+const parseD=s=>{const n=nums(s);return n.length===3?new Date(+n[2],+n[1]-1,+n[0]):null};
+const fmtD=d=>String(d.getDate()).padStart(2,'0')+'/'+String(d.getMonth()+1).padStart(2,'0')+'/'+d.getFullYear();
+
+function cardExtras(f){
+  const row=SHEET[normAcc(f.id)]||{};
+  const first=f.nameAr.split(' ')[0];
+  const t0=new Date();t0.setHours(0,0,0,0);
+  let due=new Date(t0.getFullYear(),t0.getMonth(),SET.monthDay);if(t0>due)due=new Date(t0.getFullYear(),t0.getMonth()+1,SET.monthDay);
+  const left=Math.round((due-t0)/864e5),pu=parseD(row.paid_until);
+  let cls='neu',txt='حالة الاشتراك: تُحدَّد من الإدارة';
+  if(pu){if(pu>=t0){cls='ok';txt='✅ مدفوع حتى '+fmtD(pu);}else{cls='bad';txt='⚠️ غير مدفوع (آخر دفعة '+fmtD(pu)+')';}}
+  const cd=left===0?'⏰ اليوم موعد الاشتراك':'⏳ '+left+' يوم حتى يوم '+SET.monthDay;
+  const warn=(cls!=='ok'&&left<=3)?'<div>🔔 تذكير: اقترب موعد دفع الاشتراك</div>':'';
+  const subHtml=`<div class="it full subs ${cls}"><div>💳 ${txt}</div><div>${cd}</div>${warn}</div>`;
+
+  const present=+row.present||0,total=+row.total||0,pct=total?Math.round(present/total*100):null;
+  const badges=[...(pct!==null&&pct>=90?['🔥 حضور ممتاز']:[]),...(row.badges?row.badges.split('|').map(x=>x.trim()).filter(Boolean):[])];
+  const prog=`📊 <strong>تقدّمي:</strong><br>`+
+    (pct!==null?`الحضور: ${present} من ${total} حصة (${pct}%)<div class="pbar"><i style="width:${pct}%"></i></div>`:'الحضور: لم تُسجَّل بيانات بعد<br>')+
+    (row.points?`⭐ النقاط: ${esc(row.points)}<br>`:'')+
+    `🏆 الشارات: ${badges.length?badges.map(esc).join(' • '):'لا توجد بعد'}`+
+    (row.note?`<br>📝 ملاحظة المدرب: ${esc(row.note)}`:'');
+  const evs=EVENTS.length?'<br>🗓️ <strong>الفعاليات القادمة:</strong><ul>'+EVENTS.map(e=>`<li>${esc(e.d)} — ${esc(e.t)}</li>`).join('')+'</ul>':'';
+  const sched=`📅 <strong>جدول الحصص:</strong><br>${SCHEDULE.map(x=>x[1]).join(' • ')} — ${SET.from} – ${SET.to}${evs}<br><button class="act" style="margin-top:8px;width:100%" onclick="addToCalendar()">➕ أضف الحصص إلى التقويم</button>`;
+  const ann=SET.announcement||(SHEET.ALL&&SHEET.ALL.note);
+  const news=`📢 <strong>إعلانات النادي:</strong><br>${ann?esc(ann):'لا توجد إعلانات حالياً.'}`;
+  const vids=`🎬 <strong>فيديوهات تعليمية:</strong><br>`+(VIDEOS.length?'<ul>'+VIDEOS.filter(v=>/^https?:\/\//.test(v.u)).map(v=>`<li><a href="${esc(v.u)}" target="_blank" rel="noopener">▶ ${esc(v.t)}</a></li>`).join('')+'</ul>':'ستتوفر قريباً.');
+  const tip=TIPS[Math.floor(Date.now()/864e5)%TIPS.length];
+  const todayISO=t0.getFullYear()+'-'+String(t0.getMonth()+1).padStart(2,'0')+'-'+String(t0.getDate()).padStart(2,'0');
+  const exUp=SET.extra.map((e,i)=>({...e,i})).filter(e=>e.date>=todayISO).sort((a,b)=>(a.date+(a.from||'')).localeCompare(b.date+(b.from||'')));
+  const extra='⭐ <strong>الحصص الإضافية:</strong>'+(exUp.length?'<ul>'+exUp.map(e=>`<li>📌 ${DAYS7[new Date(e.date+'T00:00:00').getDay()]} ${e.date.split('-').reverse().join('/')} — من ${esc(e.from||'')} إلى ${esc(e.to||'')}${e.note?' — '+esc(e.note):''}<br><button class="act" style="margin-top:4px;width:100%" onclick="addExtraToCalendar(${e.i})">➕ أضف للتقويم</button></li>`).join('')+'</ul>':'<br>لا توجد حصص إضافية حالياً.');
+  return {first,subHtml,prog,sched,news,vids,tip,extra};
+}
+
+/* التقويم بمنطقة زمنية: توقيت الجزائر (Africa/Algiers = UTC+1 ثابت) */
+/* تفعيل الإشعارات يدوياً (زر) */
+function enableNotifs(){
+  if(/FBAN|FBAV|FB_IAB|Instagram|Line\//i.test(navigator.userAgent)){alert('أنت تفتح الموقع داخل تطبيق (فيسبوك أو غيره) ولا يدعم الإشعارات. افتح الرابط في متصفح Chrome نفسه.');return;}
+  if(!('Notification' in window)){alert('متصفحك لا يدعم الإشعارات. استعمل Chrome (وعلى آيفون أضف الموقع إلى الشاشة الرئيسية أولاً).');return;}
+  if(Notification.permission==='denied'){alert('الإشعارات محظورة لهذا الموقع. اضغط على القفل 🔒 بجانب الرابط ← الأذونات ← الإشعارات ← سماح، ثم حدّث الصفحة.');return;}
+  if(window._osErr){alert('خطأ في OneSignal:\n'+window._osErr);return;}
+  if(!window._osReady||!window.OneSignal){alert('مكتبة OneSignal لم تعمل. تأكد من الإنترنت، وعطّل مانع الإعلانات إن وُجد، ثم حدّث الصفحة وانتظر 5 ثوانٍ وجرّب مجدداً.');return;}
+  OneSignal.Notifications.requestPermission().then(()=>{
+    alert(OneSignal.Notifications.permission?'✅ تم تفعيل الإشعارات':'لم يتم السماح بالإشعارات.');
+  }).catch(e=>alert('تعذر تفعيل الإشعارات:\n'+((e&&e.message)||e)));
+}
+function nextSaturday(){const d=new Date();d.setHours(0,0,0,0);d.setDate(d.getDate()+((6-d.getDay()+7)%7||7));return d;}
+function addExtraToCalendar(i){
+  const e=SET.extra[i]; if(!e) return;
+  const TZ='Africa/Algiers',day=e.date.replace(/-/g,'');
+  const stamp=new Date().toISOString().replace(/[-:]/g,'').split('.')[0]+'Z';
+  const tz=['BEGIN:VTIMEZONE','TZID:'+TZ,'BEGIN:STANDARD','DTSTART:19700101T000000','TZOFFSETFROM:+0100','TZOFFSETTO:+0100','TZNAME:CET','END:STANDARD','END:VTIMEZONE'].join("\r\n");
+  const ev=['BEGIN:VEVENT','UID:bears-extra-'+day+hm(e.from)+'@peace','DTSTAMP:'+stamp,'DTSTART;TZID='+TZ+':'+day+'T'+hm(e.from)+'00','DTEND;TZID='+TZ+':'+day+'T'+hm(e.to)+'00','SUMMARY:حصة إضافية Bears of Peace Ju-Jutsu','END:VEVENT'].join("\r\n");
+  const ics=['BEGIN:VCALENDAR','VERSION:2.0','PRODID:-//Bears of Peace//AR','CALSCALE:GREGORIAN',tz,ev,'END:VCALENDAR'].join("\r\n");
+  const a=document.createElement('a');a.href=URL.createObjectURL(new Blob([ics],{type:'text/calendar'}));a.download='bears-extra-session.ics';document.body.appendChild(a);a.click();a.remove();
+}
+function addToCalendar(){
+  const pad=n=>String(n).padStart(2,'0'),idx={SU:0,MO:1,TU:2,WE:3,TH:4,FR:5,SA:6},TZ='Africa/Algiers';
+  const stamp=new Date().toISOString().replace(/[-:]/g,'').split('.')[0]+'Z';
+  const ev=SCHEDULE.map(([c,n])=>{const d=new Date();d.setDate(d.getDate()+((idx[c]-d.getDay()+7)%7||7));
+    const day=d.getFullYear()+pad(d.getMonth()+1)+pad(d.getDate());
+    return ['BEGIN:VEVENT','UID:bears-'+c+'@peace','DTSTAMP:'+stamp,'DTSTART;TZID='+TZ+':'+day+'T'+hm(SET.from)+'00','DTEND;TZID='+TZ+':'+day+'T'+hm(SET.to)+'00','RRULE:FREQ=WEEKLY;BYDAY='+c,'SUMMARY:تدريب Bears of Peace Ju-Jutsu','END:VEVENT'].join("\r\n");});
+  const tz=['BEGIN:VTIMEZONE','TZID:'+TZ,'BEGIN:STANDARD','DTSTART:19700101T000000','TZOFFSETFROM:+0100','TZOFFSETTO:+0100','TZNAME:CET','END:STANDARD','END:VTIMEZONE'].join("\r\n");
+  const ics=['BEGIN:VCALENDAR','VERSION:2.0','PRODID:-//Bears of Peace//AR','CALSCALE:GREGORIAN',tz,...ev,'END:VCALENDAR'].join("\r\n");
+  const a=document.createElement('a');a.href=URL.createObjectURL(new Blob([ics],{type:'text/calendar'}));a.download='bears-training.ics';document.body.appendChild(a);a.click();a.remove();
+}
+
+async function sendMail(subject, message){
+  try{
+    const r = await fetch("https://api.web3forms.com/submit",{method:"POST",
+      headers:{"Content-Type":"application/json","Accept":"application/json"},
+      body:JSON.stringify({access_key:WEB3FORMS_KEY,subject,from_name:"Bears of Peace Ju Jutsu",message})});
+    const d = await r.json();
+    return !!d.success;
+  }catch(e){return false;}
+}
+
+const NO_PHOTO = "data:image/svg+xml;utf8,"+encodeURIComponent('<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 110 130"><rect width="110" height="130" fill="#0a1931"/><circle cx="55" cy="48" r="22" fill="#1c3a66"/><rect x="20" y="78" width="70" height="60" rx="30" fill="#1c3a66"/></svg>');
+
+const BELTS={
+ white:{ar:"الأبيض",c:"#f5f5f5",s:"#e0e0e0",g:"#ccc"},
+ gray:{ar:"الرمادي",c:"#9e9e9e",s:"#757575",g:"#bdbdbd"},
+ yellow:{ar:"الأصفر",c:"#fdd835",s:"#f9a825",g:"#ffee58"},
+ orange:{ar:"البرتقالي",c:"#ef6c00",s:"#e65100",g:"#ffa726"},
+ green:{ar:"الأخضر",c:"#2e7d32",s:"#1b5e20",g:"#4caf50"},
+ greenblack:{ar:"الأخضر والأسود",c:"#2e7d32",s:"#111",g:"#4caf50",bar:"linear-gradient(90deg,#2e7d32 0 40%,#111 40% 60%,#2e7d32 60%)"},
+ blue:{ar:"الأزرق",c:"#0077ff",s:"#0052d4",g:"#00d2ff"}
+};
+
+/* صيغ حقل الصورة (photo):
+   1) "zV2Qd4t3"                 -> يجرّب https://i.ibb.co/zV2Qd4t3/image.(jpg|png|jpeg|webp)
+                                    وإن فشل يستخرج الرابط المباشر تلقائياً من صفحة https://ibb.co/zV2Qd4t3
+   2) "DDR86wXh/اسم-الملف.jpg"    -> https://i.ibb.co/DDR86wXh/اسم-الملف.jpg  (رابط مباشر، الأضمن)
+   3) "https://i.ibb.co/..."      -> كما هو */
+
+/* ===== الصور: قائمة الروابط المحتملة لكل مقاتل (تُستعمل في البطاقة وفي "حفظ كصورة") ===== */
+const EXTS=['jpg','png','jpeg','webp'];
+const RESOLVED={};   // كود الصورة -> رابط مباشر مستخرج من صفحة ibb.co
+function photoCandidates(p){
+  p=String(p||'').trim();
+  if(!p) return [];
+  if(/^https?:\/\/(www\.)?ibb\.co\//.test(p)) return [];            // رابط صفحة وليس صورة
+  if(/^https?:\/\//.test(p)) return [p];
+  if(RESOLVED[p.split('/')[0]]) return [RESOLVED[p.split('/')[0]]];
+  if(p.includes('/')) return ['https://i.ibb.co/'+p];
+  return EXTS.map(e=>`https://i.ibb.co/${p}/image.${e}`);
+}
+/* استخراج الرابط المباشر من صفحة ibb.co عند فشل التخمين (اسم الملف الحقيقي غير معروف) */
+async function resolvePhoto(code){
+  code=String(code||'').trim();
+  if(!code) return null;
+  let id=code;
+  const m0=code.match(/ibb\.co\/([A-Za-z0-9]+)/);
+  if(m0) id=m0[1]; else if(/^https?:\/\//.test(code)) return null;
+  id=id.split('/')[0];
+  if(id in RESOLVED) return RESOLVED[id];
+  let url=null;
+  const pageUrl='https://ibb.co/'+id;
+  const proxies=[
+    'https://api.allorigins.win/raw?url='+encodeURIComponent(pageUrl),
+    'https://corsproxy.io/?'+encodeURIComponent(pageUrl)
+  ];
+  for(const u of proxies){
+    try{
+      const r=await fetch(u);if(!r.ok) continue;
+      const t=await r.text();
+      const m=t.match(/<meta property="og:image" content="([^"]+)"/i)||t.match(/https:\/\/i\.ibb\.co\/[A-Za-z0-9]+\/[^"'\s<>]+\.(?:jpe?g|png|webp|gif)/i);
+      const found=m&&(m[1]||m[0]);
+      if(found&&/^https:\/\/i\.ibb\.co\//.test(found)){url=found.replace(/&amp;/g,'&');break;}
+    }catch(e){}
+  }
+  RESOLVED[id]=url;
+  return url;
+}
+function imgFail(img){
+  const c=photoCandidates(img.dataset.code),i=+img.dataset.st||0;
+  img.dataset.st=i+1;
+  if(i<c.length){img.src=c[i];return;}
+  img.onerror=null;
+  resolvePhoto(img.dataset.code).then(u=>{img.src=u||NO_PHOTO;});
+}
+
+function cleanWords(str){
+  if(!str) return [];
+  return str.normalize('NFD').trim().toLowerCase()
+    .replace(/[\u0300-\u036f\u064B-\u065F\u0640]/g,'')
+    .replace(/[أإآٱ]/g,'ا').replace(/ى/g,'ي').replace(/ة/g,'ه').replace(/[ؤئ]/g,'ء').replace(/ڨ/g,'ق')
+    .replace(/[\u0660-\u0669]/g,d=>d.charCodeAt(0)-0x660)
+    .replace(/[^\u0600-\u06FFa-z0-9\s]/g,' ')
+    .split(/\s+/).filter(Boolean);
+}
+const nums=s=>(String(s||'').replace(/[\u0660-\u0669]/g,d=>d.charCodeAt(0)-0x660).match(/\d+/g))||[];
+const normDob=s=>{const n=nums(s);return n.length===3?n[0].padStart(2,'0')+n[1].padStart(2,'0')+n[2]:n.join('');};
+const normAcc=s=>{const n=nums(s);return n.length===2?n[0].padStart(2,'0')+n[1].padStart(2,'0'):n.join('');};
+const normPhone=s=>nums(s).join('').replace(/^0+/,'');
+function nameMatches(input,f){
+  const w=cleanWords(input);
+  if(!w.length) return false;
+  const db=[...cleanWords(f.nameAr),...cleanWords(f.nameEn)];
+  return w.every(x=>db.includes(x));
+}
+
+const T={
+ ar:{subLogin:"بوابة المقاتلين الآمنة",subForgot:"التحقق من الهوية",lName:"الاسم واللقب (لا يشترط الترتيب):",lDob:"تاريخ الميلاد (DD/MM/YYYY):",lAcc:"رقم الاعتماد:",lPhone:"رقم الهاتف:",bLogin:"دخول البطاقة",bSend:"إظهار معلومات الدخول",forgot:"نسيت كلمة السر؟",recTitle:"استعادة الحساب",back:"العودة لتسجيل الدخول",logout:"⬅ خروج",pName:"أدخل اسمك ولقبك هنا",eLogin:"خطأ في البيانات! تأكد وحاول ثانية.",eRec:"البيانات غير مطابقة. تحقق من الاسم وتاريخ الميلاد ورقم الهاتف.",newCard:"إنشاء بطاقة جديدة",regTitle:"تسجيل جديد",eSend:"تعذر الإرسال، حاول مرة أخرى أو تواصل مع المسؤول.",sending:"جارٍ الإرسال...",btn:"English"},
+ en:{subLogin:"Fighter Secure Portal",subForgot:"Verify Ownership",lName:"Full Name (order doesn't matter):",lDob:"Date of Birth (DD/MM/YYYY):",lAcc:"Accreditation Number:",lPhone:"Phone Number:",bLogin:"Access Card",bSend:"Show Login Details",forgot:"Forgot Password?",recTitle:"Account Recovery",back:"Back to Login",logout:"⬅ Logout",pName:"Enter your name and surname",eLogin:"Wrong details! Check and try again.",eRec:"Details don't match. Check name, date of birth and phone.",newCard:"Create a new card",regTitle:"New Registration",eSend:"Could not send. Try again or contact the manager.",sending:"Sending...",btn:"عربي"}
+};
+let currentLang='ar';
+function applyLang(){
+  const t=T[currentLang],h=document.getElementById('htmlRoot');
+  h.lang=currentLang;h.dir=currentLang==='ar'?'rtl':'ltr';
+  document.querySelectorAll('[data-t]').forEach(e=>e.textContent=t[e.dataset.t]);
+  document.querySelectorAll('[data-p]').forEach(e=>e.placeholder=t[e.dataset.p]);
+  langBtn.textContent=t.btn;
+}
+function toggleLanguage(){currentLang=currentLang==='ar'?'en':'ar';applyLang();beep(600,.1);}
+function show(id){
+  if(id!=='adminSection'){adminPassMem='';ADMIN_ROWS=[];}
+  document.querySelector('.wrap').classList.toggle('adm',id==='adminSection');
+  ['loginSection','forgotSection','regSection','aboutSection','ratingSection','adminAuthSection','adminSection','cardView','feedSection'].forEach(s=>document.getElementById(s).style.display=s===id?'block':'none');
+  ['loginError','fError','fSuccess','adminAuthErr'].forEach(e=>{
+    const el = document.getElementById(e);
+    if(el) el.style.display='none';
+  });
+  regMsg.className='msg';
+  beep(500,.1);
+}
+
+async function submitRecovery(){
+  fSuccess.style.display='none';fError.style.display='none';
+  recBtn.disabled=true;
+  const r=await api({action:'recover',name:fName.value,dob:fDob.value,phone:fPhone.value});
+  recBtn.disabled=false;
+  if(!r.ok){fError.textContent=r.error==='locked'?'⛔ محاولات كثيرة، حاول لاحقاً.':(r.error==='network'?'تعذر الاتصال بالخادم، حاول مرة أخرى.':T[currentLang].eRec);fError.style.display='block';beep(300,.2);return;}
+  fSuccess.innerHTML = `✅ <strong>تم إيجاد حسابك بنجاح!</strong><br><br>
+  📝 <strong>الاسم:</strong> ${esc(r.nameAr)}<br>
+  📅 <strong>الميلاد:</strong> ${esc(r.dob)}<br>
+  🪪 <strong>رقم الاعتماد:</strong> <span style="color:#00f2fe;font-size:1.1rem;font-weight:900;">${esc(r.id)}</span>`;
+  fSuccess.style.display='block';
+  beep(750,.2);
+}
+
+function fighterFromResult(r){
+  if(r.suspended) return {nameAr:r.nameAr,suspended:true};
+  const w=r.fighter;
+  SHEET={};SHEET[normAcc(w.id)]=w;
+  if(r.ann) SHEET.ALL={note:r.ann};
+  if(r.settings) applySettings(r.settings);
+  return {id:w.id,nameAr:w.nameAr,nameEn:w.nameEn,dob:w.dob,pob:w.pob,address:w.address,phone:w.phone,father:w.father,group:w.group,belt:w.belt,photo:w.photo,suspended:false};
+}
+async function handleLogin(){
+  if(nums(capA.value).join('')!==capAns){
+    loginError.textContent = "❌ جواب خاطئ! حلّ المسألة الحسابية لإثبات أنك لست روبوت.";
+    loginError.style.display = 'block';
+    newCaptcha();
+    beep(280,.2);
+    return;
+  }
+  loginBtn.disabled=true;
+  const cred={n:loginName.value,d:loginDob.value,a:loginAcc.value};
+  curCred={name:cred.n,dob:cred.d,acc:cred.a};
+  const r=await api({action:'login',name:cred.n,dob:cred.d,acc:cred.a});
+  loginBtn.disabled=false;
+  if(!r.ok){
+    loginError.textContent = r.error==='locked'?'⛔ محاولات خاطئة كثيرة. حاول بعد 15 دقيقة.':(r.error==='network'?'تعذر الاتصال بالخادم، حاول مرة أخرى.':T[currentLang].eLogin);
+    loginError.style.display='block';
+    newCaptcha();
+    beep(320,.2);
+    return;
+  }
+  loginError.style.display='none';
+  let saveFailed=false;
+  if(rememberMe.checked){store.set('saved',JSON.stringify(cred));saveFailed=(store.get('saved')===null);}else store.del('saved');
+  const f=fighterFromResult(r);
+  if(introBusy) return;
+  introBusy=true;
+  if(!f.suspended) await playIntro(f);
+  introBusy=false;
+  renderFighterCard(f);
+  if(!f.suspended){confetti();beep(750,.15);}else{beep(300,.25);}
+  if(saveFailed) setTimeout(()=>alert('تنبيه: هذا المتصفح لا يسمح بحفظ الدخول التلقائي (قد تكون داخل تطبيق فيسبوك أو في التصفح الخفي). افتح الموقع في Chrome العادي.'),900);
+}
+/* دخول تلقائي من البيانات المحفوظة على الجهاز (مثل فيسبوك) */
+let autoCancelled=false;
+function cancelAuto(){autoCancelled=true;store.del('saved');autoBox.style.display='none';}
+async function autoLogin(){
+  const raw=store.get('saved');
+  if(!raw) return;
+  let c;try{c=JSON.parse(raw);}catch(e){store.del('saved');return;}
+  if(!c||!c.n||!c.a){store.del('saved');return;}
+  curCred={name:c.n,dob:c.d,acc:c.a};
+  autoBox.style.display='flex';
+  let r=await api({action:'login',name:c.n,dob:c.d,acc:c.a});
+  if(!r.ok&&r.error==='network'&&!autoCancelled) r=await api({action:'login',name:c.n,dob:c.d,acc:c.a});
+  if(autoCancelled) return;
+  autoBox.style.display='none';
+  if(!r.ok){
+    if(r.error==='nomatch') store.del('saved');
+    loginError.textContent=r.error==='network'?'تعذر الدخول التلقائي (الاتصال)، سجّل الدخول يدوياً.':'تعذر الدخول التلقائي، سجّل الدخول يدوياً.';
+    loginError.style.display='block';
+    return;
+  }
+  renderFighterCard(fighterFromResult(r));
+}
+const esc=s=>String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+
+function flipCard(){
+  const card = document.getElementById('mainFighterCard');
+  if(card){card.classList.toggle('flipped');beep(800, .12);}
+}
+
+function renderFighterCard(f){
+  currentFighter=f;
+
+  /* المشطوب: الاسم فقط + عبارة كبيرة */
+  if(f.suspended){
+    activeCardContainer.innerHTML=`
+    <div class="card" id="mainFighterCard" style="border-color:#ff5252;min-height:0">
+      <div class="card-front">
+        <div class="susp-name">${esc(f.nameAr)}</div>
+        <div class="susp big">❌ مشطوب حتى إشعار آخر</div>
+      </div>
+    </div>`;
+    show('cardView');
+    return;
+  }
+
+  const b=BELTS[f.belt]||BELTS.white,x=cardExtras(f);
+  const target=f.suspended
+    ?'🎯 <strong>الهدف القادم:</strong> مراجعة وضعية الانتساب والترقي نحو الأحزمة المتقدمة فور زوال التعليق.'
+    :'🎯 <strong>الهدف القادم:</strong> التقدم المستمر نحو الأحزمة المتقدمة والانضباط التدريبي.';
+
+  const imgSrc = photoCandidates(f.photo)[0] || NO_PHOTO;
+
+  activeCardContainer.innerHTML=`
+  <div class="card" id="mainFighterCard" style="border-color:${b.g}">
+    <div class="card-front">
+      <div class="hd">
+        <div class="cn-ar">دببة السلم للجي جيتسو وادي السلام</div>
+        <div class="cn-en">Bears of Peace Ju-Jutsu Oued Eslam</div>
+        <div class="ctitle">بطاقة مقاتل / FIGHTER CARD</div>
+      </div>
+      <div class="sup">تحت إشراف <span>فرع الجي جيتسو</span></div>
+      <div class="greet">👋 مرحباً ${esc(x.first)}</div>
+      ${f.suspended?'<div class="susp">❌ مشطوب حتى إشعار آخر</div>':''}
+      <div class="prof">
+        <div class="photo"><img id="fighterImg" src="${esc(imgSrc)}" data-st="1" onclick="zoomPhoto(this)" style="cursor:zoom-in" data-code="${esc(f.photo)}" alt="صورة ${esc(f.nameAr)}" onerror="imgFail(this)"></div>
+        <div class="kim"><svg viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M20 20 L35 10 L65 10 L80 20 L95 35 L80 45 L80 90 L20 90 L20 45 L5 35 Z" fill="#f0f0f0" stroke="#ccc" stroke-width="1.5"/>
+          <path d="M35 10 L50 50 L20 90" stroke="#0476ff" stroke-width="4" fill="none"/>
+          <path d="M65 10 L50 50 L80 90" stroke="#0476ff" stroke-width="4" fill="none"/>
+          <path d="M20 45 L30 40 L30 85 L20 90 Z" fill="#e0e0e0"/><path d="M80 45 L70 40 L70 85 L80 90 Z" fill="#d0d0d0"/>
+          <rect x="22" y="55" width="56" height="8" fill="${b.c}"/>
+          ${f.belt==='greenblack'?'<rect x="46" y="55" width="8" height="8" fill="#111"/>':''}
+          <path d="M46 53 L54 53 L56 70 L44 70 Z" fill="${b.s}" stroke="${b.g}" stroke-width="1"/></svg></div>
+      </div>
+      <div class="grid">
+        <div class="it"><span class="label">الاسم واللقب بالعربية:</span><span class="value hl">${esc(f.nameAr)}</span></div>
+        <div class="it"><span class="label">الاسم باللاتينية:</span><span class="value latin">${esc(f.nameEn)}</span></div>
+        <div class="it"><span class="label">اسم الأب:</span><span class="value hl">${esc(f.father)}</span></div>
+        <div class="it"><span class="label">تاريخ الميلاد:</span><span class="value">${esc(f.dob)}</span></div>
+        <div class="it"><span class="label">مكان الميلاد:</span><span class="value">${esc(f.pob)}</span></div>
+        <div class="it"><span class="label">الجنس:</span><span class="value">ذكر</span></div>
+        <div class="it full"><span class="label">العنوان:</span><span class="value">${esc(f.address)}</span></div>
+        <div class="it"><span class="label">رقم الهاتف:</span><span class="value hl">${esc(f.phone)}</span></div>
+        <div class="it"><span class="label">رقم الاعتماد:</span><span class="value hl">${esc(f.id)}</span></div>
+        <div class="it full"><span class="label">الاختصاصات:</span><span class="value hl" style="font-size:.75rem">Kung fu / MMA / Grappling / Ju-Jutsu</span></div>
+        <div class="belt"><div><span class="label" style="display:block">الحزام الحالي:</span><span class="value" style="font-size:.75rem">${b.ar}</span></div>
+          <div class="bar" style="background:${b.bar||b.c}"></div></div>
+        <div class="it full" style="margin-top:3px"><span class="label">الملاحظات الطبية:</span><span class="value med">"مؤهل لممارسة الرياضة"</span></div>
+        ${x.subHtml}
+        <div class="acts">
+          <button class="act" onclick="togglePanel('p1')">⚡ التطور بالقاعة</button>
+          <button class="act" onclick="togglePanel('p2')">👨‍🏫 المشرفون</button>
+          <button class="act" onclick="togglePanel('p3')">💡 نصائح</button>
+          <button class="act" onclick="togglePanel('p4')">✈️ موعد الاجازة</button>
+          <a href="https://www.facebook.com/profile.php?id=61574944910883" target="_blank" rel="noopener" class="act">📘 صفحتنا</a>
+          <a href="tel:${esc(MANAGER_PHONE||f.phone)}" class="act">📞 تواصل المسؤول</a>
+          <button class="act" onclick="togglePanel('p6')">📅 الجدول</button>
+          <button class="act" onclick="togglePanel('p7')">📊 تقدّمي</button>
+          <button class="act" onclick="togglePanel('p8')">📢 إعلانات</button>
+          <button class="act" onclick="togglePanel('p9')">🎬 فيديوهات</button>
+          <button class="act" onclick="saveCard()">📸 حفظ كصورة</button>
+          <button class="act" onclick="window.print()">🖨️ طباعة</button>
+          <button class="act" style="grid-column:span 2;background:linear-gradient(135deg,#ff9800,#ffc107);color:#000" onclick="togglePanel('p10')">⭐ حصص إضافية</button>
+          <button class="act wide" style="background:linear-gradient(135deg,#7c4dff,#00f2fe);color:#000" onclick="openFeed()">🌐 مجتمع النادي (منشورات وحسابات)</button>
+          <button class="act wide parent" onclick="togglePanel('pParent')">📢 إخبار المدرب بأي إشكال لابنك (خاص بأولياء الأمور)</button>
+          <button class="act wide" style="background:linear-gradient(135deg,#0476ff,#00f2fe);color:#000" onclick="flipCard()">🪪 الوجه الخلفي للبطاقة (اضغط للتقليب)</button>
+          <button class="act wide" onclick="togglePanel('p5')">⚠️ يرجى إخبارنا بالمشكلة</button>
+        </div>
+        <div id="p1" class="panel">${target}</div>
+        <div id="p2" class="panel">👨‍🏫 <strong>طاقم التدريب والإشراف:</strong><br>${SET.coaches.map(c=>'- المدرب: '+esc(c)).join('<br>')}</div>
+        <div id="p3" class="panel">💡 <strong>نصيحة اليوم:</strong> ${x.tip}<br>💡 <strong>دائماً:</strong> الاستمرارية، الانضباط، الاحترام، والتركيز أثناء التدريبات.</div>
+        <div id="p4" class="panel">✈️ <strong>موعد الوصول للإجازة:</strong> ${esc(SET.vacation)}</div>
+        <div id="p6" class="panel">${x.sched}</div>
+        <div id="p7" class="panel">${x.prog}</div>
+        <div id="p8" class="panel">${x.news}</div>
+        <div id="p9" class="panel">${x.vids}</div>
+        <div id="p10" class="panel">${x.extra}</div>
+        <div id="pParent" class="panel"><div class="issue">
+          <label>رسالة ولي الأمر حول ابنك (${esc(f.nameAr)}):</label>
+          <textarea id="parentText" rows="3" placeholder="اكتب هنا أي تفاصيل صحية، غياب متوقع، أو إشكال يمر به الابن..."></textarea>
+          <button id="parentBtn" onclick="submitParentIssue()">إرسال للمدرب</button>
+          <div id="parentOkMsg" class="okmsg">تم توصيل الرسالة بنجاح، وسيتابعها المدرب فوراً!</div>
+        </div></div>
+        <div id="p5" class="panel"><div class="issue">
+          <label>اكتب المشكلة أو الخطأ:</label>
+          <input type="text" id="issueText" placeholder="اكتب تفاصيل المشكلة هنا...">
+          <button id="issueBtn" onclick="submitIssue()">إرسال</button>
+          <div id="successMsg" class="okmsg">تم إرسال المشكلة بنجاح، شكراً لتواصلك!</div>
+        </div></div>
+      </div>
+      <div class="ft"><div>المجموعة: <span class="badge">${esc(f.group)}</span></div><div>نهاية الشهر: <span class="hl">يوم ${SET.monthDay}</span></div></div>
+    </div>
+
+    <div class="card-back">
+      <img src="https://i.ibb.co/vvB5ZmFH/1790268608620.jpg" class="card-back-img" alt="الوجه الخلفي للبطاقة" onerror="this.onerror=null;this.src=BACKEND_SVG_FALLBACK;">
+      <button class="act card-back-btn" style="background:linear-gradient(135deg,#0476ff,#00f2fe); color:#000; padding:12px;" onclick="flipCard()">🔄 العودة للوجه الأمامي</button>
+    </div>
+  </div>`;
+  show('cardView');
+}
+
+function togglePanel(id){
+  const freqs = { p1: 520, p2: 580, p3: 640, p4: 700, p5: 350, p6: 440, p7: 760, p8: 820, p9: 880, pParent: 950 };
+  beep(freqs[id] || 600, .12);
+  document.querySelectorAll('.panel').forEach(p=>{if(p.id!==id)p.style.display='none';});
+  const t=document.getElementById(id);t.style.display=t.style.display==='block'?'none':'block';
+}
+
+async function submitParentIssue(){
+  const txt = parentText.value.trim();
+  if(!txt){alert("يرجى كتابة تفاصيل الإشكال أولاً.");beep(280,.2);return;}
+  parentBtn.disabled = true;
+  const f = currentFighter;
+  const ok = await sendMail("إشعار من ولي أمر - " + f.nameAr,
+    `رسالة من ولي أمر\nالمقاتل (الابن): ${f.nameAr}\nالأب: ${f.father}\nرقم الاعتماد: ${f.id}\nالهاتف: ${f.phone}\n\nالإشكال أو الملاحظة:\n${txt}`);
+  parentBtn.disabled = false;
+  if(!ok){alert(T[currentLang].eSend);beep(250,.2);return;}
+  parentOkMsg.style.display = 'block';
+  beep(880,.2);
+  setTimeout(()=>{parentText.value='';parentOkMsg.style.display='none';pParent.style.display='none';},2500);
+}
+
+async function submitIssue(){
+  const txt=issueText.value.trim();
+  if(!txt){alert("يرجى كتابة وصف المشكلة أولاً.");beep(280,.12);return;}
+  issueBtn.disabled=true;
+  const f=currentFighter;
+  const ok=await sendMail("مشكلة من مقاتل - "+f.nameAr,
+    `مشكلة مُبلَّغ عنها\nالمقاتل: ${f.nameAr}\nرقم الاعتماد: ${f.id}\nالهاتف: ${f.phone}\n\nالمشكلة:\n${txt}`);
+  issueBtn.disabled=false;
+  if(!ok){alert(T[currentLang].eSend);beep(250,.15);return;}
+  successMsg.style.display='block';
+  beep(880,.2);
+  setTimeout(()=>{issueText.value='';successMsg.style.display='none';p5.style.display='none';},2500);
+}
+
+const regSel={sport:"",times:[]};
+rSports.addEventListener("click",e=>{
+  const b=e.target.closest(".choice");if(!b)return;
+  rSports.querySelectorAll(".choice").forEach(x=>x.classList.remove("active"));
+  b.classList.add("active");regSel.sport=b.dataset.v;
+  beep(600,.1);
+});
+rTimes.addEventListener("click",e=>{
+  const b=e.target.closest(".choice");if(!b)return;
+  b.classList.toggle("active");
+  regSel.times=[...rTimes.querySelectorAll(".choice.active")].map(x=>x.dataset.v);
+  beep(680,.1);
+});
+rFileBtn.addEventListener("click",()=>{rFileInfo.classList.toggle("show");beep(450,.1);});
+
+function regShow(t,type){regMsg.className="msg show "+type;regMsg.textContent=t;}
+regForm.addEventListener("submit",async e=>{
+  e.preventDefault();
+  const fn=rFname.value.trim(),ln=rLname.value.trim(),age=+rAge.value,ph=rPhone.value.replace(/[\s-]/g,'');
+  if(!fn||!ln||!ph||!regSel.sport||!regSel.times.length){beep(300,.2);return regShow("يرجى ملء جميع الخانات واختيار التخصص ووقت واحد على الأقل","error");}
+  if(!rConsent.checked){beep(300,.2);return regShow("يرجى الموافقة على حفظ البيانات (بموافقة ولي الأمر للقاصرين)","error");}
+  if(!(age>=3&&age<=99)){beep(300,.2);return regShow("العمر يجب أن يكون بين 3 و99","error");}
+  if(!/^0[5-7]\d{8}$/.test(ph)){beep(300,.2);return regShow("رقم الهاتف غير صحيح (مثال: 0770000000)","error");}
+  rSubmit.disabled=true;
+  const ok=await sendMail("تسجيل جديد - "+fn+" "+ln,
+    `طلب تسجيل جديد\nالاسم: ${fn}\nاللقب: ${ln}\nالعمر: ${age}\nالهاتف: ${ph}\nالتخصص: ${regSel.sport}\nالأوقات: ${regSel.times.join(" ، ")}\nالموافقة على حفظ البيانات: نعم`);
+  rSubmit.disabled=false;
+  if(!ok){beep(250,.2);return regShow("تعذر الإرسال، حاول مرة أخرى أو تواصل معنا على "+MANAGER_PHONE,"error");}
+  regForm.reset();
+  document.querySelectorAll("#regForm .choice").forEach(x=>x.classList.remove("active"));
+  regSel.sport="";regSel.times=[];
+  regShow("تم إرسال تسجيلك بنجاح ✅ سنتواصل معك قريبًا","ok");
+  beep(920,.25);
+});
+function logoutFighter(){
+  store.del('saved');curCred=null;
+  show('loginSection');
+  loginName.value=loginDob.value=loginAcc.value='';
+  newCaptcha();
+  activeCardContainer.innerHTML='';
+  beep(380,.15);
+}
+
+let soundOn=true;
+const store={get:k=>{try{return localStorage.getItem(k)}catch(e){return null}},set:(k,v)=>{try{localStorage.setItem(k,v)}catch(e){}},del:k=>{try{localStorage.removeItem(k)}catch(e){}}};
+function applyTheme(l){document.documentElement.classList.toggle('light',l);themeBtn.textContent=l?'☀️':'🌙';
+  const m=document.querySelector('meta[name=theme-color]');if(m)m.content=l?'#eaf4ff':'#010409';}
+function toggleTheme(){const l=!document.documentElement.classList.contains('light');applyTheme(l);store.set('theme',l?'light':'dark');beep(l?780:480,.12);}
+function toggleSound(){
+  soundOn=!soundOn;
+  soundBtn.textContent=soundOn?'🔊':'🔇';
+  store.set('sound',soundOn?'1':'0');
+  if(soundOn) beep(850,.15);
+}
+
+let _ac=null;
+function beep(f=600,d=.15){
+  if(!soundOn)return;
+  try{
+    _ac=_ac||new (window.AudioContext||window.webkitAudioContext)();
+    const c=_ac;if(c.state==='suspended')c.resume();
+    const o1=c.createOscillator(),g1=c.createGain();
+    o1.type='triangle';
+    o1.frequency.setValueAtTime(f, c.currentTime);
+    o1.frequency.exponentialRampToValueAtTime(f * 0.5, c.currentTime + d);
+    g1.gain.setValueAtTime(0.4, c.currentTime);
+    g1.gain.exponentialRampToValueAtTime(0.001, c.currentTime + d);
+    o1.connect(g1);g1.connect(c.destination);
+    o1.start();o1.stop(c.currentTime+d);
+    const o2=c.createOscillator(),g2=c.createGain();
+    o2.type='sawtooth';
+    o2.frequency.setValueAtTime(f * 1.5, c.currentTime);
+    o2.frequency.exponentialRampToValueAtTime(f * 0.8, c.currentTime + d);
+    g2.gain.setValueAtTime(0.15, c.currentTime);
+    g2.gain.exponentialRampToValueAtTime(0.001, c.currentTime + d);
+    o2.connect(g2);g2.connect(c.destination);
+    o2.start();o2.stop(c.currentTime+d);
+  }catch(e){}
+}
+
+function confetti(){const cols=['#00f2fe','#0476ff','#00e676','#ffd600','#ff5252','#fff'];
+  for(let i=0;i<40;i++){const d=document.createElement('div');d.className='cf';
+    d.style.left=Math.random()*100+'vw';d.style.background=cols[i%cols.length];d.style.animationDelay=Math.random()*.6+'s';d.style.animationDuration=(1.8+Math.random()*1.2)+'s';
+    document.body.appendChild(d);setTimeout(()=>d.remove(),3500);}}
+function zoomPhoto(img){lbImg.src=img.src;lightbox.style.display='flex';beep(720,.1);}
+applyTheme(store.get('theme')==='light');
+soundOn = store.get('sound') !== '0';
+soundBtn.textContent=soundOn?'🔊':'🔇';
+
+/* الطباعة: دائماً الوجه الأمامي بوضع فاتح، ثم استرجاع الحالة */
+let _wasLight=false,_wasFlipped=false;
+window.addEventListener('beforeprint',()=>{
+  _wasLight=document.documentElement.classList.contains('light');document.documentElement.classList.add('light');
+  const c=document.getElementById('mainFighterCard');
+  _wasFlipped=!!(c&&c.classList.contains('flipped'));
+  if(c) c.classList.remove('flipped');
+});
+window.addEventListener('afterprint',()=>{
+  document.documentElement.classList.toggle('light',_wasLight);
+  const c=document.getElementById('mainFighterCard');
+  if(c&&_wasFlipped) c.classList.add('flipped');
+});
+
+/* ===== حفظ البطاقة كصورة (مع الصورة الشخصية) ===== */
+// تحميل أول رابط صالح من القائمة مع crossOrigin حتى لا يتلوث الـ canvas
+function loadPhoto(list){
+  return new Promise(resolve=>{
+    let i=0;
+    const next=()=>{
+      if(i>=list.length) return resolve(null);
+      const im=new Image();
+      im.crossOrigin='anonymous';
+      im.onload=()=>resolve(im);
+      im.onerror=next;
+      im.src=list[i++];
+    };
+    next();
+  });
+}
+function drawCover(ctx,im,x,y,w,h){
+  const r=Math.max(w/im.width,h/im.height),sw=w/r,sh=h/r;
+  ctx.drawImage(im,(im.width-sw)/2,(im.height-sh)/2,sw,sh,x,y,w,h);
+}
+function drawPlaceholder(ctx){
+  ctx.fillStyle='#1c3a66';ctx.fillRect(50,170,140,170);
+  ctx.fillStyle='#ffffff';ctx.font='14px Cairo, sans-serif';ctx.textAlign='center';
+  ctx.fillText('صورة المقاتل',120,260);
+}
+function paintCard(f,photo){
+  const canvas=document.createElement('canvas');
+  canvas.width=600;canvas.height=700;
+  const ctx=canvas.getContext('2d');
+  const isLight=document.documentElement.classList.contains('light');
+  const b=BELTS[f.belt]||BELTS.white;
+
+  ctx.fillStyle=isLight?'#ffffff':'#0a1931';ctx.fillRect(0,0,600,700);
+  ctx.strokeStyle='#00f2fe';ctx.lineWidth=6;ctx.strokeRect(10,10,580,680);
+
+  ctx.textAlign='center';
+  ctx.fillStyle=isLight?'#0b1b33':'#ffffff';
+  ctx.font='bold 24px Cairo, sans-serif';
+  ctx.fillText('دببة السلم للجي جيتسو وادي السلام',300,50);
+  ctx.fillStyle='#00f2fe';ctx.font='16px Cairo, sans-serif';
+  ctx.fillText('BEARS OF PEACE JU-JUTSU OUED ESLAM',300,75);
+  ctx.fillRect(180,90,240,30);
+  ctx.fillStyle='#000000';ctx.font='bold 16px Cairo, sans-serif';
+  ctx.fillText('بطاقة مقاتل / FIGHTER CARD',300,111);
+
+  ctx.textAlign='right';ctx.font='16px Cairo, sans-serif';
+  const rows=[
+    ['الاسم واللقب:',f.nameAr],['الاسم باللاتينية:',f.nameEn],['تاريخ الميلاد:',f.dob],
+    ['اسم الأب:',f.father],['رقم الاعتماد:',f.id],['رقم الهاتف:',f.phone],
+    ['العنوان:',f.address],['المجموعة:',f.group],['الحزام الحالي:',b.ar]
+  ];
+  let y=170;
+  rows.forEach(([l,v])=>{
+    ctx.fillStyle=isLight?'#35506f':'#b0e0ff';ctx.fillText(l,550,y);
+    ctx.fillStyle=isLight?'#0b1b33':'#ffffff';ctx.fillText(v||'-',380,y);
+    y+=42;
+  });
+
+  // الحزام
+  if(f.belt==='greenblack'){
+    ctx.fillStyle='#2e7d32';ctx.fillRect(50,508,150,20);
+    ctx.fillStyle='#111';ctx.fillRect(100,508,50,20);
+  }else{ctx.fillStyle=b.c;ctx.fillRect(50,508,150,20);}
+  ctx.strokeStyle='#777';ctx.lineWidth=2;ctx.strokeRect(50,508,150,20);
+
+  // الصورة الشخصية
+  if(photo) drawCover(ctx,photo,50,170,140,170); else drawPlaceholder(ctx);
+  ctx.strokeStyle='#00f2fe';ctx.lineWidth=3;ctx.strokeRect(50,170,140,170);
+  return canvas;
+}
+async function generateCanvasCard(f){
+  try{await (document.fonts&&document.fonts.ready);}catch(e){}
+  let photo=await loadPhoto(photoCandidates(f.photo));
+  if(!photo){const u=await resolvePhoto(f.photo);if(u) photo=await loadPhoto([u]);}
+  try{return paintCard(f,photo).toDataURL('image/png');}
+  catch(e){return paintCard(f,null).toDataURL('image/png');} // CORS: احفظ بدون صورة بدل الفشل
+}
+async function saveCard(){
+  if(!currentFighter) return;
+  try{
+    const dataUrl=await generateCanvasCard(currentFighter);
+    const a=document.createElement('a');
+    a.href=dataUrl;a.download=`card-${currentFighter.id.replace('/','-')}.png`;
+    document.body.appendChild(a);a.click();a.remove();
+    beep(820,.15);
+  }catch(e){alert('حدث خطأ أثناء تحميل الصورة، جرب مرة أخرى.');beep(300,.2);}
+}
+
+async function checkAdminAuth(){
+  const p = adminPassInput.value;
+  adminAuthErr.style.display = 'none';
+  const r = await api({action:'admin_list',pass:p});
+  if(!r.ok){
+    adminAuthErr.textContent = r.error==='locked'?'محاولات كثيرة، حاول بعد 10 دقائق.':(r.error==='network'?'تعذر الاتصال بالخادم.':'كلمة السر خاطئة!');
+    adminAuthErr.style.display = 'block';
+    beep(280,.2);
+    return;
+  }
+  adminPassMem = p;
+  ADMIN_ROWS = r.rows.map(x=>({...x,suspended:String(x.suspended).toUpperCase()==='TRUE'}));
+  adminPassInput.value = '';
+  aBelt.innerHTML='<option value="">كل الأحزمة</option>'+Object.keys(BELTS).map(k=>`<option value="${k}">${BELTS[k].ar}</option>`).join('');
+  fm_belt.innerHTML=Object.keys(BELTS).map(k=>`<option value="${k}">${BELTS[k].ar}</option>`).join('');
+  show('adminSection');
+  showTab('tFighters');
+  adminRender();
+  api({action:'public'}).then(x=>{if(x&&x.ok){applySettings(x.settings);fillSettingsForm();}});
+  beep(900,.18);
+}
+function fillNotif(t,m){nTitle.value=t;nMsg.value=m;nMsg.focus();beep(600,.1);}
+async function sendNotif(){
+  const t=nTitle.value.trim()||'Bears of Peace',m=nMsg.value.trim();
+  const box=document.getElementById('nMsgBox');
+  if(!m){box.className='msg show error';box.textContent='اكتب نص الإشعار أولاً.';beep(300,.2);return;}
+  if(!confirm('إرسال هذا الإشعار لجميع المشتركين؟\n\n'+t+'\n'+m)) return;
+  nBtn.disabled=true;
+  const r=await api({action:'notify',pass:adminPassMem,title:t,message:m});
+  nBtn.disabled=false;
+  if(r.ok){box.className='msg show ok';box.textContent='✅ تم إرسال الإشعار.';nMsg.value='';beep(880,.2);}
+  else{box.className='msg show error';box.textContent=(r.error==='badpass'||r.error==='locked')?'تعذر التحقق من كلمة السر أو محاولات كثيرة.':'تعذر الإرسال، تأكد من مفتاح OneSignal في السكربت. '+(r.info||r.error||'');beep(250,.2);}
+}
+
+function payStatus(f){const pu=parseD(f.paid_until),t=new Date();t.setHours(0,0,0,0);return !pu?'—':(pu>=t?'✅':'⚠️');}
+function adminFiltered(){
+  const q=cleanWords(aSearch.value),g=aGroup.value,b=aBelt.value,st=aStat.value;
+  return ADMIN_ROWS.filter(f=>{
+    const hay=cleanWords(f.nameAr+' '+f.nameEn+' '+f.id+' '+f.phone).join(' ');
+    return q.every(w=>hay.includes(w))&&(!g||f.group===g)&&(!b||f.belt===b)&&(!st||(st==='susp')===f.suspended);});
+}
+function adminRender(){
+  const all=ADMIN_ROWS,cnt=(fn)=>all.filter(fn).length;
+  aStats.innerHTML=`👥 الإجمالي: <b>${all.length}</b> • ✔ نشط: <b>${cnt(f=>!f.suspended)}</b> • 🚫 مشطوب: <b>${cnt(f=>f.suspended)}</b><br>`+
+    ['A','B','C'].map(g=>`المجموعة ${g}: <b>${cnt(f=>f.group===g)}</b>`).join(' • ')+'<br>'+
+    Object.keys(BELTS).map(k=>`${BELTS[k].ar}: <b>${cnt(f=>f.belt===k)}</b>`).join(' • ');
+  const list=adminFiltered();
+  aTable.innerHTML='<tr><th>الاعتماد</th><th>الاسم</th><th>الهاتف</th><th>المجموعة</th><th>الحزام</th><th>الحالة</th><th>الاشتراك</th><th>إجراء</th></tr>'+
+    (list.map(f=>`<tr><td>${esc(f.id)}</td><td>${esc(f.nameAr)}</td><td><a href="tel:${esc(f.phone)}">${esc(f.phone)}</a></td><td>${esc(f.group)}</td><td>${(BELTS[f.belt]||{}).ar||'?'}</td><td>${f.suspended?'🚫 مشطوب':'✔ نشط'}</td><td>${payStatus(f)}</td><td><button class="mini" onclick="openFighterForm('${esc(f.id)}')">✏️</button> <button class="mini" onclick="toggleSusp('${esc(f.id)}')">${f.suspended?'✅':'🚫'}</button></td></tr>`).join('')||'<tr><td colspan="8">لا نتائج</td></tr>');
+}
+/* ===== إدارة المقاتلين والإعدادات من لوحة المسؤول ===== */
+document.getElementById('aTabs').addEventListener('click',e=>{const b=e.target.closest('.choice');if(b&&b.dataset.tab) showTab(b.dataset.tab);});
+document.getElementById('sDays').addEventListener('click',e=>{const b=e.target.closest('.choice');if(b){b.classList.toggle('active');beep(650,.08);}});
+function showTab(id){
+  if(id==='tPosts'){loadAdmPosts();loadAdmProfs();}
+  document.querySelectorAll('.atab').forEach(t=>t.style.display=t.id===id?'block':'none');
+  document.querySelectorAll('#aTabs .choice').forEach(b=>b.classList.toggle('active',b.dataset.tab===id));
+  beep(560,.08);
+}
+function adminMsg(el,t,ok){el.className='msg show '+(ok?'ok':'error');el.textContent=t;}
+function adminErr(r){
+  if(r.error==='network') return 'تعذر الاتصال بالخادم.';
+  if(r.error==='badpass'||r.error==='locked') return 'تعذر التحقق من كلمة السر، أو محاولات كثيرة. سجّل الدخول من جديد.';
+  if(r.error==='exists') return 'رقم الاعتماد مستعمل مسبقاً.';
+  if(r.error==='notfound') return 'المقاتل غير موجود.';
+  if(r.error==='bad_id') return 'رقم الاعتماد غير صحيح.';
+  if(r.error==='short') return 'كلمة السر قصيرة (8 أحرف على الأقل).';
+  return 'حدث خطأ: '+(r.error||'');
+}
+async function reloadAdmin(){
+  const r=await api({action:'admin_list',pass:adminPassMem});
+  if(r.ok){ADMIN_ROWS=r.rows.map(x=>({...x,suspended:String(x.suspended).toUpperCase()==='TRUE'}));adminRender();}
+  return !!r.ok;
+}
+function nextId(){
+  const yy=String(new Date().getFullYear()).slice(2);let max=0;
+  ADMIN_ROWS.forEach(f=>{const n=nums(f.id);if(n.length===2&&n[0]===yy&&+n[1]>max)max=+n[1];});
+  return yy+'/'+String(max+1).padStart(2,'0');
+}
+let fmMode='add';
+function openFighterForm(id){
+  const f=id?ADMIN_ROWS.find(x=>x.id===id):null;
+  fmMode=f?'edit':'add';
+  const g=(k,d='')=>f?(f[k]||d):d;
+  fmTitle.textContent=f?'✏️ تعديل: '+f.nameAr:'➕ مقاتل جديد';
+  fm_id.value=f?f.id:nextId();fm_id.readOnly=!!f;
+  fm_nameAr.value=g('nameAr');fm_nameEn.value=g('nameEn');fm_dob.value=g('dob');fm_pob.value=g('pob');
+  fm_address.value=g('address');fm_phone.value=g('phone');fm_father.value=g('father');
+  fm_group.value=g('group','C');fm_belt.value=g('belt','white');fm_photo.value=g('photo');
+  fm_susp.checked=!!(f&&f.suspended);fm_paid.value=g('paid_until');fm_present.value=g('present');
+  fm_total.value=g('total');fm_points.value=g('points');fm_badges.value=g('badges');fm_note.value=g('note');
+  fmDel.style.display=f?'block':'none';fmMsg.className='msg';
+  fForm.style.display='block';fForm.scrollIntoView({behavior:'smooth'});beep(600,.1);
+}
+function closeFighterForm(){fForm.style.display='none';}
+const normPhoto=v=>{v=String(v||'').trim();const m=v.match(/^https?:\/\/(?:www\.)?ibb\.co\/([A-Za-z0-9]+)\/?$/);return m?m[1]:v;};
+const fmtDate3=v=>{const d=nums(v);return d.length===3?d[0].padStart(2,'0')+'/'+d[1].padStart(2,'0')+'/'+d[2]:'';};
+async function saveFighter(){
+  const n=nums(fm_id.value);
+  if(n.length!==2||n[0].length!==2||n[1].length!==2){adminMsg(fmMsg,'رقم الاعتماد يجب أن يكون مثل 26/43',false);beep(300,.2);return;}
+  if(!fm_nameAr.value.trim()){adminMsg(fmMsg,'اكتب الاسم واللقب بالعربية.',false);beep(300,.2);return;}
+  const dob=fmtDate3(fm_dob.value);
+  if(!dob){adminMsg(fmMsg,'تاريخ الميلاد يجب أن يكون DD/MM/YYYY',false);beep(300,.2);return;}
+  const f={id:n[0]+'/'+n[1],nameAr:fm_nameAr.value.trim(),nameEn:fm_nameEn.value.trim(),dob,pob:fm_pob.value.trim(),address:fm_address.value.trim(),
+    phone:fm_phone.value.trim(),father:fm_father.value.trim(),group:fm_group.value,belt:fm_belt.value,photo:normPhoto(fm_photo.value),
+    suspended:fm_susp.checked?'TRUE':'FALSE',paid_until:fm_paid.value.trim()?fmtDate3(fm_paid.value):'',present:fm_present.value.trim(),
+    total:fm_total.value.trim(),points:fm_points.value.trim(),badges:fm_badges.value.trim(),note:fm_note.value.trim()};
+  fmSave.disabled=true;
+  const r=await api({action:'admin_save',pass:adminPassMem,mode:fmMode,fighter:f});
+  fmSave.disabled=false;
+  if(!r.ok){adminMsg(fmMsg,adminErr(r),false);beep(250,.2);return;}
+  await reloadAdmin();
+  adminMsg(fmMsg,'✅ تم الحفظ',true);beep(880,.2);
+  setTimeout(closeFighterForm,1200);
+}
+async function deleteFighter(){
+  const f=ADMIN_ROWS.find(x=>x.id===fm_id.value.trim());if(!f) return;
+  if(!confirm('حذف '+f.nameAr+' نهائياً؟ لا يمكن التراجع. (للإيقاف المؤقت استعمل الشطب بدل الحذف)')) return;
+  const r=await api({action:'admin_delete',pass:adminPassMem,id:f.id});
+  if(!r.ok){adminMsg(fmMsg,adminErr(r),false);beep(250,.2);return;}
+  await reloadAdmin();closeFighterForm();beep(700,.2);
+}
+async function toggleSusp(id){
+  const f=ADMIN_ROWS.find(x=>x.id===id);if(!f) return;
+  if(!confirm((f.suspended?'إعادة تفعيل ':'شطب ')+f.nameAr+'؟')) return;
+  const r=await api({action:'admin_save',pass:adminPassMem,mode:'edit',fighter:{id:f.id,suspended:f.suspended?'FALSE':'TRUE'}});
+  if(!r.ok){alert(adminErr(r));beep(250,.2);return;}
+  await reloadAdmin();beep(800,.15);
+}
+let sxList=[];
+function renderExtraList(){
+  sExtraList.innerHTML=sxList.length?sxList.map((e,i)=>`<div class="it" style="margin-bottom:6px">📌 ${esc(e.date)} — ${esc(e.from)} إلى ${esc(e.to)}${e.note?' — '+esc(e.note):''} <button type="button" class="mini" onclick="delExtra(${i})">✖</button></div>`).join(''):'<div class="label" style="margin-bottom:6px">لا توجد حصص إضافية.</div>';
+}
+function addExtraSession(){
+  if(!sxDate.value||!sxFrom.value||!sxTo.value){alert('اختر التاريخ والوقت.');return;}
+  sxList.push({date:sxDate.value,from:sxFrom.value,to:sxTo.value,note:sxNote.value.trim()});
+  sxNote.value='';renderExtraList();beep(700,.1);
+}
+function delExtra(i){sxList.splice(i,1);renderExtraList();}
+function fillSettingsForm(){
+  document.querySelectorAll('#sDays .choice').forEach(b=>b.classList.toggle('active',SET.days.includes(b.dataset.v)));
+  sFrom.value=SET.from;sTo.value=SET.to;
+  sxList=SET.extra.map(e=>({...e}));renderExtraList();
+  sAnn.value=SET.announcement||'';
+  sEvents.value=SET.events.map(e=>(e.d||'')+' | '+(e.t||'')).join('\n');
+  sVideos.value=SET.videos.map(v=>(v.t||'')+' | '+(v.u||'')).join('\n');
+  sVac.value=SET.vacation;sCoaches.value=SET.coaches.join('\n');sPhone.value=SET.phone;sMonth.value=SET.monthDay;
+}
+async function saveSettings(){
+  const days=[...document.querySelectorAll('#sDays .choice.active')].map(b=>b.dataset.v);
+  if(!days.length){alert('اختر يوماً واحداً على الأقل.');return;}
+  if(!sFrom.value||!sTo.value){alert('حدّد وقت البداية والنهاية.');return;}
+  const lines=t=>t.split('\n').map(x=>x.trim()).filter(Boolean);
+  const events=lines(sEvents.value).map(l=>{const a=l.split('|');return {d:(a.shift()||'').trim(),t:a.join('|').trim()};});
+  const videos=lines(sVideos.value).map(l=>{const a=l.split('|');return {t:(a.shift()||'').trim(),u:a.join('|').trim()};}).filter(v=>/^https?:\/\//.test(v.u));
+  const settings={days:days.join(','),from:sFrom.value,to:sTo.value,extra:JSON.stringify(sxList),announcement:sAnn.value.trim(),
+    events:JSON.stringify(events),videos:JSON.stringify(videos),vacation:sVac.value.trim(),coaches:lines(sCoaches.value).join('|'),
+    phone:sPhone.value.trim(),monthDay:String(sMonth.value||25)};
+  const r=await api({action:'settings_save',pass:adminPassMem,settings});
+  if(!r.ok){adminMsg(sMsg,adminErr(r),false);beep(250,.2);return;}
+  applySettings(r.settings);fillSettingsForm();
+  adminMsg(sMsg,'✅ تم حفظ الإعدادات، وستظهر في الموقع فوراً.',true);beep(880,.2);
+}
+async function changePass(){
+  const a=pNew.value,b=pNew2.value;
+  if(a.length<8){adminMsg(pMsg,'كلمة السر قصيرة (8 أحرف على الأقل).',false);return;}
+  if(a!==b){adminMsg(pMsg,'الكلمتان غير متطابقتين.',false);return;}
+  const r=await api({action:'admin_pass',pass:adminPassMem,newPass:a});
+  if(!r.ok){adminMsg(pMsg,adminErr(r),false);beep(250,.2);return;}
+  adminPassMem=a;pNew.value=pNew2.value='';
+  adminMsg(pMsg,'✅ تم تغيير كلمة السر. استعمل الجديدة في المرة القادمة.',true);beep(880,.2);
+}
+/* ===== المجتمع: حسابات ومنشورات ===== */
+let curCred=null,newAvatar='',postImg='',aPostImg='';
+const safeImg=v=>/^data:image\/jpeg;base64,[A-Za-z0-9+\/=]+$/.test(v||'')?v:'';
+const fmtTime=t=>{const d=new Date(t);return isNaN(d)?'':d.toLocaleDateString('ar-DZ')+' '+d.toLocaleTimeString('ar-DZ',{hour:'2-digit',minute:'2-digit'});};
+function toJpeg(file,max,lim){return new Promise((res,rej)=>{
+  const im=new Image(),u=URL.createObjectURL(file);
+  im.onload=()=>{URL.revokeObjectURL(u);
+    const k=Math.min(1,max/Math.max(im.width,im.height));
+    for(const sc of [1,.8,.65,.5,.4]){
+      const w=Math.max(1,Math.round(im.width*k*sc)),h=Math.max(1,Math.round(im.height*k*sc));
+      const c=document.createElement('canvas');c.width=w;c.height=h;c.getContext('2d').drawImage(im,0,0,w,h);
+      for(const q of [.7,.55,.4,.3]){const d=c.toDataURL('image/jpeg',q);if(d.length<=lim) return res(d);}
+    }
+    rej();};
+  im.onerror=()=>{URL.revokeObjectURL(u);rej();};im.src=u;});}
+function postHtml(p,a){
+  a=a||{};
+  return `<div class="sc post"><div class="ph" onclick="viewProfile('${esc(p.uid)}')"><img class="av" src="${esc(safeImg(a.avatar)||NO_PHOTO)}" alt=""><div><b>${esc(a.nick||'عضو')}</b><div class="label">${esc(fmtTime(p.time))}${p.status==='pending'?' <span class="pend">بانتظار موافقة المسؤول</span>':''}</div></div></div>${p.text?`<div class="pt2">${esc(p.text)}</div>`:''}${safeImg(p.img)?`<img class="pimg" src="${esc(p.img)}" onclick="zoomPhoto(this)" alt="">`:''}${p.mine?`<div style="margin-top:6px"><button class="mini" onclick="delPost('${esc(p.pid)}')">🗑️ حذف منشوري</button></div>`:''}</div>`;
+}
+async function refreshFeed(){
+  const r=await api({action:'feed',cred:curCred});
+  if(!r.ok) return r;
+  meNick.value=r.me.nick||'';meAv.src=safeImg(r.me.avatar)||NO_PHOTO;
+  feedList.innerHTML=r.posts.length?r.posts.map(p=>postHtml(p,r.authors[p.uid])).join(''):'<div class="sc label" style="text-align:center">لا توجد منشورات بعد. كن أول من ينشر!</div>';
+  return r;
+}
+async function openFeed(){
+  if(!curCred){alert('سجّل الدخول من جديد.');return;}
+  show('feedSection');feedList.innerHTML='<div class="label" style="text-align:center">جارٍ التحميل...</div>';
+  const r=await refreshFeed();
+  if(!r.ok){alert(r.error==='suspended'?'حسابك موقوف.':'تعذر التحميل، حاول مرة أخرى.');show('cardView');}
+}
+meFile.onchange=async()=>{const f=meFile.files[0];if(!f)return;try{newAvatar=await toJpeg(f,160,38000);meAv.src=newAvatar;}catch(e){alert('تعذر قراءة الصورة.');}};
+async function saveProfile(){
+  const r=await api({action:'profile_save',cred:curCred,nick:meNick.value,avatar:newAvatar});
+  if(!r.ok){alert(r.error==='bad_nick'?'الاسم المستعار من 2 إلى 20 حرفاً.':(r.error==='banned'?'تم منعك من تعديل الملف.':'تعذر الحفظ، حاول مرة أخرى.'));beep(250,.2);return;}
+  newAvatar='';alert('✅ تم حفظ ملفك');beep(880,.15);refreshFeed();
+}
+function clearPostImg(){postImg='';postPrev.innerHTML='';postFile.value='';}
+postFile.onchange=async()=>{const f=postFile.files[0];if(!f)return;try{postImg=await toJpeg(f,560,44000);postPrev.innerHTML=`<img class="pimg" src="${postImg}" style="max-height:140px;width:auto"> <button class="mini" onclick="clearPostImg()">✖</button>`;}catch(e){alert('تعذر قراءة الصورة.');}};
+async function sendPost(){
+  const text=postText.value.trim();
+  const say=(t,ok)=>{postMsg.className='msg show '+(ok?'ok':'error');postMsg.textContent=t;};
+  if(!text&&!postImg){say('اكتب نصاً أو أضف صورة.',false);return;}
+  postBtn.disabled=true;
+  const r=await api({action:'post_add',cred:curCred,text,img:postImg});
+  postBtn.disabled=false;
+  if(!r.ok){say(r.error==='rate'?'وصلت الحد (5 منشورات في الساعة).':(r.error==='banned'?'تم منعك من النشر.':(r.error==='bad_img'?'الصورة غير صالحة.':'تعذر النشر، حاول مرة أخرى.')),false);beep(250,.2);return;}
+  postText.value='';clearPostImg();say('✅ تم الإرسال، وسيظهر بعد موافقة المسؤول.',true);beep(880,.15);refreshFeed();
+}
+async function delPost(pid){
+  if(!confirm('حذف منشورك؟')) return;
+  const r=await api({action:'post_del',cred:curCred,pid});
+  if(r.ok) refreshFeed(); else alert('تعذر الحذف.');
+}
+async function viewProfile(uid){
+  profBody.innerHTML='<div class="label" style="text-align:center">جارٍ التحميل...</div>';profModal.style.display='block';
+  const r=await api({action:'profile_view',cred:curCred,uid});
+  if(!r.ok){profBody.innerHTML='<div class="label" style="text-align:center">تعذر التحميل.</div>';return;}
+  const a=r.profile;
+  profBody.innerHTML=`<div style="text-align:center;margin:10px 0"><img class="av" style="width:90px;height:90px" src="${esc(safeImg(a.avatar)||NO_PHOTO)}" alt=""><h2 style="color:var(--pb)">${esc(a.nick)}</h2></div>`+(r.posts.length?r.posts.map(p=>postHtml(p,a)).join(''):'<div class="label" style="text-align:center">لا توجد منشورات.</div>');
+}
+/* إدارة المنشورات والحسابات (للمسؤول) */
+const stAr={pending:'⏳ بانتظار الموافقة',approved:'✅ منشور',hidden:'🙈 مخفي'};
+async function loadAdmPosts(){
+  const r=await api({action:'adm_posts',pass:adminPassMem});
+  if(!r.ok){admPosts.innerHTML='<div class="label">'+adminErr(r)+'</div>';return;}
+  admPosts.innerHTML=r.posts.length?r.posts.map(p=>`<div class="sc"><b>${esc(p.nick)}</b> <span class="label">${p.real?'('+esc(p.real)+') • ':''}${esc(fmtTime(p.time))} • ${stAr[p.status]||''}</span><div class="pt2">${esc(p.text)}</div>${safeImg(p.img)?`<img class="pimg" src="${esc(p.img)}" onclick="zoomPhoto(this)" alt="">`:''}<div style="margin-top:6px"><button class="mini" onclick="admSetPost('${esc(p.pid)}','approved')">✅ نشر</button> <button class="mini" onclick="admSetPost('${esc(p.pid)}','hidden')">🙈 إخفاء</button> <button class="mini" onclick="admSetPost('${esc(p.pid)}','deleted')">🗑️ حذف</button></div></div>`).join(''):'<div class="label">لا توجد منشورات.</div>';
+}
+async function admSetPost(pid,status){
+  if(status==='deleted'&&!confirm('حذف المنشور نهائياً؟')) return;
+  const r=await api({action:'adm_post_set',pass:adminPassMem,pid,status});
+  if(!r.ok){alert(adminErr(r));return;}
+  loadAdmPosts();beep(800,.1);
+}
+aPostFile.onchange=async()=>{const f=aPostFile.files[0];if(!f)return;try{aPostImg=await toJpeg(f,560,44000);aPostPrev.innerHTML=`<img class="pimg" src="${aPostImg}" style="max-height:120px;width:auto">`;}catch(e){alert('تعذر قراءة الصورة.');}};
+async function admAddPost(){
+  const text=aPostText.value.trim();
+  if(!text&&!aPostImg){alert('اكتب نصاً أو أضف صورة.');return;}
+  const r=await api({action:'adm_post_add',pass:adminPassMem,text,img:aPostImg});
+  if(!r.ok){alert(adminErr(r));return;}
+  aPostText.value='';aPostImg='';aPostPrev.innerHTML='';aPostFile.value='';loadAdmPosts();beep(880,.15);
+}
+async function loadAdmProfs(){
+  const r=await api({action:'adm_profiles',pass:adminPassMem});
+  if(!r.ok){admProfs.innerHTML='<div class="label">'+adminErr(r)+'</div>';return;}
+  admProfs.innerHTML=r.profiles.length?r.profiles.map(p=>`<div class="it" style="margin-bottom:8px"><b>${esc(p.nick||'(بلا اسم)')}</b> <span class="label">${p.real?'('+esc(p.real)+')':''}${p.banned?' 🚫 ممنوع':''}</span><div><button class="mini" onclick="admRename('${esc(p.uid)}','${esc(p.nick)}')">✏️ الاسم</button> <button class="mini" onclick="admBan('${esc(p.uid)}',${!p.banned})">${p.banned?'✅ رفع المنع':'🚫 منع'}</button>${p.hasAvatar?` <button class="mini" onclick="admClearAv('${esc(p.uid)}')">🖼️ إزالة الصورة</button>`:''}</div></div>`).join(''):'<div class="label">لا توجد حسابات بعد.</div>';
+}
+async function admProf(o){const r=await api({action:'adm_profile_set',pass:adminPassMem,...o});if(!r.ok){alert(adminErr(r));return;}loadAdmProfs();beep(800,.1);}
+function admRename(uid,cur){const n=prompt('الاسم المستعار الجديد:',cur);if(n!==null) admProf({uid,nick:n});}
+function admBan(uid,b){if(confirm(b?'منع هذا الحساب من النشر؟':'رفع المنع؟')) admProf({uid,banned:b});}
+function admClearAv(uid){if(confirm('إزالة صورة هذا الحساب؟')) admProf({uid,clearAvatar:true});}
+function exportCSV(){
+  const q=v=>'"'+String(v).replace(/"/g,'""')+'"';
+  const rows=[['الاعتماد','الاسم','Name','الميلاد','مكان الميلاد','العنوان','الهاتف','الأب','المجموعة','الحزام','الحالة'],
+    ...adminFiltered().map(f=>[f.id,f.nameAr,f.nameEn,f.dob,f.pob,f.address,f.phone,f.father,f.group,(BELTS[f.belt]||{}).ar||'',f.suspended?'مشطوب':'نشط'])];
+  const blob=new Blob(['\ufeff'+rows.map(r=>r.map(q).join(',')).join('\r\n')],{type:'text/csv;charset=utf-8'});
+  const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='fighters.csv';document.body.appendChild(a);a.click();a.remove();
+  beep(850,.15);
+}
+if('serviceWorker' in navigator&&location.protocol.startsWith('http'))navigator.serviceWorker.register('sw.js').catch(()=>{});
+
+applyLang();
+newCaptcha();
+autoLogin();
+api({action:'public'}).then(r=>{if(r&&r.ok&&r.settings) applySettings(r.settings);});
+{
+  const sp=document.getElementById('splash');
+  setTimeout(()=>{sp.style.opacity=0;setTimeout(()=>sp.style.display='none',800);}, 2500);
+}
+</script>
+</body>
+</html>
